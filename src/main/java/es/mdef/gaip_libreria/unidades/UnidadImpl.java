@@ -2,10 +2,12 @@ package es.mdef.gaip_libreria.unidades;
 
 import es.mdef.gaip_libreria.actos.Acto;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(of = {"nombre"})
 public class UnidadImpl implements Unidad {
     private String nombre;
     private Set<Usuario> usuarios;

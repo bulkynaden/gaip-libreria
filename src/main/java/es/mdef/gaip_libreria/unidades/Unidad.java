@@ -13,6 +13,10 @@ public interface Unidad {
 
     void setUsuarios(Set<Usuario> usuarios);
 
+    Set<Instalacion> getInstalaciones();
+
+    void setInstalaciones(Set<Instalacion> instalaciones);
+
     Set<Acto> getActos();
 
     void setActos(Set<Acto> actos);

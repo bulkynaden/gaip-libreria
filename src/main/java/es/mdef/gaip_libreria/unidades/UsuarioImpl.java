@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 /**
  * Clase que representa un usuario del sistema.
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(of = {"rol"}, callSuper = true)
 @Data
 public class UsuarioImpl extends PersonaImpl implements Usuario {
     /**
