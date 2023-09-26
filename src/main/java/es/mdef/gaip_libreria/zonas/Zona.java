@@ -9,6 +9,10 @@ public interface Zona {
     String getNombre();
 
     void setNombre(String nombre);
+    
+    int getNumeroLocalidades();
+
+    void setNumeroLocalidades(int numeroLocalidades);
 
     Set<Localidad> getLocalidades();
 
@@ -21,4 +25,8 @@ public interface Zona {
     Instalacion getInstalacion();
 
     void setInstalacion(Instalacion instalacion);
+
+    void agregarLocalidad(Localidad localidad);
+
+    void quitarLocalidad(Localidad localidad);
 }
