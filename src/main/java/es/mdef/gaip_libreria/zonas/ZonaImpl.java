@@ -5,6 +5,8 @@ import es.mdef.gaip_libreria.unidades.Instalacion;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Data
@@ -16,9 +18,19 @@ public class ZonaImpl implements Zona {
     private TipoDeZona tipoDeZona;
     private Instalacion instalacion;
 
+    public ZonaImpl() {
+        if (this instanceof ZonaNumerada) {
+            localidades = new LinkedHashSet<>();
+        } else {
+            localidades = new HashSet<>();
+        }
+    }
+
     @Override
     public void agregarLocalidad(Localidad localidad) {
-        localidades.add(localidad);
+        if (localidad != null) {
+            localidades.add(localidad);
+        }
     }
 
     @Override
