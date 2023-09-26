@@ -4,6 +4,7 @@ import es.mdef.gaip_libreria.actos.Acto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -13,6 +14,12 @@ public class UnidadImpl implements Unidad {
     private Set<Usuario> usuarios;
     private Set<Instalacion> instalaciones;
     private Set<Acto> actos;
+
+    public UnidadImpl() {
+        this.usuarios = new HashSet<>();
+        this.instalaciones = new HashSet<>();
+        this.actos = new HashSet<>();
+    }
 
     @Override
     public void agregarUsuario(Usuario usuario) {
