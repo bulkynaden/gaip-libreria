@@ -7,7 +7,15 @@ public interface Localidad {
 
     void setEstado(EstadoLocalidad estado);
 
+    Localidad getSiguienteLocalidad();
+
+    void setSiguienteLocalidad(Localidad siguienteLocalidad);
+
     Zona getZona();
 
     void setZona(Zona zona);
+
+    Boolean getImplicaSalto();
+
+    void setImplicaSalto(Boolean implicaSalto);
 }

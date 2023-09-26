@@ -7,4 +7,6 @@ import lombok.Data;
 public class LocalidadImpl implements Localidad {
     private Zona zona;
     private EstadoLocalidad estado;
+    private Localidad siguienteLocalidad;
+    private Boolean implicaSalto;
 }
