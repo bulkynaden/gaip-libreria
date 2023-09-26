@@ -12,4 +12,8 @@ public interface Instalacion {
     Set<Zona> getZonas();
 
     void setZonas(Set<Zona> zonas);
+
+    void agregarZona(Zona zona);
+
+    void quitarZona(Zona zona);
 }

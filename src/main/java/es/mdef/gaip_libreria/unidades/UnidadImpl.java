@@ -33,4 +33,14 @@ public class UnidadImpl implements Unidad {
     public void quitarActo(Acto acto) {
         actos.remove(acto);
     }
+
+    @Override
+    public void agregarInstalacion(Instalacion instalacion) {
+        instalaciones.add(instalacion);
+    }
+
+    @Override
+    public void quitarInstalacion(Instalacion instalacion) {
+        instalaciones.remove(instalacion);
+    }
 }

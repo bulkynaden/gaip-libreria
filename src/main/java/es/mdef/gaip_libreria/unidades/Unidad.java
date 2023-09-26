@@ -28,4 +28,8 @@ public interface Unidad {
     void agregarActo(Acto acto);
 
     void quitarActo(Acto acto);
+
+    void agregarInstalacion(Instalacion instalacion);
+
+    void quitarInstalacion(Instalacion instalacion);
 }
