@@ -21,7 +21,11 @@ public class ActoImpl implements Acto {
     private Set<Invitado> invitados;
 
     public ActoImpl() {
-        this("", "", null, EstadoActo.CREACION);
+        this("", "", null);
+    }
+
+    public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha) {
+        this(nombre, descripcion, fecha, EstadoActo.CREACION);
     }
 
     public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, EstadoActo estado) {
