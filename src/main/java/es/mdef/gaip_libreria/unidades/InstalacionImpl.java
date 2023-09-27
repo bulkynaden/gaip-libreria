@@ -93,7 +93,7 @@ public class InstalacionImpl implements Instalacion {
      * @param zona la zona a quitar.
      */
     public void quitarZona(Zona zona) {
-        if (zona != null && !zonas.contains(zona)) {
+        if (zona != null && zonas.contains(zona)) {
             zonas.remove(zona);
             if (zona.getInstalacion() != this) {
                 zona.setInstalacion(this);
@@ -121,7 +121,7 @@ public class InstalacionImpl implements Instalacion {
      * @param acto el acto a quitar.
      */
     public void quitarActo(Acto acto) {
-        if (acto != null && !actos.contains(acto)) {
+        if (acto != null && actos.contains(acto)) {
             actos.remove(acto);
             if (acto.getInstalacion() != this) {
                 acto.setInstalacion(null);
