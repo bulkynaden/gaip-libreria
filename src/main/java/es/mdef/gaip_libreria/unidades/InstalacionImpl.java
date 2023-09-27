@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Implementación de la interfaz Instalacion.
+ * Implementación de la interfaz {@link Instalacion}.
  * Representa una instalación con sus propiedades y relaciones.
  */
 @Data

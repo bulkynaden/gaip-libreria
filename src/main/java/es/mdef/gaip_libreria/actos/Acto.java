@@ -7,36 +7,110 @@ import es.mdef.gaip_libreria.unidades.Instalacion;
 
 import java.util.Set;
 
+/**
+ * Interfaz que define las operaciones y propiedades asociadas a un acto.
+ * Un acto representa un evento o actividad específica que tiene un nombre, descripción,
+ * estado, y está asociado a una instalación. Además, un acto puede tener múltiples anfitriones e invitados.
+ */
 public interface Acto {
+
+    /**
+     * @return el nombre del acto.
+     */
     String getNombre();
 
+    /**
+     * Establece el nombre del acto.
+     *
+     * @param nombre el nombre a establecer.
+     */
     void setNombre(String nombre);
 
+    /**
+     * @return la descripción del acto.
+     */
     String getDescripcion();
 
+    /**
+     * Establece la descripción del acto.
+     *
+     * @param descripcion la descripción a establecer.
+     */
     void setDescripcion(String descripcion);
 
+    /**
+     * @return la instalación asociada al acto.
+     */
     Instalacion getInstalacion();
 
+    /**
+     * Asocia una instalación al acto.
+     *
+     * @param instalacion la instalación a asociar.
+     */
     void setInstalacion(Instalacion instalacion);
 
+    /**
+     * @return el estado actual del acto.
+     */
     EstadoActo getEstado();
 
+    /**
+     * Establece el estado del acto.
+     *
+     * @param estado el estado a establecer.
+     */
     void setEstado(EstadoActo estado);
 
+    /**
+     * @return el conjunto de anfitriones asociados al acto.
+     */
     Set<Anfitrion> getAnfitriones();
 
+    /**
+     * Establece el conjunto de anfitriones asociados al acto.
+     *
+     * @param anfitriones el conjunto de anfitriones a establecer.
+     */
     void setAnfitriones(Set<Anfitrion> anfitriones);
 
+    /**
+     * @return el conjunto de invitados asociados al acto.
+     */
     Set<Invitado> getInvitados();
 
+    /**
+     * Establece el conjunto de invitados asociados al acto.
+     *
+     * @param invitados el conjunto de invitados a establecer.
+     */
     void setInvitados(Set<Invitado> invitados);
 
+    /**
+     * Agrega un invitado al acto.
+     *
+     * @param invitado el invitado a agregar.
+     */
     void agregarInvitado(Invitado invitado);
 
+    /**
+     * Elimina un invitado del acto.
+     *
+     * @param invitado el invitado a eliminar.
+     */
     void quitarInvitado(Invitado invitado);
 
+    /**
+     * Agrega un anfitrión al acto.
+     *
+     * @param anfitrion el anfitrión a agregar.
+     */
     void agregarAnfitrion(Anfitrion anfitrion);
 
+    /**
+     * Elimina un anfitrión del acto.
+     *
+     * @param anfitrion el anfitrión a eliminar.
+     */
     void quitarAnfitrion(Anfitrion anfitrion);
 }
