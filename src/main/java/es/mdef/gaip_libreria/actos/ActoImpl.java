@@ -102,7 +102,7 @@ public class ActoImpl implements Acto {
      */
     @Override
     public void quitarInvitado(Invitado invitado) {
-        if (invitado != null) {
+        if (invitado != null && invitados.contains(invitado)) {
             invitados.remove(invitado);
             invitado.setActo(null);
         }
