@@ -98,7 +98,7 @@ public class UnidadImpl implements Unidad {
      * @param instalacion la instalación a quitar.
      */
     public void quitarInstalacion(Instalacion instalacion) {
-        if (instalacion != null) {
+        if (instalacion != null && instalaciones.contains(instalacion)) {
             instalaciones.remove(instalacion);
             instalacion.setUnidad(null);
         }
