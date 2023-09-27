@@ -1,93 +1,104 @@
 package es.mdef.gaip_libreria.unidades;
 
-import es.mdef.gaip_libreria.actos.Acto;
+import lombok.Data;
 import lombok.Getter;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
-@Getter
+/**
+ * Implementación de la interfaz {@link Unidad}.
+ * Representa una unidad con sus propiedades y relaciones.
+ */
+@Data
 public class UnidadImpl implements Unidad {
     private String nombre;
-    private Set<Usuario> usuarios;
-    private Set<Instalacion> instalaciones;
-    private Set<Acto> actos;
+    @Getter
+    private Set<Usuario> usuarios = new HashSet<>();
+    @Getter
+    private Set<Instalacion> instalaciones = new HashSet<>();
 
-    public UnidadImpl() {
-        this.usuarios = new HashSet<>();
-        this.instalaciones = new HashSet<>();
-        this.actos = new HashSet<>();
-    }
-
-    @Override
-    public void agregarUsuario(Usuario usuario) {
-        usuarios.add(usuario);
-    }
-
-    @Override
-    public void quitarUsuario(Usuario usuario) {
-        usuarios.remove(usuario);
-    }
-
-    @Override
-    public void agregarActo(Acto acto) {
-        actos.add(acto);
-    }
-
-    @Override
-    public void quitarActo(Acto acto) {
-        actos.remove(acto);
-    }
-
-    @Override
-    public void agregarInstalacion(Instalacion instalacion) {
-        instalaciones.add(instalacion);
-    }
-
-    @Override
-    public void quitarInstalacion(Instalacion instalacion) {
-        instalaciones.remove(instalacion);
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
+    /**
+     * Establece los usuarios asociados a la unidad.
+     * Limpia los usuarios actuales y establece los nuevos usuarios.
+     *
+     * @param usuarios el conjunto de usuarios a establecer.
+     */
     public void setUsuarios(Set<Usuario> usuarios) {
-        this.usuarios = usuarios;
+        if (this.usuarios != null) {
+            this.usuarios.forEach(usuario -> usuario.setUnidad(null));
+            this.usuarios.clear();
+        }
+        if (usuarios != null) {
+            usuarios.forEach(this::agregarUsuario);
+        }
     }
 
+    /**
+     * Establece las instalaciones asociadas a la unidad.
+     * Limpia las instalaciones actuales y establece las nuevas instalaciones.
+     *
+     * @param instalaciones el conjunto de instalaciones a establecer.
+     */
     public void setInstalaciones(Set<Instalacion> instalaciones) {
-        this.instalaciones = instalaciones;
+        if (this.instalaciones != null) {
+            this.instalaciones.forEach(instalacion -> instalacion.setUnidad(null));
+            this.instalaciones.clear();
+        }
+        if (instalaciones != null) {
+            instalaciones.forEach(this::agregarInstalacion);
+        }
     }
 
-    public void setActos(Set<Acto> actos) {
-        this.actos = actos;
+    /**
+     * Agrega un usuario a la unidad y establece la relación bidireccional.
+     *
+     * @param usuario el usuario a agregar.
+     */
+    public void agregarUsuario(Usuario usuario) {
+        if (usuario != null && !usuarios.contains(usuario)) {
+            usuarios.add(usuario);
+            if (usuario.getUnidad() != this) {
+                usuario.setUnidad(this);
+            }
+        }
     }
 
-    public String toString() {
-        return "UnidadImpl(nombre=" + this.getNombre() + ", usuarios=" + this.getUsuarios() + ", instalaciones=" + this.getInstalaciones() + ", actos=" + this.getActos() + ")";
+    /**
+     * Quita un usuario de la unidad y elimina la relación bidireccional.
+     *
+     * @param usuario el usuario a quitar.
+     */
+    public void quitarUsuario(Usuario usuario) {
+        if (usuario != null) {
+            usuarios.remove(usuario);
+            usuario.setUnidad(null);
+        }
     }
 
-    public boolean equals(final Object o) {
-        if (o == this) return true;
-        if (!(o instanceof UnidadImpl other)) return false;
-        if (!other.canEqual(this)) return false;
-        final Object this$nombre = this.getNombre();
-        final Object other$nombre = other.getNombre();
-        return Objects.equals(this$nombre, other$nombre);
+    /**
+     * Agrega una instalación a la unidad y establece la relación bidireccional.
+     *
+     * @param instalacion la instalación a agregar.
+     */
+    public void agregarInstalacion(Instalacion instalacion) {
+        if (instalacion != null && !instalaciones.contains(instalacion)) {
+            instalaciones.add(instalacion);
+            if (instalacion.getUnidad() != this) {
+                instalacion.setUnidad(this);
+            }
+        }
     }
 
-    protected boolean canEqual(final Object other) {
-        return other instanceof UnidadImpl;
-    }
-
-    public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $nombre = this.getNombre();
-        result = result * PRIME + ($nombre == null ? 43 : $nombre.hashCode());
-        return result;
+    /**
+     * Quita una instalación de la unidad y elimina la relación bidireccional.
+     *
+     * @param instalacion la instalación a quitar.
+     */
+    public void quitarInstalacion(Instalacion instalacion) {
+        if (instalacion != null) {
+            instalaciones.remove(instalacion);
+            instalacion.setUnidad(null);
+        }
     }
 }
