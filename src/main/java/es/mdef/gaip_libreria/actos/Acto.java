@@ -12,6 +12,10 @@ public interface Acto {
 
     void setNombre(String nombre);
 
+    String getDescripcion();
+
+    void setDescripcion(String descripcion);
+
     Instalacion getInstalacion();
 
     void setInstalacion(Instalacion instalacion);

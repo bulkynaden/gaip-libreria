@@ -13,9 +13,9 @@ import java.util.Set;
 @Data
 public class ActoImpl implements Acto {
     private String nombre;
+    private String descripcion;
     private Instalacion instalacion;
     private EstadoActo estado;
-    private String descripcion;
     private ZonedDateTime fecha;
     private Set<Anfitrion> anfitriones;
     private Set<Invitado> invitados;
