@@ -20,11 +20,11 @@ public class ActoImpl implements Acto {
     private Set<Anfitrion> anfitriones;
     private Set<Invitado> invitados;
 
-    ActoImpl() {
+    public ActoImpl() {
         this("", "", null, EstadoActo.CREACION);
     }
 
-    ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, EstadoActo estado) {
+    public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, EstadoActo estado) {
         anfitriones = new HashSet<>();
         invitados = new HashSet<>();
         this.estado = estado;
