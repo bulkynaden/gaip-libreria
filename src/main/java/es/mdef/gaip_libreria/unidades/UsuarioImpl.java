@@ -11,7 +11,7 @@ import lombok.Getter;
  * Esta clase hereda de {@link PersonaImpl} y representa un usuario específico del sistema.
  * Además de las propiedades heredadas de Persona, un usuario tiene un rol, una unidad asociada y una contraseña.
  */
-@EqualsAndHashCode(of = {"rol"}, callSuper = true)
+@EqualsAndHashCode(of = {"rol", "password"}, callSuper = true)
 @Data
 public class UsuarioImpl extends PersonaImpl implements Usuario {
 

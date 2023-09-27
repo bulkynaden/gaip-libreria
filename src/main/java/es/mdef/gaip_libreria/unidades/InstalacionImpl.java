@@ -3,6 +3,7 @@ package es.mdef.gaip_libreria.unidades;
 import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.zonas.Zona;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import java.util.Set;
  * Representa una instalación con sus propiedades y relaciones.
  */
 @Data
+@EqualsAndHashCode(of = {"nombre", "unidad"})
 public class InstalacionImpl implements Instalacion {
     private String nombre;
     @Getter

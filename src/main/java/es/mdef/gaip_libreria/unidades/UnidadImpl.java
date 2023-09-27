@@ -1,6 +1,7 @@
 package es.mdef.gaip_libreria.unidades;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import java.util.Set;
  * Representa una unidad con sus propiedades y relaciones.
  */
 @Data
+@EqualsAndHashCode(of = {"nombre"})
 public class UnidadImpl implements Unidad {
     private String nombre;
     @Getter
