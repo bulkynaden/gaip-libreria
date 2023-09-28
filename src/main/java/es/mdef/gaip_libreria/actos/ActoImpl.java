@@ -1,6 +1,7 @@
 package es.mdef.gaip_libreria.actos;
 
 import es.mdef.gaip_libreria.constantes.EstadoActo;
+import es.mdef.gaip_libreria.constantes.TipoDeActo;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.unidades.Instalacion;
@@ -26,6 +27,7 @@ public class ActoImpl implements Acto {
     private ZonedDateTime fecha;
     private Set<Anfitrion> anfitriones;
     private Set<Invitado> invitados;
+    private TipoDeActo tipo;
 
     /**
      * Constructor por defecto. Inicializa un acto con valores predeterminados.

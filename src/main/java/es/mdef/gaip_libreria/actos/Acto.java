@@ -1,6 +1,7 @@
 package es.mdef.gaip_libreria.actos;
 
 import es.mdef.gaip_libreria.constantes.EstadoActo;
+import es.mdef.gaip_libreria.constantes.TipoDeActo;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.unidades.Instalacion;
@@ -73,6 +74,20 @@ public interface Acto {
      * @param anfitriones el conjunto de anfitriones a establecer.
      */
     void setAnfitriones(Set<Anfitrion> anfitriones);
+
+    /**
+     * Obtiene el tipo del acto.
+     *
+     * @return el tipo del acto.
+     */
+    TipoDeActo getTipo();
+
+    /**
+     * Establece el tipo del acto.
+     *
+     * @param tipo el tipo a establecer.
+     */
+    void setTipo(TipoDeActo tipo);
 
     /**
      * @return el conjunto de invitados asociados al acto.
