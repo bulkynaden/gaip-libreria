@@ -6,6 +6,7 @@ import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 
+import java.time.ZonedDateTime;
 import java.util.Set;
 
 /**
@@ -52,6 +53,8 @@ public interface Acto {
     void setInstalacion(Instalacion instalacion);
 
     /**
+     * Obtiene el estado del acto.
+     *
      * @return el estado actual del acto.
      */
     EstadoActo getEstado();
@@ -62,6 +65,34 @@ public interface Acto {
      * @param estado el estado a establecer.
      */
     void setEstado(EstadoActo estado);
+
+    /**
+     * Obtiene la fecha de inicio del acto.
+     *
+     * @return la fecha de inicio del acto.
+     */
+    ZonedDateTime getFecha();
+
+    /**
+     * Establece la fecha de inicio del acto.
+     *
+     * @param fecha la fecha de inicio a establecer.
+     */
+    void setFecha(ZonedDateTime fecha);
+
+    /**
+     * Obtiene la fecha de límite de registro del acto.
+     *
+     * @return la fecha de límite de registro del acto.
+     */
+    ZonedDateTime getFechaLimiteRegistro();
+
+    /**
+     * Establece la fecha de límite de registro del acto.
+     *
+     * @param fechaLimiteRegistro la fecha de límite de registro a establecer.
+     */
+    void setFechaLimiteRegistro(ZonedDateTime fechaLimiteRegistro);
 
     /**
      * @return el conjunto de anfitriones asociados al acto.

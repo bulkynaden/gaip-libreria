@@ -25,6 +25,7 @@ public class ActoImpl implements Acto {
     private Instalacion instalacion;
     private EstadoActo estado;
     private ZonedDateTime fecha;
+    private ZonedDateTime fechaLimiteRegistro;
     private Set<Anfitrion> anfitriones;
     private Set<Invitado> invitados;
     private TipoDeActo tipo;
@@ -33,7 +34,7 @@ public class ActoImpl implements Acto {
      * Constructor por defecto. Inicializa un acto con valores predeterminados.
      */
     public ActoImpl() {
-        this("", "", null, TipoDeActo.SIN_ENTREGA);
+        this("", "", null, null, TipoDeActo.SIN_ENTREGA);
     }
 
     /**
@@ -43,8 +44,8 @@ public class ActoImpl implements Acto {
      * @param descripcion Descripción detallada del acto.
      * @param fecha       Fecha y hora en que se llevará a cabo el acto.
      */
-    public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, TipoDeActo tipoDeActo) {
-        this(nombre, descripcion, fecha, EstadoActo.CREACION, tipoDeActo);
+    public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, ZonedDateTime fechaLimiteRegistro, TipoDeActo tipoDeActo) {
+        this(nombre, descripcion, fecha, fechaLimiteRegistro, EstadoActo.CREACION, tipoDeActo);
     }
 
     /**
@@ -55,13 +56,14 @@ public class ActoImpl implements Acto {
      * @param fecha       Fecha y hora en que se llevará a cabo el acto.
      * @param estado      Estado actual del acto.
      */
-    public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, EstadoActo estado, TipoDeActo tipoDeActo) {
+    public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, ZonedDateTime fechaLimiteRegistro, EstadoActo estado, TipoDeActo tipoDeActo) {
         anfitriones = new HashSet<>();
         invitados = new HashSet<>();
         this.estado = estado;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fecha = fecha;
+        this.fechaLimiteRegistro = fechaLimiteRegistro;
         this.tipo = tipoDeActo;
     }
 
