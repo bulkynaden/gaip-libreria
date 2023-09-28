@@ -95,7 +95,7 @@ public class InstalacionImpl implements Instalacion {
     public void quitarZona(Zona zona) {
         if (zona != null && zonas.contains(zona)) {
             zonas.remove(zona);
-            zona.setInstalacion(this);
+            zona.setInstalacion(null);
         }
     }
 
