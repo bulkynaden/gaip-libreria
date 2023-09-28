@@ -26,6 +26,16 @@ public class ZonaImpl implements Zona {
         }
     }
 
+    public void setLocalidades(Set<Localidad> localidades) {
+        if (this.localidades != null) {
+            this.localidades.forEach(localidad -> localidad.setZona(null));
+            this.localidades.clear();
+        }
+        if (localidades != null) {
+            localidades.forEach(this::agregarLocalidad);
+        }
+    }
+
     public void setInstalacion(Instalacion instalacion) {
         if (this.instalacion != instalacion) {
             if (this.instalacion != null) {
