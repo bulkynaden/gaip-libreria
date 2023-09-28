@@ -33,7 +33,7 @@ public class ActoImpl implements Acto {
      * Constructor por defecto. Inicializa un acto con valores predeterminados.
      */
     public ActoImpl() {
-        this("", "", null);
+        this("", "", null, TipoDeActo.SIN_ENTREGA);
     }
 
     /**
@@ -43,8 +43,8 @@ public class ActoImpl implements Acto {
      * @param descripcion Descripción detallada del acto.
      * @param fecha       Fecha y hora en que se llevará a cabo el acto.
      */
-    public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha) {
-        this(nombre, descripcion, fecha, EstadoActo.CREACION);
+    public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, TipoDeActo tipoDeActo) {
+        this(nombre, descripcion, fecha, EstadoActo.CREACION, tipoDeActo);
     }
 
     /**
@@ -55,13 +55,14 @@ public class ActoImpl implements Acto {
      * @param fecha       Fecha y hora en que se llevará a cabo el acto.
      * @param estado      Estado actual del acto.
      */
-    public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, EstadoActo estado) {
+    public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, EstadoActo estado, TipoDeActo tipoDeActo) {
         anfitriones = new HashSet<>();
         invitados = new HashSet<>();
         this.estado = estado;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fecha = fecha;
+        this.tipo = tipoDeActo;
     }
 
     /**
