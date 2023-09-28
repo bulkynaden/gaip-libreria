@@ -26,6 +26,18 @@ public class ZonaImpl implements Zona {
         }
     }
 
+    public void setInstalacion(Instalacion instalacion) {
+        if (this.instalacion != instalacion) {
+            if (this.instalacion != null) {
+                this.instalacion.quitarZona(this);
+            }
+            this.instalacion = instalacion;
+            if (instalacion != null) {
+                instalacion.agregarZona(this);
+            }
+        }
+    }
+
     @Override
     public void agregarLocalidad(Localidad localidad) {
         if (localidad != null) {
