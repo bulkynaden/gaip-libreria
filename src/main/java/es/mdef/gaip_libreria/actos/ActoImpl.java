@@ -3,7 +3,6 @@ package es.mdef.gaip_libreria.actos;
 import es.mdef.gaip_libreria.constantes.EstadoActo;
 import es.mdef.gaip_libreria.constantes.TipoDeActo;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
-import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,8 +25,7 @@ public class ActoImpl implements Acto {
     private EstadoActo estado;
     private ZonedDateTime fecha;
     private ZonedDateTime fechaLimiteRegistro;
-    private Set<Anfitrion> anfitriones;
-    private Set<Invitado> invitados;
+    private Set<Anfitrion> anfitriones = new HashSet<>();
     private TipoDeActo tipo;
 
     /**
@@ -40,9 +38,11 @@ public class ActoImpl implements Acto {
     /**
      * Constructor con parámetros para inicializar un acto con nombre, descripción y fecha.
      *
-     * @param nombre      Nombre del acto.
-     * @param descripcion Descripción detallada del acto.
-     * @param fecha       Fecha y hora en que se llevará a cabo el acto.
+     * @param nombre              Nombre del acto.
+     * @param descripcion         Descripción detallada del acto.
+     * @param fecha               Fecha y hora en que se llevará a cabo el acto.
+     * @param fechaLimiteRegistro Fecha límite para el registro al acto.
+     * @param tipoDeActo          Tipo de acto. No puede ser nulo.
      */
     public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, ZonedDateTime fechaLimiteRegistro, TipoDeActo tipoDeActo) {
         this(nombre, descripcion, fecha, fechaLimiteRegistro, EstadoActo.CREACION, tipoDeActo);
@@ -51,14 +51,14 @@ public class ActoImpl implements Acto {
     /**
      * Constructor con parámetros para inicializar un acto con nombre, descripción, fecha y estado.
      *
-     * @param nombre      Nombre del acto.
-     * @param descripcion Descripción detallada del acto.
-     * @param fecha       Fecha y hora en que se llevará a cabo el acto.
-     * @param estado      Estado actual del acto.
+     * @param nombre              Nombre del acto.
+     * @param descripcion         Descripción detallada del acto.
+     * @param fecha               Fecha y hora en que se llevará a cabo el acto.
+     * @param fechaLimiteRegistro Fecha límite para el registro al acto.
+     * @param estado              Estado actual del acto.
+     * @param tipoDeActo          Tipo de acto.
      */
     public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, ZonedDateTime fechaLimiteRegistro, EstadoActo estado, TipoDeActo tipoDeActo) {
-        anfitriones = new HashSet<>();
-        invitados = new HashSet<>();
         this.estado = estado;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -74,42 +74,29 @@ public class ActoImpl implements Acto {
      * @param instalacion La instalación a asociar con el acto.
      */
     public void setInstalacion(Instalacion instalacion) {
+        if (instalacion == null) {
+            throw new IllegalArgumentException("La instalación no puede ser nula.");
+        }
         if (this.instalacion != instalacion) {
             if (this.instalacion != null) {
                 this.instalacion.quitarActo(this);
             }
             this.instalacion = instalacion;
-            if (instalacion != null) {
+            if (!instalacion.getActos().contains(this)) {
                 instalacion.agregarActo(this);
             }
         }
     }
 
-    /**
-     * Agrega un invitado al acto y establece la relación bidireccional entre el acto y el invitado.
-     *
-     * @param invitado El invitado a agregar al acto.
-     */
-    @Override
-    public void agregarInvitado(Invitado invitado) {
-        if (invitado != null && !invitados.contains(invitado)) {
-            invitados.add(invitado);
-            if (invitado.getActo() != this) {
-                invitado.setActo(this);
+    public void setAnfitriones(Set<Anfitrion> anfitriones) {
+        if (this.anfitriones != anfitriones) {
+            if (this.anfitriones != null) {
+                this.anfitriones.forEach(anfitrion -> anfitrion.setActo(null));
+                this.anfitriones.clear();
             }
-        }
-    }
-
-    /**
-     * Elimina un invitado del acto y rompe la relación bidireccional entre el acto y el invitado.
-     *
-     * @param invitado El invitado a eliminar del acto.
-     */
-    @Override
-    public void quitarInvitado(Invitado invitado) {
-        if (invitado != null && invitados.contains(invitado)) {
-            invitados.remove(invitado);
-            invitado.setActo(null);
+            if (anfitriones != null) {
+                anfitriones.forEach(this::agregarAnfitrion);
+            }
         }
     }
 
@@ -120,7 +107,10 @@ public class ActoImpl implements Acto {
      */
     @Override
     public void agregarAnfitrion(Anfitrion anfitrion) {
-        if (anfitrion != null && !anfitriones.contains(anfitrion)) {
+        if (anfitrion == null) {
+            throw new IllegalArgumentException("El anfitrión no puede ser nulo.");
+        }
+        if (!anfitriones.contains(anfitrion)) {
             anfitriones.add(anfitrion);
             if (anfitrion.getActo() != this) {
                 anfitrion.setActo(this);
@@ -135,9 +125,14 @@ public class ActoImpl implements Acto {
      */
     @Override
     public void quitarAnfitrion(Anfitrion anfitrion) {
-        if (anfitrion != null) {
+        if (anfitrion == null) {
+            throw new IllegalArgumentException("El anfitrión no puede ser nulo.");
+        }
+        if (anfitriones.contains(anfitrion)) {
             anfitriones.remove(anfitrion);
-            anfitrion.setActo(null);
+            if (anfitrion.getActo() == this) {
+                anfitrion.setActo(null);
+            }
         }
     }
 }

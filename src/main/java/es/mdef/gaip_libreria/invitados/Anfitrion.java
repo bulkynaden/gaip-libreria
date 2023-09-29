@@ -13,11 +13,11 @@ public interface Anfitrion extends Persona {
 
     void setUnidadDeFormacion(String unidadDeFormacion);
 
-    Set<Invitado> getInvitados();
+    Set<Invitacion> getInvitaciones();
 
-    void setInvitados(Set<Invitado> invitados);
+    void setInvitaciones(Set<Invitacion> invitaciones);
 
-    void agregarInvitado(Invitado invitado);
+    void agregarInvitacion(Invitacion invitacion);
 
-    void quitarInvitado(Invitado invitado);
+    void quitarInvitacion(Invitacion invitacion);
 }

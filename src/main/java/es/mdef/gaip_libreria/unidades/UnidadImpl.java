@@ -55,10 +55,13 @@ public class UnidadImpl implements Unidad {
     /**
      * Agrega un usuario a la unidad y establece la relación bidireccional.
      *
-     * @param usuario el usuario a agregar.
+     * @param usuario el usuario a agregar. No puede ser nulo.
      */
     public void agregarUsuario(Usuario usuario) {
-        if (usuario != null && !usuarios.contains(usuario)) {
+        if (usuario == null) {
+            throw new IllegalArgumentException("El usuario no puede ser nulo.");
+        }
+        if (!usuarios.contains(usuario)) {
             usuarios.add(usuario);
             if (usuario.getUnidad() != this) {
                 usuario.setUnidad(this);
@@ -81,10 +84,13 @@ public class UnidadImpl implements Unidad {
     /**
      * Agrega una instalación a la unidad y establece la relación bidireccional.
      *
-     * @param instalacion la instalación a agregar.
+     * @param instalacion la instalación a agregar. No puede ser nulo.
      */
     public void agregarInstalacion(Instalacion instalacion) {
-        if (instalacion != null && !instalaciones.contains(instalacion)) {
+        if (instalacion == null) {
+            throw new IllegalArgumentException("La instalación no puede ser nula.");
+        }
+        if (!instalaciones.contains(instalacion)) {
             instalaciones.add(instalacion);
             if (instalacion.getUnidad() != this) {
                 instalacion.setUnidad(this);

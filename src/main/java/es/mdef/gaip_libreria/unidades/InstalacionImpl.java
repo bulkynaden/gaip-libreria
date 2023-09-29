@@ -76,10 +76,13 @@ public class InstalacionImpl implements Instalacion {
     /**
      * Agrega una zona a la instalación y establece la relación bidireccional.
      *
-     * @param zona la zona a agregar.
+     * @param zona la zona a agregar. No puede ser nula.
      */
     public void agregarZona(Zona zona) {
-        if (zona != null && !zonas.contains(zona)) {
+        if (zona == null) {
+            throw new IllegalArgumentException("La zona no puede ser nula.");
+        }
+        if (!zonas.contains(zona)) {
             zonas.add(zona);
             if (zona.getInstalacion() != this) {
                 zona.setInstalacion(this);
@@ -102,10 +105,13 @@ public class InstalacionImpl implements Instalacion {
     /**
      * Agrega un acto a la instalación y establece la relación bidireccional.
      *
-     * @param acto el acto a agregar.
+     * @param acto el acto a agregar. No puede ser nulo.
      */
     public void agregarActo(Acto acto) {
-        if (acto != null && !actos.contains(acto)) {
+        if (acto == null) {
+            throw new IllegalArgumentException("El acto no puede ser nulo.");
+        }
+        if (!actos.contains(acto)) {
             actos.add(acto);
             if (acto.getInstalacion() != this) {
                 acto.setInstalacion(this);

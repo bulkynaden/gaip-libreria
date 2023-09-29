@@ -3,7 +3,6 @@ package es.mdef.gaip_libreria.actos;
 import es.mdef.gaip_libreria.constantes.EstadoActo;
 import es.mdef.gaip_libreria.constantes.TipoDeActo;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
-import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 
 import java.time.ZonedDateTime;
@@ -119,32 +118,6 @@ public interface Acto {
      * @param tipo el tipo a establecer.
      */
     void setTipo(TipoDeActo tipo);
-
-    /**
-     * @return el conjunto de invitados asociados al acto.
-     */
-    Set<Invitado> getInvitados();
-
-    /**
-     * Establece el conjunto de invitados asociados al acto.
-     *
-     * @param invitados el conjunto de invitados a establecer.
-     */
-    void setInvitados(Set<Invitado> invitados);
-
-    /**
-     * Agrega un invitado al acto.
-     *
-     * @param invitado el invitado a agregar.
-     */
-    void agregarInvitado(Invitado invitado);
-
-    /**
-     * Elimina un invitado del acto.
-     *
-     * @param invitado el invitado a eliminar.
-     */
-    void quitarInvitado(Invitado invitado);
 
     /**
      * Agrega un anfitrión al acto.
