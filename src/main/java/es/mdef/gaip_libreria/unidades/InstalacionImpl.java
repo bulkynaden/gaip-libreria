@@ -14,7 +14,7 @@ import java.util.Set;
  * Representa una instalación con sus propiedades y relaciones.
  */
 @Data
-@EqualsAndHashCode(of = {"nombre", "unidad"})
+@EqualsAndHashCode(of = {"nombre"})
 public class InstalacionImpl implements Instalacion {
     private String nombre;
     @Getter
