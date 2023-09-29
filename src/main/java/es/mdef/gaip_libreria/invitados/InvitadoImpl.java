@@ -1,6 +1,7 @@
 package es.mdef.gaip_libreria.invitados;
 
 import es.mdef.gaip_libreria.constantes.Sexo;
+import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
 
     private String parentesco;
     private Invitacion invitacion;
+    private LocalidadConfigurada localidad;
 
     /**
      * Constructor con parámetros para inicializar un invitado con sus propiedades básicas.
@@ -57,6 +59,21 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
             }
 
             nuevaInvitacion.getInvitados().add(this);
+        }
+    }
+
+    /**
+     * Establece la localidad para la localidad configurada y mantiene la coherencia bidireccional.
+     *
+     * @param localidad La localidad asociada a la localidad configurada. No puede ser nula.
+     * @throws IllegalArgumentException si la localidad es nula.
+     */
+    public void setLocalidad(LocalidadConfigurada localidad) {
+        if (this.localidad != localidad) {
+            if (this.localidad != null && this.localidad.getInvitado() != null) {
+                this.localidad.getInvitado().setLocalidad(null);
+            }
+            this.localidad = localidad;
         }
     }
 }

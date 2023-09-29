@@ -1,5 +1,7 @@
 package es.mdef.gaip_libreria.invitados;
 
+import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
+
 /**
  * Representa a un invitado que ha sido invitado a un acto por un {@link Anfitrion} a través de una {@link Invitacion}.
  * Un invitado tiene asociado un parentesco que describe su relación o conexión con el anfitrión o el acto.
@@ -33,4 +35,19 @@ public interface Invitado extends Persona {
      * @param parentesco el parentesco a establecer.
      */
     void setParentesco(String parentesco);
+
+    /**
+     * Obtiene la localidad del invitado.
+     *
+     * @return la localidad del invitado.
+     */
+    LocalidadConfigurada getLocalidad();
+
+
+    /**
+     * Establece la localidad del invitado.
+     *
+     * @param localidad la localidad a establecer.
+     */
+    void setLocalidad(LocalidadConfigurada localidad);
 }

@@ -4,6 +4,7 @@ import es.mdef.gaip_libreria.constantes.EstadoActo;
 import es.mdef.gaip_libreria.constantes.TipoDeActo;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.unidades.Instalacion;
+import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 
 import java.time.ZonedDateTime;
 import java.util.Set;
@@ -94,18 +95,6 @@ public interface Acto {
     void setFechaLimiteRegistro(ZonedDateTime fechaLimiteRegistro);
 
     /**
-     * @return el conjunto de anfitriones asociados al acto.
-     */
-    Set<Anfitrion> getAnfitriones();
-
-    /**
-     * Establece el conjunto de anfitriones asociados al acto.
-     *
-     * @param anfitriones el conjunto de anfitriones a establecer.
-     */
-    void setAnfitriones(Set<Anfitrion> anfitriones);
-
-    /**
      * Obtiene el tipo del acto.
      *
      * @return el tipo del acto.
@@ -120,6 +109,32 @@ public interface Acto {
     void setTipo(TipoDeActo tipo);
 
     /**
+     * Obtiene la configuración de las zonas del acto.
+     *
+     * @return la configuración de las zonas.
+     */
+    Set<ZonaConfigurada> getZonas();
+
+    /**
+     * Establece la configuración de las zonas del acto.
+     *
+     * @param zonas las zonas configuradas
+     */
+    void setZonas(Set<ZonaConfigurada> zonas);
+
+    /**
+     * @return el conjunto de anfitriones asociados al acto.
+     */
+    Set<Anfitrion> getAnfitriones();
+
+    /**
+     * Establece el conjunto de anfitriones asociados al acto.
+     *
+     * @param anfitriones el conjunto de anfitriones a establecer.
+     */
+    void setAnfitriones(Set<Anfitrion> anfitriones);
+
+    /**
      * Agrega un anfitrión al acto.
      *
      * @param anfitrion el anfitrión a agregar.
@@ -132,4 +147,18 @@ public interface Acto {
      * @param anfitrion el anfitrión a eliminar.
      */
     void quitarAnfitrion(Anfitrion anfitrion);
+
+    /**
+     * Agrega una zona configurada al acto.
+     *
+     * @param zona la zona a agregar.
+     */
+    void agregarZonaConfigurada(ZonaConfigurada zona);
+
+    /**
+     * Elimina una zona configurada del acto.
+     *
+     * @param zona la zona a eliminar.
+     */
+    void quitarZonaConfigurada(ZonaConfigurada zona);
 }

@@ -4,6 +4,7 @@ import es.mdef.gaip_libreria.constantes.EstadoActo;
 import es.mdef.gaip_libreria.constantes.TipoDeActo;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.unidades.Instalacion;
+import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,9 +13,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Implementación concreta de la interfaz {@link Acto}.
- * Esta clase representa un acto específico con sus propiedades asociadas y las relaciones con otras entidades.
+ * Clase que representa un acto específico con sus propiedades asociadas y las relaciones con otras entidades.
  * Un acto puede tener múltiples anfitriones e invitados y está asociado a una instalación específica.
+ * Esta clase implementa la interfaz {@link Acto}.
  */
 @EqualsAndHashCode(of = {"nombre", "descripcion", "fecha"})
 @Data
@@ -27,6 +28,7 @@ public class ActoImpl implements Acto {
     private ZonedDateTime fechaLimiteRegistro;
     private Set<Anfitrion> anfitriones = new HashSet<>();
     private TipoDeActo tipo;
+    private Set<ZonaConfigurada> zonas;
 
     /**
      * Constructor por defecto. Inicializa un acto con valores predeterminados.
@@ -36,27 +38,27 @@ public class ActoImpl implements Acto {
     }
 
     /**
-     * Constructor con parámetros para inicializar un acto con nombre, descripción y fecha.
+     * Constructor parametrizado para inicializar un acto con nombre, descripción, fecha, fecha límite de registro y tipo del acto.
      *
-     * @param nombre              Nombre del acto.
-     * @param descripcion         Descripción detallada del acto.
-     * @param fecha               Fecha y hora en que se llevará a cabo el acto.
-     * @param fechaLimiteRegistro Fecha límite para el registro al acto.
-     * @param tipoDeActo          Tipo de acto. No puede ser nulo.
+     * @param nombre              El nombre del acto.
+     * @param descripcion         Una descripción detallada del acto.
+     * @param fecha               La fecha y hora en que se llevará a cabo el acto.
+     * @param fechaLimiteRegistro La fecha límite para el registro al acto.
+     * @param tipoDeActo          El tipo de acto. No puede ser nulo.
      */
     public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, ZonedDateTime fechaLimiteRegistro, TipoDeActo tipoDeActo) {
         this(nombre, descripcion, fecha, fechaLimiteRegistro, EstadoActo.CREACION, tipoDeActo);
     }
 
     /**
-     * Constructor con parámetros para inicializar un acto con nombre, descripción, fecha y estado.
+     * Constructor parametrizado para inicializar un acto con nombre, descripción, fecha, fecha límite de registro, estado y tipo del acto.
      *
-     * @param nombre              Nombre del acto.
-     * @param descripcion         Descripción detallada del acto.
-     * @param fecha               Fecha y hora en que se llevará a cabo el acto.
-     * @param fechaLimiteRegistro Fecha límite para el registro al acto.
-     * @param estado              Estado actual del acto.
-     * @param tipoDeActo          Tipo de acto.
+     * @param nombre              El nombre del acto.
+     * @param descripcion         Una descripción detallada del acto.
+     * @param fecha               La fecha y hora en que se llevará a cabo el acto.
+     * @param fechaLimiteRegistro La fecha límite para el registro al acto.
+     * @param estado              El estado actual del acto.
+     * @param tipoDeActo          El tipo de acto.
      */
     public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, ZonedDateTime fechaLimiteRegistro, EstadoActo estado, TipoDeActo tipoDeActo) {
         this.estado = estado;
@@ -71,7 +73,8 @@ public class ActoImpl implements Acto {
      * Asocia una instalación al acto. Si el acto ya estaba asociado a otra instalación,
      * se elimina esa asociación previa. Establece la relación bidireccional entre el acto y la instalación.
      *
-     * @param instalacion La instalación a asociar con el acto.
+     * @param instalacion La instalación a asociar con el acto. No puede ser nula.
+     * @throws IllegalArgumentException si la instalación es nula.
      */
     public void setInstalacion(Instalacion instalacion) {
         if (instalacion == null) {
@@ -88,6 +91,28 @@ public class ActoImpl implements Acto {
         }
     }
 
+    /**
+     * Establece las zonas configuradas para el acto y mantiene la coherencia bidireccional.
+     *
+     * @param zonas El conjunto de zonas configuradas para el acto.
+     */
+    public void setZonas(Set<ZonaConfigurada> zonas) {
+        if (this.zonas != zonas) {
+            if (this.zonas != null) {
+                this.zonas.forEach(zona -> zona.setActo(null));
+                this.zonas.clear();
+            }
+            if (zonas != null) {
+                zonas.forEach(this::agregarZonaConfigurada);
+            }
+        }
+    }
+
+    /**
+     * Establece los anfitriones para el acto y mantiene la coherencia bidireccional.
+     *
+     * @param anfitriones El conjunto de anfitriones para el acto.
+     */
     public void setAnfitriones(Set<Anfitrion> anfitriones) {
         if (this.anfitriones != anfitriones) {
             if (this.anfitriones != null) {
@@ -103,7 +128,8 @@ public class ActoImpl implements Acto {
     /**
      * Agrega un anfitrión al acto y establece la relación bidireccional entre el acto y el anfitrión.
      *
-     * @param anfitrion El anfitrión a agregar al acto.
+     * @param anfitrion El anfitrión a agregar al acto. No puede ser nulo.
+     * @throws IllegalArgumentException si el anfitrión es nulo.
      */
     @Override
     public void agregarAnfitrion(Anfitrion anfitrion) {
@@ -121,7 +147,8 @@ public class ActoImpl implements Acto {
     /**
      * Elimina un anfitrión del acto y rompe la relación bidireccional entre el acto y el anfitrión.
      *
-     * @param anfitrion El anfitrión a eliminar del acto.
+     * @param anfitrion El anfitrión a eliminar del acto. No puede ser nulo.
+     * @throws IllegalArgumentException si el anfitrión es nulo.
      */
     @Override
     public void quitarAnfitrion(Anfitrion anfitrion) {
@@ -132,6 +159,44 @@ public class ActoImpl implements Acto {
             anfitriones.remove(anfitrion);
             if (anfitrion.getActo() == this) {
                 anfitrion.setActo(null);
+            }
+        }
+    }
+
+    /**
+     * Agrega una zona configurada al acto y establece la relación bidireccional entre el acto y la zona.
+     *
+     * @param zona La zona configurada a agregar al acto. No puede ser nula.
+     * @throws IllegalArgumentException si la zona es nula.
+     */
+    @Override
+    public void agregarZonaConfigurada(ZonaConfigurada zona) {
+        if (zona == null) {
+            throw new IllegalArgumentException("La zona no puede ser nula.");
+        }
+        if (!zonas.contains(zona)) {
+            zonas.add(zona);
+            if (zona.getActo() != this) {
+                zona.setActo(this);
+            }
+        }
+    }
+
+    /**
+     * Elimina una zona configurada del acto y rompe la relación bidireccional entre el acto y la zona.
+     *
+     * @param zona La zona configurada a eliminar del acto. No puede ser nula.
+     * @throws IllegalArgumentException si la zona es nula.
+     */
+    @Override
+    public void quitarZonaConfigurada(ZonaConfigurada zona) {
+        if (zona == null) {
+            throw new IllegalArgumentException("La zona no puede ser nula.");
+        }
+        if (zonas.contains(zona)) {
+            zonas.remove(zona);
+            if (zona.getActo() == this) {
+                zona.setActo(null);
             }
         }
     }
