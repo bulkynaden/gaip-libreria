@@ -104,7 +104,10 @@ public class UnidadImpl implements Unidad {
      * @param instalacion la instalación a quitar.
      */
     public void quitarInstalacion(Instalacion instalacion) {
-        if (instalacion != null && instalaciones.contains(instalacion)) {
+        if (instalacion == null) {
+            throw new IllegalArgumentException("La instalación no puede ser nula.");
+        }
+        if (instalaciones.contains(instalacion)) {
             instalaciones.remove(instalacion);
             instalacion.setUnidad(null);
         }
