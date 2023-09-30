@@ -74,12 +74,8 @@ public class ActoImpl implements Acto {
      * se elimina esa asociación previa. Establece la relación bidireccional entre el acto y la instalación.
      *
      * @param instalacion La instalación a asociar con el acto. No puede ser nula.
-     * @throws IllegalArgumentException si la instalación es nula.
      */
     public void setInstalacion(Instalacion instalacion) {
-        if (instalacion == null) {
-            throw new IllegalArgumentException("La instalación no puede ser nula.");
-        }
         if (this.instalacion != instalacion) {
             if (this.instalacion != null) {
                 this.instalacion.quitarActo(this);
