@@ -81,7 +81,7 @@ public class ActoImpl implements Acto {
                 this.instalacion.quitarActo(this);
             }
             this.instalacion = instalacion;
-            if (!instalacion.getActos().contains(this)) {
+            if (instalacion != null && !instalacion.getActos().contains(this)) {
                 instalacion.agregarActo(this);
             }
         }

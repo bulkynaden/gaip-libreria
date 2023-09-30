@@ -16,13 +16,13 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(of = {"nombre"})
 public class InstalacionImpl implements Instalacion {
+    @Getter
+    private final Set<Zona> zonas = new HashSet<>();
+    @Getter
+    private final Set<Acto> actos = new HashSet<>();
     private String nombre;
     @Getter
     private Unidad unidad;
-    @Getter
-    private Set<Zona> zonas = new HashSet<>();
-    @Getter
-    private Set<Acto> actos = new HashSet<>();
 
     /**
      * Establece la unidad asociada a la instalación.
@@ -49,9 +49,7 @@ public class InstalacionImpl implements Instalacion {
      * @param zonas el conjunto de zonas a establecer.
      */
     public void setZonas(Set<Zona> zonas) {
-        if (this.zonas != null) {
-            this.zonas.clear();
-        }
+        this.zonas.clear();
         if (zonas != null) {
             zonas.forEach(this::agregarZona);
         }
@@ -64,10 +62,8 @@ public class InstalacionImpl implements Instalacion {
      * @param actos el conjunto de actos a establecer.
      */
     public void setActos(Set<Acto> actos) {
-        if (this.actos != null) {
-            this.actos.forEach(acto -> acto.setInstalacion(null));
-            this.actos.clear();
-        }
+        this.actos.forEach(acto -> acto.setInstalacion(null));
+        this.actos.clear();
         if (actos != null) {
             actos.forEach(this::agregarActo);
         }
