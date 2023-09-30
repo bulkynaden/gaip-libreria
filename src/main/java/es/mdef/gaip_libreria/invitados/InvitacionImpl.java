@@ -16,9 +16,9 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"tipoDeZona", "numeroMaximoInvitados"})
 public class InvitacionImpl implements Invitacion {
     private final TipoDeZona tipoDeZona;
+    private final Set<Invitado> invitados = new HashSet<>();
     private InvitacionesPorActo invitacionesPorActo;
     private int numeroMaximoInvitados;
-    private Set<Invitado> invitados = new HashSet<>();
 
     /**
      * Constructor principal de la clase InvitacionImpl.
@@ -69,8 +69,7 @@ public class InvitacionImpl implements Invitacion {
             for (Invitado nuevoInvitado : nuevosInvitados) {
                 nuevoInvitado.setInvitacion(this);
             }
-
-            this.invitados = nuevosInvitados;
+            nuevosInvitados.forEach(this::agregarInvitado);
 
         } else {
             throw new IllegalArgumentException("La cantidad de invitados excede el límite actual.");

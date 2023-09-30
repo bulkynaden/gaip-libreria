@@ -20,15 +20,15 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"nombre", "descripcion", "fecha"})
 @Data
 public class ActoImpl implements Acto {
+    private final Set<Anfitrion> anfitriones = new HashSet<>();
+    private final Set<ZonaConfigurada> zonas = new HashSet<>();
     private String nombre;
     private String descripcion;
     private Instalacion instalacion;
     private EstadoActo estado;
     private ZonedDateTime fecha;
     private ZonedDateTime fechaLimiteRegistro;
-    private Set<Anfitrion> anfitriones = new HashSet<>();
     private TipoDeActo tipo;
-    private Set<ZonaConfigurada> zonas;
 
     /**
      * Constructor por defecto. Inicializa un acto con valores predeterminados.
@@ -98,10 +98,8 @@ public class ActoImpl implements Acto {
      */
     public void setZonas(Set<ZonaConfigurada> zonas) {
         if (this.zonas != zonas) {
-            if (this.zonas != null) {
-                this.zonas.forEach(zona -> zona.setActo(null));
-                this.zonas.clear();
-            }
+            this.zonas.forEach(zona -> zona.setActo(null));
+            this.zonas.clear();
             if (zonas != null) {
                 zonas.forEach(this::agregarZonaConfigurada);
             }
@@ -115,10 +113,8 @@ public class ActoImpl implements Acto {
      */
     public void setAnfitriones(Set<Anfitrion> anfitriones) {
         if (this.anfitriones != anfitriones) {
-            if (this.anfitriones != null) {
-                this.anfitriones.forEach(anfitrion -> anfitrion.setActo(null));
-                this.anfitriones.clear();
-            }
+            this.anfitriones.forEach(anfitrion -> anfitrion.quitarActo(this));
+            this.anfitriones.clear();
             if (anfitriones != null) {
                 anfitriones.forEach(this::agregarAnfitrion);
             }
@@ -138,8 +134,8 @@ public class ActoImpl implements Acto {
         }
         if (!anfitriones.contains(anfitrion)) {
             anfitriones.add(anfitrion);
-            if (anfitrion.getActo() != this) {
-                anfitrion.setActo(this);
+            if (!anfitrion.getActos().contains(this)) {
+                anfitrion.agregarActo(this);
             }
         }
     }
@@ -157,8 +153,8 @@ public class ActoImpl implements Acto {
         }
         if (anfitriones.contains(anfitrion)) {
             anfitriones.remove(anfitrion);
-            if (anfitrion.getActo() == this) {
-                anfitrion.setActo(null);
+            if (anfitrion.getActos().contains(this)) {
+                anfitrion.quitarActo(this);
             }
         }
     }
