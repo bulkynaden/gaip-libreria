@@ -1,7 +1,6 @@
 package es.mdef.gaip_libreria.invitados;
 
 import es.mdef.gaip_libreria.actos.Acto;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.HashSet;
@@ -12,7 +11,6 @@ import java.util.Set;
  * Esta clase representa las invitaciones extendidas por un anfitrión para un acto específico.
  */
 @Getter
-@EqualsAndHashCode(of = "")
 public class InvitacionesPorActoImpl implements InvitacionesPorActo {
     private final Set<Invitacion> invitaciones = new HashSet<>();
     private Acto acto;
