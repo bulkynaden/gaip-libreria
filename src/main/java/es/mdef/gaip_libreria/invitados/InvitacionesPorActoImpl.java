@@ -18,6 +18,11 @@ public class InvitacionesPorActoImpl implements InvitacionesPorActo {
     private Acto acto;
     private Anfitrion anfitrion;
 
+    public InvitacionesPorActoImpl(Acto acto, Anfitrion anfitrion) {
+        this.acto = acto;
+        this.anfitrion = anfitrion;
+    }
+
     @Override
     public void setActo(Acto acto) {
         if (this.acto != acto) {

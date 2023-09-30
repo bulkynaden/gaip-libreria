@@ -27,35 +27,44 @@ public class AnfitrionImpl extends PersonaImpl implements Anfitrion {
     private Acto acto;
     private Set<InvitacionesPorActo> invitacionesPorActo = new HashSet<>();
 
+    /**
+     * Asocia un acto específico al anfitrión, manteniendo la integridad de la relación bidireccional.
+     *
+     * @param acto El acto a asociar con este anfitrión.
+     */
     @Override
     public void setActo(Acto acto) {
-        if (acto == null) {
-            throw new IllegalArgumentException("El acto no puede ser nulo.");
-        }
         if (this.acto != acto) {
             if (this.acto != null) {
                 this.acto.getAnfitriones().remove(this);
             }
             this.acto = acto;
-            if (!acto.getAnfitriones().contains(this)) {
+            if (acto != null && !acto.getAnfitriones().contains(this)) {
                 acto.agregarAnfitrion(this);
             }
         }
     }
 
+    /**
+     * Establece las invitaciones por acto para el anfitrión y mantiene la coherencia bidireccional.
+     *
+     * @param invitacionesPorActo Conjunto de invitaciones por acto.
+     */
     @Override
     public void setInvitacionesPorActo(Set<InvitacionesPorActo> invitacionesPorActo) {
         if (this.invitacionesPorActo != invitacionesPorActo) {
-            if (this.invitacionesPorActo != null) {
-                this.invitacionesPorActo.forEach(invitacion -> invitacion.setAnfitrion(null));
-                this.invitacionesPorActo.clear();
-            }
+            this.invitacionesPorActo.clear();
             if (invitacionesPorActo != null) {
                 invitacionesPorActo.forEach(this::agregarInvitacionesPorActo);
             }
         }
     }
 
+    /**
+     * Agrega una invitación por acto al anfitrión y establece la relación bidireccional.
+     *
+     * @param invitacionPorActo La invitación por acto a agregar.
+     */
     @Override
     public void agregarInvitacionesPorActo(InvitacionesPorActo invitacionPorActo) {
         if (invitacionPorActo == null) {
@@ -69,6 +78,11 @@ public class AnfitrionImpl extends PersonaImpl implements Anfitrion {
         }
     }
 
+    /**
+     * Elimina una invitación por acto del anfitrión y rompe la relación bidireccional.
+     *
+     * @param invitacionPorActo La invitación por acto a eliminar.
+     */
     @Override
     public void quitarInvitacionesPorActo(InvitacionesPorActo invitacionPorActo) {
         if (invitacionPorActo == null) {
