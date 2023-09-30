@@ -8,50 +8,53 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Representa una invitación que tiene un tipo de zona, un número máximo de invitados y un conjunto de invitados.
+ * Implementación concreta de la interfaz {@link Invitacion}.
+ * Esta clase representa una invitación que tiene un tipo de zona específico, un número máximo de invitados permitidos,
+ * y un conjunto de invitados asociados a ella. La invitación también está relacionada con un conjunto de invitaciones por acto.
  */
 @Getter
 @EqualsAndHashCode(of = {"tipoDeZona", "numeroMaximoInvitados"})
 public class InvitacionImpl implements Invitacion {
     private final TipoDeZona tipoDeZona;
-    private Anfitrion anfitrion;
+    private InvitacionesPorActo invitacionesPorActo;
     private int numeroMaximoInvitados;
     private Set<Invitado> invitados = new HashSet<>();
 
     /**
-     * Constructor de la clase.
+     * Constructor principal de la clase InvitacionImpl.
      *
-     * @param tipoDeZona            Tipo de zona de la invitación.
-     * @param numeroMaximoInvitados Número máximo de invitados permitidos.
-     * @param anfitrion             Anfitrión que realiza la invitación.
+     * @param tipoDeZona            Define el tipo de zona asociada a la invitación.
+     * @param numeroMaximoInvitados Define el límite de invitados que pueden ser asociados a esta invitación.
+     * @param invitacionesPorActo   Relación con las invitaciones por acto.
      */
-    public InvitacionImpl(TipoDeZona tipoDeZona, int numeroMaximoInvitados, Anfitrion anfitrion) {
+    public InvitacionImpl(TipoDeZona tipoDeZona, int numeroMaximoInvitados, InvitacionesPorActo invitacionesPorActo) {
         this.tipoDeZona = tipoDeZona;
         this.numeroMaximoInvitados = numeroMaximoInvitados;
-        this.anfitrion = anfitrion;
+        this.invitacionesPorActo = invitacionesPorActo;
+    }
+
+    @Override
+    public InvitacionesPorActo getInvitacionesPorActo() {
+        return this.invitacionesPorActo;
     }
 
     /**
-     * Establece el anfitrion asociado a esta invitación y maneja la relación bidireccional.
-     * Si la invitación ya estaba asociado a un anfitrion, se elimina de ese anfitrion antes de agregarla al nuevo.
+     * Establece la relación con las invitaciones por acto, manteniendo la coherencia bidireccional.
      *
-     * @param anfitrion El anfitrion a asociar con esta invitación.
+     * @param invitacionesPorActo Las invitaciones por acto a asociar.
      */
-    public void setAnfitrion(Anfitrion anfitrion) {
-        if (this.anfitrion != anfitrion) {
-            if (this.anfitrion != null) {
-                this.anfitrion.getInvitaciones().remove(this);
-            }
-            this.anfitrion = anfitrion;
-            this.getInvitados().forEach(this::quitarInvitado);
-            if (anfitrion != null) {
-                anfitrion.getInvitaciones().add(this);
+    @Override
+    public void setInvitacionesPorActo(InvitacionesPorActo invitacionesPorActo) {
+        if (this.invitacionesPorActo != invitacionesPorActo) {
+            this.invitacionesPorActo = invitacionesPorActo;
+            if (invitacionesPorActo != null && invitacionesPorActo.getInvitaciones().contains(this)) {
+                invitacionesPorActo.quitarInvitacion(this);
             }
         }
     }
 
     /**
-     * Establece los invitados para esta invitación.
+     * Establece los invitados para esta invitación, manteniendo la coherencia bidireccional.
      *
      * @param nuevosInvitados Conjunto de nuevos invitados.
      * @throws IllegalArgumentException Si la cantidad de invitados excede el límite actual.
@@ -75,7 +78,7 @@ public class InvitacionImpl implements Invitacion {
     }
 
     /**
-     * Agrega un invitado a la invitación.
+     * Agrega un invitado a la invitación, manteniendo la coherencia bidireccional.
      *
      * @param invitado Invitado a agregar.
      * @throws IllegalArgumentException Si el invitado es nulo o si se ha alcanzado el número máximo de invitados.
@@ -95,7 +98,7 @@ public class InvitacionImpl implements Invitacion {
     }
 
     /**
-     * Quita un invitado de la invitación.
+     * Quita un invitado de la invitación, rompiendo la relación bidireccional.
      *
      * @param invitado Invitado a quitar.
      * @throws IllegalArgumentException Si el invitado es nulo o si no está en la lista.

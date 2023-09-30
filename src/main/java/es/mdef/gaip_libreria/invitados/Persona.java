@@ -5,7 +5,11 @@ import es.mdef.gaip_libreria.constantes.Sexo;
 import java.time.ZonedDateTime;
 
 /**
- * Representa a una persona con atributos básicos como nombre, apellidos, DNI, sexo, fecha de nacimiento, email y teléfono.
+ * Define las características y comportamientos básicos de una persona.
+ * <p>
+ * Esta interfaz representa a una persona con atributos esenciales como nombre, apellidos, DNI, sexo, fecha de nacimiento, email y teléfono.
+ * Proporciona métodos para obtener y establecer estos atributos.
+ * </p>
  */
 public interface Persona {
 
@@ -17,7 +21,7 @@ public interface Persona {
     String getNombre();
 
     /**
-     * Establece el nombre de la persona.
+     * Establece un nuevo nombre para la persona.
      *
      * @param nombre el nombre a establecer.
      */
@@ -31,7 +35,7 @@ public interface Persona {
     String getPrimerApellido();
 
     /**
-     * Establece el primer apellido de la persona.
+     * Establece un nuevo primer apellido para la persona.
      *
      * @param primerApellido el primer apellido a establecer.
      */
@@ -45,35 +49,35 @@ public interface Persona {
     String getSegundoApellido();
 
     /**
-     * Establece el segundo apellido de la persona.
+     * Establece un nuevo segundo apellido para la persona.
      *
      * @param segundoApellido el segundo apellido a establecer.
      */
     void setSegundoApellido(String segundoApellido);
 
     /**
-     * Obtiene el DNI de la persona.
+     * Obtiene el Documento Nacional de Identidad (DNI) de la persona.
      *
      * @return el DNI de la persona.
      */
     String getDni();
 
     /**
-     * Establece el DNI de la persona.
+     * Establece un nuevo DNI para la persona.
      *
      * @param dni el DNI a establecer.
      */
     void setDni(String dni);
 
     /**
-     * Obtiene el sexo de la persona.
+     * Obtiene el género o sexo de la persona.
      *
      * @return el sexo de la persona.
      */
     Sexo getSexo();
 
     /**
-     * Establece el sexo de la persona.
+     * Establece un nuevo género o sexo para la persona.
      *
      * @param sexo el sexo a establecer.
      */
@@ -87,35 +91,35 @@ public interface Persona {
     ZonedDateTime getFechaNacimiento();
 
     /**
-     * Establece la fecha de nacimiento de la persona.
+     * Establece una nueva fecha de nacimiento para la persona.
      *
      * @param fechaNacimiento la fecha de nacimiento a establecer.
      */
     void setFechaNacimiento(ZonedDateTime fechaNacimiento);
 
     /**
-     * Obtiene el email de la persona.
+     * Obtiene la dirección de correo electrónico de la persona.
      *
      * @return el email de la persona.
      */
     String getEmail();
 
     /**
-     * Establece el email de la persona.
+     * Establece una nueva dirección de correo electrónico para la persona.
      *
      * @param email el email a establecer.
      */
     void setEmail(String email);
 
     /**
-     * Obtiene el número de teléfono de la persona.
+     * Obtiene el número de teléfono de contacto de la persona.
      *
      * @return el número de teléfono de la persona.
      */
     String getTelefono();
 
     /**
-     * Establece el número de teléfono de la persona.
+     * Establece un nuevo número de teléfono de contacto para la persona.
      *
      * @param telefono el número de teléfono a establecer.
      */

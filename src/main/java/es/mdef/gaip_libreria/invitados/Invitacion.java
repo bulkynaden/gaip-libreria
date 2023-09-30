@@ -5,78 +5,85 @@ import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import java.util.Set;
 
 /**
- * Representa una invitación que un {@link Anfitrion} puede extender a uno o más {@link Invitado}s.
- * Una invitación tiene asociado un tipo de zona y un número máximo de invitados permitidos.
+ * La interfaz <code>Invitacion</code> define las características y comportamientos específicos
+ * de una invitación en el contexto de un sistema de gestión de invitados.
+ *
+ * <p>
+ * Una invitación es un mecanismo mediante el cual un {@link Anfitrion} puede extender una solicitud
+ * a uno o más {@link Invitado}s para asistir a un evento o acto específico. Cada invitación tiene
+ * asociado un tipo de zona, un número máximo de invitados permitidos, y un conjunto de invitados
+ * que han sido invitados a través de esa invitación específica.
+ * </p>
  */
 public interface Invitacion {
 
     /**
-     * Obtiene el conjunto de invitados asociados a esta invitación.
+     * Devuelve el conjunto de {@link Invitado}s que han sido asociados a esta invitación.
      *
-     * @return un conjunto de invitados.
+     * @return un conjunto inmutable de {@link Invitado}s.
      */
     Set<Invitado> getInvitados();
 
     /**
-     * Establece el conjunto de invitados asociados a esta invitación.
+     * Asigna un conjunto específico de invitados a esta invitación.
      *
-     * @param invitados el conjunto de invitados a establecer.
+     * @param invitados el conjunto de {@link Invitado}s a asignar.
      */
     void setInvitados(Set<Invitado> invitados);
 
     /**
-     * Obtiene el número máximo de invitados permitidos para esta invitación.
+     * Devuelve el número máximo de invitados que pueden ser asociados a esta invitación.
      *
-     * @return el número máximo de invitados.
+     * @return el número máximo de invitados permitidos.
      */
     int getNumeroMaximoInvitados();
 
     /**
-     * Obtiene el tipo de zona asociado a esta invitación.
+     * Devuelve el tipo de zona preferencial o específica asociada a esta invitación.
      *
-     * @return el tipo de zona.
+     * @return el {@link TipoDeZona} asociado.
      */
     TipoDeZona getTipoDeZona();
 
     /**
-     * Obtiene el anfitrión que extendió esta invitación.
+     * Devuelve las invitaciones por acto asociadas a la invitación.
      *
-     * @return el anfitrión asociado.
+     * @return el objeto {@link InvitacionesPorActo} asociado.
      */
-    Anfitrion getAnfitrion();
+    InvitacionesPorActo getInvitacionesPorActo();
 
     /**
-     * Establece el anfitrión que extendió esta invitación.
+     * Asigna las invitaciones por acto a la invitación.
      *
-     * @param anfitrion el anfitrión a establecer.
+     * @param invitacionesPorActo el objeto {@link InvitacionesPorActo} a asignar.
      */
-    void setAnfitrion(Anfitrion anfitrion);
+    void setInvitacionesPorActo(InvitacionesPorActo invitacionesPorActo);
 
     /**
-     * Agrega un invitado al conjunto de invitados de esta invitación.
+     * Agrega un {@link Invitado} específico al conjunto de invitados de esta invitación.
      *
-     * @param invitado el invitado a agregar.
+     * @param invitado el {@link Invitado} a agregar.
      */
     void agregarInvitado(Invitado invitado);
 
     /**
-     * Quita un invitado del conjunto de invitados de esta invitación.
+     * Elimina un {@link Invitado} específico del conjunto de invitados de esta invitación.
      *
-     * @param invitado el invitado a quitar.
+     * @param invitado el {@link Invitado} a eliminar.
      */
     void quitarInvitado(Invitado invitado);
 
     /**
-     * Aumenta el número máximo de invitados permitidos para esta invitación.
+     * Incrementa el número máximo de invitados que pueden ser asociados a esta invitación.
      *
-     * @param cantidad la cantidad de invitados a agregar al límite actual.
+     * @param cantidad el número de invitados a agregar al límite actual.
      */
     void agregarNumeroMaximoInvitado(int cantidad);
 
     /**
-     * Disminuye el número máximo de invitados permitidos para esta invitación.
+     * Decrementa el número máximo de invitados que pueden ser asociados a esta invitación.
      *
-     * @param cantidad la cantidad de invitados a quitar del límite actual.
+     * @param cantidad el número de invitados a restar del límite actual.
      */
     void quitarNumeroMaximoInvitado(int cantidad);
 }

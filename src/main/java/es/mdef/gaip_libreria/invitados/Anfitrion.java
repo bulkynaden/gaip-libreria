@@ -5,64 +5,68 @@ import es.mdef.gaip_libreria.actos.Acto;
 import java.util.Set;
 
 /**
- * Representa un anfitrión que puede invitar a personas a un acto.
- * Un anfitrión está asociado a una unidad de formación y tiene un conjunto de invitaciones.
+ * Define las características y comportamientos específicos de un anfitrión.
+ * <p>
+ * Esta interfaz representa a un anfitrión que tiene la capacidad de invitar a personas a un acto específico.
+ * Un anfitrión está vinculado a una unidad de formación y tiene un conjunto de invitaciones que ha extendido.
+ * Además, hereda las propiedades y comportamientos de una {@link Persona}.
+ * </p>
  */
 public interface Anfitrion extends Persona {
 
     /**
-     * Obtiene el acto asociado al anfitrión.
+     * Obtiene el acto específico al cual el anfitrión está invitando a las personas.
      *
-     * @return el acto asociado al anfitrión.
+     * @return el {@link Acto} asociado al anfitrión.
      */
     Acto getActo();
 
     /**
-     * Establece el acto asociado al anfitrión.
+     * Asigna o establece un acto específico al cual el anfitrión invitará a las personas.
      *
-     * @param acto el acto a asociar.
+     * @param acto el {@link Acto} a asociar al anfitrión.
      */
     void setActo(Acto acto);
 
     /**
-     * Obtiene la unidad de formación asociada al anfitrión.
+     * Obtiene la unidad de formación a la que pertenece el anfitrión.
      *
-     * @return la unidad de formación del anfitrión.
+     * @return el nombre o identificador de la unidad de formación del anfitrión.
      */
     String getUnidadDeFormacion();
 
     /**
-     * Establece la unidad de formación asociada al anfitrión.
+     * Asigna o establece la unidad de formación a la que pertenece el anfitrión.
      *
-     * @param unidadDeFormacion la unidad de formación a establecer.
+     * @param unidadDeFormacion el nombre o identificador de la unidad de formación a establecer.
      */
     void setUnidadDeFormacion(String unidadDeFormacion);
 
     /**
-     * Obtiene el conjunto de invitaciones asociadas al anfitrión.
+     * Obtiene el conjunto de invitaciones por acto que el anfitrión ha extendido.
      *
-     * @return un conjunto de invitaciones.
+     * @return un conjunto de {@link InvitacionesPorActo} asociadas al anfitrión.
      */
-    Set<Invitacion> getInvitaciones();
+    Set<InvitacionesPorActo> getInvitacionesPorActo();
 
     /**
-     * Establece el conjunto de invitaciones asociadas al anfitrión.
+     * Asigna o establece el conjunto de invitaciones por acto que el anfitrión ha extendido.
      *
-     * @param invitaciones el conjunto de invitaciones a establecer.
+     * @param invitacionesPorActo el conjunto de {@link InvitacionesPorActo} a establecer.
      */
-    void setInvitaciones(Set<Invitacion> invitaciones);
+    void setInvitacionesPorActo(Set<InvitacionesPorActo> invitacionesPorActo);
 
     /**
-     * Agrega una invitación al conjunto de invitaciones del anfitrión.
+     * Agrega una invitación por acto específica al conjunto de invitaciones del anfitrión.
      *
-     * @param invitacion la invitación a agregar.
+     * @param invitacionesPorActo la {@link InvitacionesPorActo} a agregar al anfitrión.
      */
-    void agregarInvitacion(Invitacion invitacion);
+    void agregarInvitacionesPorActo(InvitacionesPorActo invitacionesPorActo);
 
     /**
-     * Quita una invitación del conjunto de invitaciones del anfitrión.
+     * Elimina o quita una invitación por acto específica del conjunto de invitaciones del anfitrión.
      *
-     * @param invitacion la invitación a quitar.
+     * @param invitacionesPorActo la {@link InvitacionesPorActo} a quitar del anfitrión.
      */
-    void quitarInvitacion(Invitacion invitacion);
+    void quitarInvitacionesPorActo(InvitacionesPorActo invitacionesPorActo);
 }

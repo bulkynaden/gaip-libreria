@@ -3,51 +3,54 @@ package es.mdef.gaip_libreria.invitados;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 
 /**
- * Representa a un invitado que ha sido invitado a un acto por un {@link Anfitrion} a través de una {@link Invitacion}.
- * Un invitado tiene asociado un parentesco que describe su relación o conexión con el anfitrión o el acto.
+ * Define las características y comportamientos específicos de un invitado.
+ * <p>
+ * Esta interfaz representa a un individuo que ha sido invitado a un acto por un {@link Anfitrion}.
+ * Además de las propiedades heredadas de {@link Persona}, un invitado tiene asociado un parentesco que describe su relación o conexión
+ * con el anfitrión, así como una localidad específica dentro del acto.
+ * </p>
  */
 public interface Invitado extends Persona {
 
     /**
-     * Obtiene la invitación asociada a este invitado.
+     * Obtiene la invitación que ha sido asociada a este invitado.
      *
-     * @return la invitación asociada.
+     * @return la {@link Invitacion} asociada a este invitado.
      */
     Invitacion getInvitacion();
 
     /**
-     * Establece la invitación asociada a este invitado.
+     * Asigna una invitación específica a este invitado.
      *
-     * @param invitacion la invitación a establecer.
+     * @param invitacion la {@link Invitacion} a asignar al invitado.
      */
     void setInvitacion(Invitacion invitacion);
 
     /**
-     * Obtiene el parentesco del invitado, que describe su relación o conexión con el anfitrión o el acto.
+     * Obtiene el parentesco o relación que tiene el invitado con el anfitrión.
      *
-     * @return el parentesco del invitado.
+     * @return una cadena de texto que describe el parentesco del invitado.
      */
     String getParentesco();
 
     /**
-     * Establece el parentesco del invitado.
+     * Establece o define el parentesco o relación que tiene el invitado con el anfitrión.
      *
-     * @param parentesco el parentesco a establecer.
+     * @param parentesco una cadena de texto que describe el parentesco a establecer.
      */
     void setParentesco(String parentesco);
 
     /**
-     * Obtiene la localidad del invitado.
+     * Obtiene la localidad configurada que ha sido asignada a este invitado dentro del acto.
      *
-     * @return la localidad del invitado.
+     * @return la {@link LocalidadConfigurada} asignada al invitado.
      */
     LocalidadConfigurada getLocalidad();
 
-
     /**
-     * Establece la localidad del invitado.
+     * Asigna una localidad específica a este invitado dentro del acto.
      *
-     * @param localidad la localidad a establecer.
+     * @param localidad la {@link LocalidadConfigurada} a asignar al invitado.
      */
     void setLocalidad(LocalidadConfigurada localidad);
 }

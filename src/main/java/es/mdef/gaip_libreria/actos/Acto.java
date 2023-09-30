@@ -10,155 +10,166 @@ import java.time.ZonedDateTime;
 import java.util.Set;
 
 /**
- * Interfaz que define las operaciones y propiedades asociadas a un acto.
- * Un acto representa un evento o actividad específica que tiene un nombre, descripción,
- * estado, y está asociado a una instalación. Además, un acto puede tener múltiples anfitriones e invitados.
+ * Define las características y comportamientos específicos de un acto.
+ * <p>
+ * Un acto es un evento o actividad que se lleva a cabo en una instalación específica y puede tener
+ * múltiples anfitriones que invitan a personas a asistir. Cada acto tiene un nombre, descripción,
+ * estado, fecha, fecha límite de registro, tipo y configuración de zonas.
+ * </p>
  */
 public interface Acto {
 
     /**
+     * Obtiene el nombre del acto.
+     *
      * @return el nombre del acto.
      */
     String getNombre();
 
     /**
-     * Establece el nombre del acto.
+     * Asigna o establece el nombre del acto.
      *
-     * @param nombre el nombre a establecer.
+     * @param nombre el nombre a establecer para el acto.
      */
     void setNombre(String nombre);
 
     /**
+     * Obtiene la descripción detallada del acto.
+     *
      * @return la descripción del acto.
      */
     String getDescripcion();
 
     /**
-     * Establece la descripción del acto.
+     * Asigna o establece la descripción del acto.
      *
-     * @param descripcion la descripción a establecer.
+     * @param descripcion la descripción a establecer para el acto.
      */
     void setDescripcion(String descripcion);
 
     /**
-     * @return la instalación asociada al acto.
+     * Obtiene la instalación específica donde se llevará a cabo el acto.
+     *
+     * @return la {@link Instalacion} asociada al acto.
      */
     Instalacion getInstalacion();
 
     /**
-     * Asocia una instalación al acto.
+     * Asigna o establece la instalación donde se llevará a cabo el acto.
      *
-     * @param instalacion la instalación a asociar.
+     * @param instalacion la {@link Instalacion} a asociar al acto.
      */
     void setInstalacion(Instalacion instalacion);
 
     /**
-     * Obtiene el estado del acto.
+     * Obtiene el estado actual del acto, que puede indicar si está planificado, en curso, finalizado, etc.
      *
-     * @return el estado actual del acto.
+     * @return el {@link EstadoActo} del acto.
      */
     EstadoActo getEstado();
 
     /**
-     * Establece el estado del acto.
+     * Asigna o establece el estado del acto.
      *
-     * @param estado el estado a establecer.
+     * @param estado el {@link EstadoActo} a establecer para el acto.
      */
     void setEstado(EstadoActo estado);
 
     /**
-     * Obtiene la fecha de inicio del acto.
+     * Obtiene la fecha y hora de inicio del acto.
      *
-     * @return la fecha de inicio del acto.
+     * @return la fecha y hora de inicio del acto.
      */
     ZonedDateTime getFecha();
 
     /**
-     * Establece la fecha de inicio del acto.
+     * Asigna o establece la fecha y hora de inicio del acto.
      *
-     * @param fecha la fecha de inicio a establecer.
+     * @param fecha la fecha y hora de inicio a establecer para el acto.
      */
     void setFecha(ZonedDateTime fecha);
 
     /**
-     * Obtiene la fecha de límite de registro del acto.
+     * Obtiene la fecha y hora límite hasta la cual se pueden registrar invitados para el acto.
      *
-     * @return la fecha de límite de registro del acto.
+     * @return la fecha y hora límite de registro.
      */
     ZonedDateTime getFechaLimiteRegistro();
 
     /**
-     * Establece la fecha de límite de registro del acto.
+     * Asigna o establece la fecha y hora límite para el registro de invitados al acto.
      *
-     * @param fechaLimiteRegistro la fecha de límite de registro a establecer.
+     * @param fechaLimiteRegistro la fecha y hora límite a establecer.
      */
     void setFechaLimiteRegistro(ZonedDateTime fechaLimiteRegistro);
 
     /**
-     * Obtiene el tipo del acto.
+     * Obtiene el tipo específico del acto, que puede indicar si es una conferencia, taller, ceremonia, etc.
      *
-     * @return el tipo del acto.
+     * @return el {@link TipoDeActo} del acto.
      */
     TipoDeActo getTipo();
 
     /**
-     * Establece el tipo del acto.
+     * Asigna o establece el tipo del acto.
      *
-     * @param tipo el tipo a establecer.
+     * @param tipo el {@link TipoDeActo} a establecer para el acto.
      */
     void setTipo(TipoDeActo tipo);
 
     /**
-     * Obtiene la configuración de las zonas del acto.
+     * Obtiene el conjunto de zonas configuradas asociadas al acto.
      *
-     * @return la configuración de las zonas.
+     * @return un conjunto de {@link ZonaConfigurada}s asociadas al acto.
      */
     Set<ZonaConfigurada> getZonas();
 
     /**
-     * Establece la configuración de las zonas del acto.
+     * Asigna o establece el conjunto de zonas configuradas para el acto.
      *
-     * @param zonas las zonas configuradas
+     * @param zonas el conjunto de {@link ZonaConfigurada}s a establecer.
      */
     void setZonas(Set<ZonaConfigurada> zonas);
 
     /**
-     * @return el conjunto de anfitriones asociados al acto.
+     * Obtiene el conjunto de anfitriones que han extendido invitaciones para el acto.
+     *
+     * @return un conjunto de {@link Anfitrion}s asociados al acto.
      */
     Set<Anfitrion> getAnfitriones();
 
     /**
-     * Establece el conjunto de anfitriones asociados al acto.
+     * Asigna o establece el conjunto de anfitriones que han extendido invitaciones para el acto.
      *
-     * @param anfitriones el conjunto de anfitriones a establecer.
+     * @param anfitriones el conjunto de {@link Anfitrion}s a establecer.
      */
     void setAnfitriones(Set<Anfitrion> anfitriones);
 
     /**
-     * Agrega un anfitrión al acto.
+     * Agrega un anfitrión específico al conjunto de anfitriones del acto.
      *
-     * @param anfitrion el anfitrión a agregar.
+     * @param anfitrion el {@link Anfitrion} a agregar al acto.
      */
     void agregarAnfitrion(Anfitrion anfitrion);
 
     /**
-     * Elimina un anfitrión del acto.
+     * Elimina o quita un anfitrión específico del conjunto de anfitriones del acto.
      *
-     * @param anfitrion el anfitrión a eliminar.
+     * @param anfitrion el {@link Anfitrion} a quitar del acto.
      */
     void quitarAnfitrion(Anfitrion anfitrion);
 
     /**
-     * Agrega una zona configurada al acto.
+     * Agrega una zona configurada específica al conjunto de zonas del acto.
      *
-     * @param zona la zona a agregar.
+     * @param zona la {@link ZonaConfigurada} a agregar al acto.
      */
     void agregarZonaConfigurada(ZonaConfigurada zona);
 
     /**
-     * Elimina una zona configurada del acto.
+     * Elimina o quita una zona configurada específica del conjunto de zonas del acto.
      *
-     * @param zona la zona a eliminar.
+     * @param zona la {@link ZonaConfigurada} a quitar del acto.
      */
     void quitarZonaConfigurada(ZonaConfigurada zona);
 }

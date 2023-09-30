@@ -9,23 +9,25 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Representa un anfitrión que puede invitar a personas a un acto.
- * Un anfitrión está asociado a una unidad de formación y tiene un conjunto de invitaciones.
+ * Implementación concreta de la interfaz {@link Anfitrion}.
+ * <p>
+ * Esta clase representa a un anfitrión que tiene la capacidad de invitar a personas a un acto específico.
+ * Un anfitrión está vinculado a una unidad de formación y tiene un conjunto de invitaciones por acto que ha extendido.
+ * </p>
+ *
+ * @author [Tu Nombre o el de tu Organización]
+ * @version 1.0
  */
 @EqualsAndHashCode(of = {"unidadDeFormacion"}, callSuper = true)
 @Getter
 @Setter
 public class AnfitrionImpl extends PersonaImpl implements Anfitrion {
+
     private String unidadDeFormacion;
     private Acto acto;
-    private Set<Invitacion> invitaciones = new HashSet<>();
+    private Set<InvitacionesPorActo> invitacionesPorActo = new HashSet<>();
 
-    /**
-     * Asocia un acto a este anfitrión. Si el anfitrión ya estaba asociado a un acto,
-     * se desvincula de ese acto antes de asociarse al nuevo.
-     *
-     * @param acto El acto a asociar con este anfitrión.
-     */
+    @Override
     public void setActo(Acto acto) {
         if (acto == null) {
             throw new IllegalArgumentException("El acto no puede ser nulo.");
@@ -35,41 +37,48 @@ public class AnfitrionImpl extends PersonaImpl implements Anfitrion {
                 this.acto.getAnfitriones().remove(this);
             }
             this.acto = acto;
-            acto.getAnfitriones().add(this);
-        }
-    }
-
-    /**
-     * Agrega una invitación al conjunto de invitaciones del anfitrión y establece la relación bidireccional.
-     *
-     * @param invitacion Invitación a agregar.
-     */
-    @Override
-    public void agregarInvitacion(Invitacion invitacion) {
-        if (invitacion == null) {
-            throw new IllegalArgumentException("La invitación no puede ser nula.");
-        }
-        if (!invitaciones.contains(invitacion)) {
-            invitaciones.add(invitacion);
-            if (invitacion.getAnfitrion() != this) {
-                invitacion.setAnfitrion(this);
+            if (!acto.getAnfitriones().contains(this)) {
+                acto.agregarAnfitrion(this);
             }
         }
     }
 
-    /**
-     * Quita una invitación del conjunto de invitaciones del anfitrión y desvincula la relación bidireccional.
-     *
-     * @param invitacion Invitación a quitar.
-     */
     @Override
-    public void quitarInvitacion(Invitacion invitacion) {
-        if (invitacion == null || !invitaciones.contains(invitacion)) {
-            throw new IllegalArgumentException("La invitación no está asociada a este anfitrión o es nula.");
+    public void setInvitacionesPorActo(Set<InvitacionesPorActo> invitacionesPorActo) {
+        if (this.invitacionesPorActo != invitacionesPorActo) {
+            if (this.invitacionesPorActo != null) {
+                this.invitacionesPorActo.forEach(invitacion -> invitacion.setAnfitrion(null));
+                this.invitacionesPorActo.clear();
+            }
+            if (invitacionesPorActo != null) {
+                invitacionesPorActo.forEach(this::agregarInvitacionesPorActo);
+            }
         }
-        invitaciones.remove(invitacion);
-        if (invitacion.getAnfitrion() == this) {
-            invitacion.setAnfitrion(null);
+    }
+
+    @Override
+    public void agregarInvitacionesPorActo(InvitacionesPorActo invitacionPorActo) {
+        if (invitacionPorActo == null) {
+            throw new IllegalArgumentException("La invitación por acto no puede ser nula.");
+        }
+        if (!invitacionesPorActo.contains(invitacionPorActo)) {
+            invitacionesPorActo.add(invitacionPorActo);
+            if (invitacionPorActo.getAnfitrion() != this) {
+                invitacionPorActo.setAnfitrion(this);
+            }
+        }
+    }
+
+    @Override
+    public void quitarInvitacionesPorActo(InvitacionesPorActo invitacionPorActo) {
+        if (invitacionPorActo == null) {
+            throw new IllegalArgumentException("La invitación por acto no puede ser nula.");
+        }
+        if (invitacionesPorActo.contains(invitacionPorActo)) {
+            invitacionesPorActo.remove(invitacionPorActo);
+            if (invitacionPorActo.getAnfitrion() == this) {
+                invitacionPorActo.setAnfitrion(null);
+            }
         }
     }
 }
