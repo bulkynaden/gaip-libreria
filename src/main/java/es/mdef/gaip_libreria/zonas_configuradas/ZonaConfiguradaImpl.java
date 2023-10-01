@@ -14,10 +14,10 @@ import java.util.Set;
  */
 @Data
 public class ZonaConfiguradaImpl implements ZonaConfigurada {
+    private final Set<LocalidadConfigurada> localidades = new HashSet<>();
+    private final Set<PrioridadPorUnidad> prioridades = new HashSet<>();
     private Zona zona;
     private Acto acto;
-    private Set<LocalidadConfigurada> localidades = new HashSet<>();
-    private Set<PrioridadPorUnidad> prioridades = new HashSet<>();
 
     /**
      * Asocia un acto a la zona configurada. Si la zona ya estaba asociada a otro acto,
@@ -48,10 +48,8 @@ public class ZonaConfiguradaImpl implements ZonaConfigurada {
      */
     public void setLocalidades(Set<LocalidadConfigurada> localidades) {
         if (this.localidades != localidades) {
-            if (this.localidades != null) {
-                this.localidades.forEach(localidad -> localidad.setZonaConfigurada(null));
-                this.localidades.clear();
-            }
+            this.localidades.forEach(localidad -> localidad.setZonaConfigurada(null));
+            this.localidades.clear();
             if (localidades != null) {
                 localidades.forEach(this::agregarLocalidad);
             }

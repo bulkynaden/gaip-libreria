@@ -40,7 +40,7 @@ public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
     /**
      * Establece la zona configurada para la localidad y mantiene la coherencia bidireccional.
      *
-     * @param zonaConfigurada La zona configurada para la localidad. No puede ser nula.
+     * @param zonaConfigurada La zona configurada para la localidad.
      */
     public void setZonaConfigurada(ZonaConfigurada zonaConfigurada) {
         if (this.zonaConfigurada != zonaConfigurada) {
@@ -48,7 +48,9 @@ public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
                 this.zonaConfigurada.getLocalidades().remove(this);
             }
             this.zonaConfigurada = zonaConfigurada;
-            zonaConfigurada.getLocalidades().add(this);
+            if (zonaConfigurada != null) {
+                zonaConfigurada.agregarLocalidad(this);
+            }
         }
     }
 
