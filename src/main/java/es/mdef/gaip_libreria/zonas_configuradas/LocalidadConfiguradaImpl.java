@@ -4,12 +4,14 @@ import es.mdef.gaip_libreria.constantes.EstadoLocalidad;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.zonas.Localidad;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Implementación concreta de la interfaz {@link LocalidadConfigurada}.
  * Esta clase representa una localidad específica que ha sido configurada con un estado y asociada a un invitado y una zona.
  */
 @Data
+@EqualsAndHashCode(of = "estadoLocalidad")
 public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
     private static final EstadoLocalidad ESTADO_LOCALIDAD_POR_DEFECTO = EstadoLocalidad.LIBRE;
     private Invitado invitado;
