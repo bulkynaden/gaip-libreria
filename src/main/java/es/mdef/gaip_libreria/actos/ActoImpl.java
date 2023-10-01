@@ -149,7 +149,7 @@ public class ActoImpl implements Acto {
         }
         if (anfitriones.contains(anfitrion)) {
             anfitriones.remove(anfitrion);
-            if (anfitrion.getActos().contains(this)) {
+            if (anfitrion.getActos() != null && anfitrion.getActos().contains(this)) {
                 anfitrion.quitarActo(this);
             }
         }

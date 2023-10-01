@@ -11,10 +11,18 @@ import lombok.Data;
  */
 @Data
 public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
+    private static final EstadoLocalidad ESTADO_LOCALIDAD_POR_DEFECTO = EstadoLocalidad.LIBRE;
     private Invitado invitado;
     private Localidad localidad;
     private EstadoLocalidad estadoLocalidad;
     private ZonaConfigurada zonaConfigurada;
+
+    /**
+     * Constructor por defecto.
+     */
+    public LocalidadConfiguradaImpl() {
+        setEstadoLocalidad(ESTADO_LOCALIDAD_POR_DEFECTO);
+    }
 
     /**
      * Establece la localidad para la localidad configurada.

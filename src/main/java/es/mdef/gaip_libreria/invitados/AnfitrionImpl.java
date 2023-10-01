@@ -174,7 +174,7 @@ public class AnfitrionImpl extends PersonaImpl implements Anfitrion {
         }
         if (actos.contains(acto)) {
             actos.remove(acto);
-            if (acto.getAnfitriones().contains(this)) {
+            if (acto.getAnfitriones() != null && acto.getAnfitriones().contains(this)) {
                 acto.quitarAnfitrion(this);
             }
         }
