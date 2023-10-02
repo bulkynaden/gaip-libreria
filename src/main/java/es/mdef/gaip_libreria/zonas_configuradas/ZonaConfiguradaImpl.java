@@ -66,11 +66,9 @@ public class ZonaConfiguradaImpl implements ZonaConfigurada {
         if (localidad == null) {
             throw new IllegalArgumentException("La localidad no puede ser nula.");
         }
-        if (!localidades.contains(localidad)) {
-            localidades.add(localidad);
-            if (localidad.getZonaConfigurada() != this) {
-                localidad.setZonaConfigurada(this);
-            }
+        localidades.add(localidad);
+        if (localidad.getZonaConfigurada() != this) {
+            localidad.setZonaConfigurada(this);
         }
     }
 

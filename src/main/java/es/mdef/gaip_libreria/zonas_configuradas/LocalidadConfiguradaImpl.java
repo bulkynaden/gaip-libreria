@@ -45,11 +45,11 @@ public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
     public void setZonaConfigurada(ZonaConfigurada zonaConfigurada) {
         if (this.zonaConfigurada != zonaConfigurada) {
             if (this.zonaConfigurada != null) {
-                this.zonaConfigurada.getLocalidades().remove(this);
+                this.zonaConfigurada.quitarLocalidad(this);
             }
             this.zonaConfigurada = zonaConfigurada;
-            if (zonaConfigurada != null) {
-                zonaConfigurada.agregarLocalidad(this);
+            if (this.zonaConfigurada != null) {
+                this.zonaConfigurada.agregarLocalidad(this);
             }
         }
     }
