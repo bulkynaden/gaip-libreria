@@ -29,16 +29,15 @@ public class ZonaConfiguradaImpl implements ZonaConfigurada {
      * @throws IllegalArgumentException si el acto es nulo.
      */
     public void setActo(Acto acto) {
-        if (acto == null) {
-            throw new IllegalArgumentException("El acto no puede ser nulo.");
-        }
         if (this.acto != acto) {
             if (this.acto != null) {
                 this.acto.quitarZonaConfigurada(this);
             }
             this.acto = acto;
-            if (!acto.getZonas().contains(this)) {
-                acto.agregarZonaConfigurada(this);
+            if (acto != null) {
+                if (!acto.getZonas().contains(this)) {
+                    acto.agregarZonaConfigurada(this);
+                }
             }
         }
     }
@@ -99,10 +98,8 @@ public class ZonaConfiguradaImpl implements ZonaConfigurada {
      */
     public void setPrioridades(Set<PrioridadPorUnidad> prioridades) {
         if (this.prioridades != prioridades) {
-            if (this.prioridades != null) {
-                this.prioridades.forEach(prioridad -> prioridad.setZona(null));
-                this.prioridades.clear();
-            }
+            this.prioridades.forEach(prioridad -> prioridad.setZona(null));
+            this.prioridades.clear();
             if (prioridades != null) {
                 prioridades.forEach(this::agregarPrioridad);
             }
