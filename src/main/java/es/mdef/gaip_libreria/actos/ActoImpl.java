@@ -182,14 +182,9 @@ public class ActoImpl implements Acto {
      */
     @Override
     public void quitarZonaConfigurada(ZonaConfigurada zona) {
-        if (zona == null) {
-            throw new IllegalArgumentException("La zona no puede ser nula.");
-        }
-        if (zonas.contains(zona)) {
+        if (zona != null && zonas.contains(zona)) {
             zonas.remove(zona);
-            if (zona.getActo() == this) {
-                zona.setActo(null);
-            }
+            zona.setActo(null);
         }
     }
 }
