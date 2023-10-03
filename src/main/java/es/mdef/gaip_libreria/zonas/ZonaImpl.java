@@ -9,18 +9,25 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Data
+
 @EqualsAndHashCode(of = {"nombre", "tipoDeZona", "numeroLocalidades"})
+@Data
 public class ZonaImpl implements Zona {
+    private final Set<Localidad> localidades;
     private String nombre;
     private int numeroLocalidades;
-    private Set<Localidad> localidades;
     private TipoDeZona tipoDeZona;
     private Instalacion instalacion;
     private double x;
     private double y;
     private double altura;
     private double anchura;
+    private double[] xInicioFilas;
+    private double yInicioColumna;
+    private int filas;
+    private double saltoX;
+    private double saltoHuecoX;
+    private double saltoY;
 
     public ZonaImpl() {
         if (this instanceof ZonaNumerada) {

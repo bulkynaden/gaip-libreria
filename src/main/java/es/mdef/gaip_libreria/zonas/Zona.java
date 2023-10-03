@@ -101,4 +101,28 @@ public interface Zona extends Figura {
      * @param localidad la localidad a quitar.
      */
     void quitarLocalidad(Localidad localidad);
+
+    double[] getXInicioFilas();
+
+    void setXInicioFilas(double[] xInicioFilas);
+
+    double getYInicioColumna();
+
+    void setYInicioColumna(double yInicioColumna);
+
+    int getFilas();
+
+    void setFilas(int filas);
+
+    double getSaltoX();
+
+    void setSaltoX(double saltoX);
+
+    double getSaltoHuecoX();
+
+    void setSaltoHuecoX(double saltoHuecoX);
+
+    double getSaltoY();
+
+    void setSaltoY(double saltoY);
 }
