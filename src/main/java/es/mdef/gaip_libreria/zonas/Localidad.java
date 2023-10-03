@@ -55,4 +55,8 @@ public interface Localidad extends Figura {
      * @param implicaSalto true para indicar que la localidad implica un salto, false en caso contrario.
      */
     void setImplicaSalto(Boolean implicaSalto);
+
+    Boolean getImplicaSaltoFila();
+
+    void setImplicaSaltoFila(Boolean implicaSaltoFila);
 }

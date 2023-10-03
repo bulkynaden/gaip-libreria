@@ -110,10 +110,6 @@ public interface Zona extends Figura {
 
     void setYInicioColumna(double yInicioColumna);
 
-    int getFilas();
-
-    void setFilas(int filas);
-
     double getSaltoX();
 
     void setSaltoX(double saltoX);

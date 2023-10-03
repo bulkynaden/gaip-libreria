@@ -9,6 +9,7 @@ public class LocalidadImpl implements Localidad {
     private Zona zona;
     private Localidad siguienteLocalidad;
     private Boolean implicaSalto;
+    private Boolean implicaSaltoFila;
     private double x;
     private double y;
     private double altura;

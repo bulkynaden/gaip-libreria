@@ -24,7 +24,6 @@ public class ZonaImpl implements Zona {
     private double anchura;
     private double[] xInicioFilas;
     private double yInicioColumna;
-    private int filas;
     private double saltoX;
     private double saltoHuecoX;
     private double saltoY;
