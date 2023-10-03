@@ -17,7 +17,6 @@ import java.time.ZonedDateTime;
 @Data
 @NoArgsConstructor
 public class InvitadoImpl extends PersonaImpl implements Invitado {
-
     private String parentesco;
     private Invitacion invitacion;
     private LocalidadConfigurada localidad;
