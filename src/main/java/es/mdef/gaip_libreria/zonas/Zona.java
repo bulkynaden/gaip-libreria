@@ -1,6 +1,7 @@
 package es.mdef.gaip_libreria.zonas;
 
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
+import es.mdef.gaip_libreria.herramientas.Figura;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 
 import java.util.Set;
@@ -15,7 +16,7 @@ import java.util.Set;
  * Además, proporciona métodos para agregar y quitar localidades de la zona.
  * </p>
  */
-public interface Zona {
+public interface Zona extends Figura {
 
     /**
      * Obtiene el nombre de la zona.

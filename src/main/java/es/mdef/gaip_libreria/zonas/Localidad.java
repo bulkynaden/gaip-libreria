@@ -1,5 +1,7 @@
 package es.mdef.gaip_libreria.zonas;
 
+import es.mdef.gaip_libreria.herramientas.Figura;
+
 /**
  * Representa una localidad individual dentro de una {@link Zona}.
  * <p>
@@ -10,7 +12,7 @@ package es.mdef.gaip_libreria.zonas;
  * Las localidades son útiles para representar y gestionar asientos o puntos específicos dentro de una zona
  * </p>
  */
-public interface Localidad {
+public interface Localidad extends Figura {
 
     /**
      * Obtiene la localidad que sigue a esta localidad en la secuencia.

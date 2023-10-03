@@ -1,7 +1,6 @@
 package es.mdef.gaip_libreria.zonas;
 
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
-import es.mdef.gaip_libreria.herramientas.Figura;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,7 +11,7 @@ import java.util.Set;
 
 @Data
 @EqualsAndHashCode(of = {"nombre", "tipoDeZona", "numeroLocalidades"})
-public class ZonaImpl implements Zona, Figura {
+public class ZonaImpl implements Zona {
     private String nombre;
     private int numeroLocalidades;
     private Set<Localidad> localidades;
