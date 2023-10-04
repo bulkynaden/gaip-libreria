@@ -5,7 +5,10 @@ import es.mdef.gaip_libreria.zonas.Zona;
 
 import java.util.Set;
 
-public class ZonasManager {
+public final class ZonasManager {
+    private ZonasManager() {
+    }
+
     public static void asignarCoordenadas(Zona zona) {
         Set<Localidad> localidades = zona.getLocalidades();
         double[] inicioFilas = zona.getXInicioFilas();
