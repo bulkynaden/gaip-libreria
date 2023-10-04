@@ -1,6 +1,7 @@
 package es.mdef.gaip_libreria.actos;
 
 import es.mdef.gaip_libreria.constantes.EstadoActo;
+import es.mdef.gaip_libreria.constantes.EstadoLocalidad;
 import es.mdef.gaip_libreria.constantes.TipoDeActo;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.unidades.Instalacion;
@@ -185,5 +186,17 @@ public interface Acto {
             unidades.add(anfitrion.getUnidadDeFormacion());
         }
         return unidades.toArray(new String[0]);
+    }
+
+    default int getNumeroLocalidadesTotales() {
+        return getZonas().stream()
+                .mapToInt(ZonaConfigurada::getNumeroLocalidadesTotales)
+                .sum();
+    }
+
+    default int getNumeroLocalidadesPorEstado(EstadoLocalidad estado) {
+        return getZonas().stream()
+                .mapToInt(e -> e.getNumeroLocalidadesPorEstado(estado))
+                .sum();
     }
 }

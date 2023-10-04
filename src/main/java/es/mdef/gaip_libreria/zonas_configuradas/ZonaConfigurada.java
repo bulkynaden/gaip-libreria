@@ -1,6 +1,7 @@
 package es.mdef.gaip_libreria.zonas_configuradas;
 
 import es.mdef.gaip_libreria.actos.Acto;
+import es.mdef.gaip_libreria.constantes.EstadoLocalidad;
 import es.mdef.gaip_libreria.zonas.Zona;
 
 import java.util.Set;
@@ -100,4 +101,12 @@ public interface ZonaConfigurada {
      * @param localidad la localidad configurada a quitar.
      */
     void quitarLocalidad(LocalidadConfigurada localidad);
+
+    default int getNumeroLocalidadesTotales() {
+        return getLocalidades().size();
+    }
+
+    default int getNumeroLocalidadesPorEstado(EstadoLocalidad estado) {
+        return (int) getLocalidades().stream().filter(l -> l.getEstadoLocalidad() == estado).count();
+    }
 }
