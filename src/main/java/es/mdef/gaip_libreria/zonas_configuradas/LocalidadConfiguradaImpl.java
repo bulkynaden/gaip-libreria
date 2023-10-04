@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "estadoLocalidad")
 public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
-    private static final EstadoLocalidad ESTADO_LOCALIDAD_POR_DEFECTO = EstadoLocalidad.LIBRE;
+    private static final EstadoLocalidad ESTADO_LOCALIDAD_POR_DEFECTO = EstadoLocalidad.BLOQUEADA;
     private Invitado invitado;
     private Localidad localidad;
     private EstadoLocalidad estadoLocalidad;
