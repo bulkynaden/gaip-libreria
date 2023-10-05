@@ -37,10 +37,8 @@ public class ZonaImpl implements Zona {
     }
 
     public void setLocalidades(Set<Localidad> localidades) {
-        if (this.localidades != null) {
-            this.localidades.forEach(localidad -> localidad.setZona(null));
-            this.localidades.clear();
-        }
+        this.localidades.forEach(localidad -> localidad.setZona(null));
+        this.localidades.clear();
         if (localidades != null) {
             localidades.forEach(this::agregarLocalidad);
         }
@@ -62,6 +60,7 @@ public class ZonaImpl implements Zona {
     public void agregarLocalidad(Localidad localidad) {
         if (localidad != null) {
             localidades.add(localidad);
+            localidad.setZona(this);
         }
     }
 
