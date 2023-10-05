@@ -188,15 +188,38 @@ public interface Acto {
         return unidades.toArray(new String[0]);
     }
 
+    /**
+     * Calcula y devuelve el número total de localidades entre todas las zonas configuradas del acto.
+     *
+     * @return Número total de localidades.
+     */
     default int getNumeroLocalidadesTotales() {
         return getZonas().stream()
                 .mapToInt(ZonaConfigurada::getNumeroLocalidadesTotales)
                 .sum();
     }
 
+    /**
+     * Calcula y devuelve el número total de localidades entre todas las zonas configuradas del acto según el estado.
+     *
+     * @param estado filtro por estado de la localidad.
+     * @return Número total de localidades en ese estado.
+     */
     default int getNumeroLocalidadesPorEstado(EstadoLocalidad estado) {
         return getZonas().stream()
                 .mapToInt(e -> e.getNumeroLocalidadesPorEstado(estado))
                 .sum();
+    }
+
+    /**
+     * Obtiene un array de las unidades de formación únicas asociadas al acto basado en sus anfitriones.
+     *
+     * @return un array de {@link String}s con las unidades de formación únicas asociadas al acto.
+     */
+    default String[] getUnidadesDeFormacion() {
+        return getAnfitriones().stream()
+                .map(Anfitrion::getUnidadDeFormacion)
+                .distinct()
+                .toArray(String[]::new);
     }
 }
