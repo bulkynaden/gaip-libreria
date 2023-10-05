@@ -13,7 +13,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"nombre", "tipoDeZona", "numeroLocalidades"})
 @Data
 public class ZonaImpl implements Zona {
-    private Set<Localidad> localidades;
+    private final Set<Localidad> localidades;
     private String nombre;
     private int numeroLocalidades;
     private TipoDeZona tipoDeZona;
@@ -36,10 +36,31 @@ public class ZonaImpl implements Zona {
         }
     }
 
+    public void setLocalidades(Set<Localidad> localidades) {
+        this.localidades.forEach(localidad -> localidad.setZona(null));
+        this.localidades.clear();
+        if (localidades != null) {
+            localidades.forEach(this::agregarLocalidad);
+        }
+    }
+
+    public void setInstalacion(Instalacion instalacion) {
+        if (this.instalacion != instalacion) {
+            if (this.instalacion != null) {
+                this.instalacion.quitarZona(this);
+            }
+            this.instalacion = instalacion;
+            if (instalacion != null) {
+                instalacion.agregarZona(this);
+            }
+        }
+    }
+
     @Override
     public void agregarLocalidad(Localidad localidad) {
         if (localidad != null) {
             localidades.add(localidad);
+            localidad.setZona(this);
         }
     }
 
