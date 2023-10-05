@@ -21,9 +21,9 @@ public class PrioridadPorUnidadImpl implements PrioridadPorUnidad {
         if (this.zona != zona) {
             if (this.zona != null) {
                 this.zona.getPrioridades().remove(this);
+                zona.getPrioridades().add(this);
             }
             this.zona = zona;
-            zona.getPrioridades().add(this);
         }
     }
 }
