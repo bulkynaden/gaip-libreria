@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -116,7 +117,7 @@ public class ZonaConfiguradaImpl implements ZonaConfigurada {
         if (prioridad == null) {
             throw new IllegalArgumentException("La prioridad no puede ser nula.");
         }
-        if (!prioridades.contains(prioridad)) {
+        if (!prioridades.contains(prioridad) && prioridades.stream().noneMatch(e -> Objects.equals(e.getUnidad(), prioridad.getUnidad()))) {
             prioridades.add(prioridad);
             if (prioridad.getZona() != this) {
                 prioridad.setZona(this);
