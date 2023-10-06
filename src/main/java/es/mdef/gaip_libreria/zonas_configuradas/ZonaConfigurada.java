@@ -116,7 +116,7 @@ public interface ZonaConfigurada {
 
     default int getNumeroLocalidadesParaRepartir() {
         return (int) getLocalidades().stream()
-                .filter(l -> l.getEstadoLocalidad() == EstadoLocalidad.NORMAL || l.getEstadoOcupacionLocalidad() == EstadoOcupacionLocalidad.LIBRE)
+                .filter(l -> l.getEstadoLocalidad() == EstadoLocalidad.NORMAL && l.getEstadoOcupacionLocalidad() == EstadoOcupacionLocalidad.LIBRE)
                 .count();
     }
 }
