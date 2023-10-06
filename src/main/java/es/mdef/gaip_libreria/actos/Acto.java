@@ -1,7 +1,7 @@
 package es.mdef.gaip_libreria.actos;
 
 import es.mdef.gaip_libreria.constantes.EstadoActo;
-import es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad;
+import es.mdef.gaip_libreria.constantes.EstadoDeUnaLocalidad;
 import es.mdef.gaip_libreria.constantes.TipoDeActo;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.unidades.Instalacion;
@@ -205,7 +205,7 @@ public interface Acto {
      * @param estado filtro por estado de la localidad.
      * @return Número total de localidades en ese estado.
      */
-    default int getNumeroLocalidadesPorEstado(EstadoOcupacionLocalidad estado) {
+    default int getNumeroLocalidadesPorEstado(EstadoDeUnaLocalidad estado) {
         return getZonas().stream()
                 .mapToInt(e -> e.getNumeroLocalidadesPorEstado(estado))
                 .sum();
