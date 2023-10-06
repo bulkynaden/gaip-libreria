@@ -17,9 +17,13 @@ public class LocalidadImpl implements Localidad {
 
     public void setZona(Zona zona) {
         if (this.zona != zona) {
-            this.zona.quitarLocalidad(this);
+            if (this.zona != null) {
+                this.zona.quitarLocalidad(this);
+            }
             this.zona = zona;
-            zona.agregarLocalidad(this);
+            if (zona != null) {
+                zona.agregarLocalidad(this);
+            }
         }
     }
 }
