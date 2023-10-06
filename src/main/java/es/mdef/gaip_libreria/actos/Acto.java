@@ -3,6 +3,7 @@ package es.mdef.gaip_libreria.actos;
 import es.mdef.gaip_libreria.constantes.EstadoActo;
 import es.mdef.gaip_libreria.constantes.EstadoDeUnaLocalidad;
 import es.mdef.gaip_libreria.constantes.TipoDeActo;
+import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
@@ -209,6 +210,19 @@ public interface Acto {
         return getZonas().stream()
                 .mapToInt(e -> e.getNumeroLocalidadesPorEstado(estado))
                 .sum();
+    }
+
+    default int getNumeroLocalidadesPorEstadoYTipoDeZona(TipoDeZona tipo, EstadoDeUnaLocalidad estado) {
+        return getZonas().stream().filter(e -> e.getZona().getTipoDeZona() == tipo).mapToInt(e -> e.getNumeroLocalidadesPorEstado(estado))
+                .sum();
+    }
+
+    default int getNumeroLocalidadesParaRepartir() {
+        return getZonas().stream().mapToInt(e -> e.getNumeroLocalidadesParaRepartir()).sum();
+    }
+
+    default int getNumeroLocalidadesParaRepartirPorTipoDeZOna(TipoDeZona tipo) {
+        return getZonas().stream().filter(e -> e.getZona().getTipoDeZona() == tipo).mapToInt(e -> e.getNumeroLocalidadesParaRepartir()).sum();
     }
 
     /**

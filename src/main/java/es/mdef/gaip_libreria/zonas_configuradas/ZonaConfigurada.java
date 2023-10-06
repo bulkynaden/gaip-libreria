@@ -2,6 +2,8 @@ package es.mdef.gaip_libreria.zonas_configuradas;
 
 import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.constantes.EstadoDeUnaLocalidad;
+import es.mdef.gaip_libreria.constantes.EstadoLocalidad;
+import es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad;
 import es.mdef.gaip_libreria.zonas.Zona;
 
 import java.util.Set;
@@ -109,6 +111,12 @@ public interface ZonaConfigurada {
     default int getNumeroLocalidadesPorEstado(EstadoDeUnaLocalidad estado) {
         return (int) getLocalidades().stream()
                 .filter(l -> l.getEstadoLocalidad() == estado || l.getEstadoOcupacionLocalidad() == estado)
+                .count();
+    }
+
+    default int getNumeroLocalidadesParaRepartir() {
+        return (int) getLocalidades().stream()
+                .filter(l -> l.getEstadoLocalidad() == EstadoLocalidad.NORMAL || l.getEstadoOcupacionLocalidad() == EstadoOcupacionLocalidad.LIBRE)
                 .count();
     }
 }
