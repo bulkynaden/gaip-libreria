@@ -14,4 +14,12 @@ public class LocalidadImpl implements Localidad {
     private double y;
     private double altura;
     private double anchura;
+
+    public void setZona(Zona zona) {
+        if (this.zona != zona) {
+            this.zona.quitarLocalidad(this);
+            this.zona = zona;
+            zona.agregarLocalidad(this);
+        }
+    }
 }
