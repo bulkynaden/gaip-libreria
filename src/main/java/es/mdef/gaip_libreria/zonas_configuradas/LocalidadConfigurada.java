@@ -1,6 +1,7 @@
 package es.mdef.gaip_libreria.zonas_configuradas;
 
 import es.mdef.gaip_libreria.constantes.EstadoLocalidad;
+import es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.zonas.Localidad;
 
@@ -72,4 +73,13 @@ public interface LocalidadConfigurada {
      * @param estadoLocalidad el estado de la localidad a establecer.
      */
     void setEstadoLocalidad(EstadoLocalidad estadoLocalidad);
+
+    /**
+     * Obtiene el {@link EstadoOcupacionLocalidad} de esta localidad configurada.
+     *
+     * @return el estado de ocupación la localidad.
+     */
+    default EstadoOcupacionLocalidad getEstadoOcupacionLocalidad() {
+        return getInvitado() == null ? EstadoOcupacionLocalidad.LIBRE : EstadoOcupacionLocalidad.OCUPADA;
+    }
 }

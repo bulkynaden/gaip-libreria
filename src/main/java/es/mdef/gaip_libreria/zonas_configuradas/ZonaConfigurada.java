@@ -1,7 +1,9 @@
 package es.mdef.gaip_libreria.zonas_configuradas;
 
 import es.mdef.gaip_libreria.actos.Acto;
-import es.mdef.gaip_libreria.constantes.EstadoLocalidad;
+import es.mdef.gaip_libreria.constantes.EstadoDeUnaLocalidad;
+import es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad;
+import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import es.mdef.gaip_libreria.zonas.Zona;
 
 import java.util.Set;
@@ -106,7 +108,18 @@ public interface ZonaConfigurada {
         return getLocalidades().size();
     }
 
-    default int getNumeroLocalidadesPorEstado(EstadoLocalidad estado) {
-        return (int) getLocalidades().stream().filter(l -> l.getEstadoLocalidad() == estado).count();
+    default int getNumeroLocalidadesPorEstado(EstadoDeUnaLocalidad estado) {
+        int numeroDeLocalidades;
+        if (getZona().getTipoDeZona() == TipoDeZona.TRIBUNA) {
+            numeroDeLocalidades = (int) getLocalidades().stream().filter(l -> l.getEstadoLocalidad() == estado).count();
+        } else {
+            int localidadesOcupadas = (int) getLocalidades().stream().filter(l -> l.getEstadoOcupacionLocalidad() == EstadoOcupacionLocalidad.OCUPADA).count();
+            if (estado == EstadoOcupacionLocalidad.LIBRE) {
+                numeroDeLocalidades = getZona().getNumeroLocalidades() - localidadesOcupadas;
+            } else {
+                numeroDeLocalidades = (int) getLocalidades().stream().filter(l -> l.getEstadoLocalidad() == estado).count();
+            }
+        }
+        return numeroDeLocalidades;
     }
 }

@@ -1,5 +1,5 @@
 package es.mdef.gaip_libreria.constantes;
 
-public enum EstadoLocalidad {
-    LIBRE, OCUPADA, RESERVADA, BLOQUEADA
+public enum EstadoLocalidad implements EstadoDeUnaLocalidad {
+    NORMAL, RESERVADA, BLOQUEADA
 }
