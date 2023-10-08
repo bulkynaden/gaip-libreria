@@ -18,6 +18,10 @@ public final class InvitacionesManager {
         int cantidadLocalidadesParaGenerica = acto.getNumeroLocalidadesParaRepartirPorTipoDeZOna(TipoDeZona.GENERICA);
         int numeroAnfitriones = acto.getAnfitriones().size();
 
+        if (numeroAnfitriones == 0) {
+            return new HashMap<>();
+        }
+
         int baseTribuna = cantidadLocalidadesParaTribuna / numeroAnfitriones;
         int remanenteTribuna = cantidadLocalidadesParaTribuna % numeroAnfitriones;
 
