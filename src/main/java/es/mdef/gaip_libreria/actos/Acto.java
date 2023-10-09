@@ -9,7 +9,6 @@ import es.mdef.gaip_libreria.unidades.Instalacion;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 
 import java.time.ZonedDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -177,19 +176,6 @@ public interface Acto {
     void quitarZonaConfigurada(ZonaConfigurada zona);
 
     /**
-     * Obtiene el array de unidades de formación asociadas al acto.
-     *
-     * @return un array de {@link String}s con las unidades de formación asociadas al acto.
-     */
-    default String[] getUnidades() {
-        Set<String> unidades = new HashSet<>();
-        for (Anfitrion anfitrion : getAnfitriones()) {
-            unidades.add(anfitrion.getUnidadDeFormacion());
-        }
-        return unidades.toArray(new String[0]);
-    }
-
-    /**
      * Calcula y devuelve el número total de localidades entre todas las zonas configuradas del acto.
      *
      * @return Número total de localidades.
@@ -218,7 +204,7 @@ public interface Acto {
     }
 
     default int getNumeroLocalidadesParaRepartir() {
-        return getZonas().stream().mapToInt(ZonaConfigurada::getNumeroLocalidadesParaRepartir).sum();
+        return getZonas().stream().mapToInt(e -> e.getNumeroLocalidadesParaRepartir()).sum();
     }
 
     default int getNumeroLocalidadesParaRepartirPorTipoDeZOna(TipoDeZona tipo) {
