@@ -48,11 +48,11 @@ public final class InvitacionesManager {
      * @param asignaciones Las asignaciones personalizadas por unidad de formación.
      * @return Un mapa con la distribución de localidades por unidad de formación.
      */
-    public static Map<String, List<Reparticion>> calcularRepartoPersonalizado(Acto acto, HashMap<String, Map<String, Integer>> asignaciones) {
+    public static Map<String, List<Reparticion>> calcularRepartoPersonalizado(Acto acto, HashMap<String, Reparticion> asignaciones) {
         Map<String, List<Reparticion>> reparticionesPorUnidad = new HashMap<>();
         Map<String, Integer> totalAnfitrionesPorUnidad = obtenerTotalAnfitrionesPorUnidad(acto);
 
-        for (Map.Entry<String, Map<String, Integer>> entry : asignaciones.entrySet()) {
+        for (Map.Entry<String, Reparticion> entry : asignaciones.entrySet()) {
             String unidad = entry.getKey();
             validarUnidadConAnfitriones(unidad, totalAnfitrionesPorUnidad);
 
@@ -90,18 +90,18 @@ public final class InvitacionesManager {
         }
     }
 
-    private static void distribuirInvitacionesPersonalizadas(Map.Entry<String, Map<String, Integer>> entry, Map<String, Integer> totalAnfitrionesPorUnidad, Map<String, List<Reparticion>> reparticionesPorUnidad) {
+    private static void distribuirInvitacionesPersonalizadas(Map.Entry<String, Reparticion> entry, Map<String, Integer> totalAnfitrionesPorUnidad, Map<String, List<Reparticion>> reparticionesPorUnidad) {
         String unidad = entry.getKey();
-        Map<String, Integer> asignacionUnidad = entry.getValue();
+        Reparticion asignacionUnidad = entry.getValue();
 
         int totalAnfitriones = totalAnfitrionesPorUnidad.get(unidad);
-        distribuirInvitacionPersonalizada("invitacionesTribuna", asignacionUnidad, totalAnfitriones, reparticionesPorUnidad, unidad);
-        distribuirInvitacionPersonalizada("invitacionesGenerica", asignacionUnidad, totalAnfitriones, reparticionesPorUnidad, unidad);
+        distribuirInvitacionPersonalizada(asignacionUnidad.getInvitacionesTribuna(), totalAnfitriones, reparticionesPorUnidad, unidad, true);
+        distribuirInvitacionPersonalizada(asignacionUnidad.getInvitacionesGenerica(), totalAnfitriones, reparticionesPorUnidad, unidad, false);
     }
 
-    private static void distribuirInvitacionPersonalizada(String tipoInvitacion, Map<String, Integer> asignacionUnidad, int totalAnfitriones, Map<String, List<Reparticion>> reparticionesPorUnidad, String unidad) {
-        int base = asignacionUnidad.getOrDefault(tipoInvitacion, 0) / totalAnfitriones;
-        int remanente = asignacionUnidad.getOrDefault(tipoInvitacion, 0) % totalAnfitriones;
+    private static void distribuirInvitacionPersonalizada(int cantidadInvitaciones, int totalAnfitriones, Map<String, List<Reparticion>> reparticionesPorUnidad, String unidad, boolean esTribuna) {
+        int base = cantidadInvitaciones / totalAnfitriones;
+        int remanente = cantidadInvitaciones % totalAnfitriones;
 
         List<Reparticion> reparticiones = new ArrayList<>();
         for (int i = 0; i < totalAnfitriones; i++) {
@@ -112,7 +112,7 @@ public final class InvitacionesManager {
             }
 
             Reparticion reparticion;
-            if (tipoInvitacion.equals("invitacionesTribuna")) {
+            if (esTribuna) {
                 reparticion = new Reparticion(cantidadParaAnfitrion, 0);
             } else {
                 reparticion = new Reparticion(0, cantidadParaAnfitrion);
