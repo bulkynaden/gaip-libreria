@@ -20,6 +20,7 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
     private String parentesco;
     private Invitacion invitacion;
     private LocalidadConfigurada localidad;
+    private Coche coche;
 
     /**
      * Constructor con parámetros para inicializar un invitado con sus propiedades básicas.
@@ -33,10 +34,12 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
      * @param email           Email del invitado.
      * @param telefono        Teléfono del invitado.
      * @param parentesco      Parentesco del invitado con el anfitrión.
+     * @param coche           Coche asociado al invitado.
      */
-    public InvitadoImpl(String nombre, String primerApellido, String segundoApellido, String dni, Sexo sexo, ZonedDateTime fechaNacimiento, String email, String telefono, String parentesco) {
+    public InvitadoImpl(String nombre, String primerApellido, String segundoApellido, String dni, Sexo sexo, ZonedDateTime fechaNacimiento, String email, String telefono, String parentesco, Coche coche) {
         super(nombre, primerApellido, segundoApellido, dni, sexo, fechaNacimiento, email, telefono);
         this.parentesco = parentesco;
+        this.coche = coche;
     }
 
     /**
