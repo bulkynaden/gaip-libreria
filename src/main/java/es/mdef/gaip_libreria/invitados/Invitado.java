@@ -53,4 +53,8 @@ public interface Invitado extends Persona {
      * @param localidad la {@link LocalidadConfigurada} a asignar al invitado.
      */
     void setLocalidad(LocalidadConfigurada localidad);
+
+    Coche getCoche();
+
+    void setCoche(Coche coche);
 }

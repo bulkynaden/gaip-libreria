@@ -12,4 +12,8 @@ public interface InvitadoFcse extends PersonaFcse {
     boolean getEntregaNombramiento();
 
     void setEntregaNombramiento(boolean entregaNombramiento);
+
+    Empleo getEmpleo();
+
+    void setEmpleo(Empleo empleo);
 }

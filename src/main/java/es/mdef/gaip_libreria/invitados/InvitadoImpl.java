@@ -39,7 +39,7 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
     public InvitadoImpl(String nombre, String primerApellido, String segundoApellido, String dni, Sexo sexo, ZonedDateTime fechaNacimiento, String email, String telefono, String parentesco, Coche coche) {
         super(nombre, primerApellido, segundoApellido, dni, sexo, fechaNacimiento, email, telefono);
         this.parentesco = parentesco;
-        this.coche = coche;
+        setCoche(coche);
     }
 
     /**
@@ -76,6 +76,19 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
                 this.localidad.getInvitado().setLocalidad(null);
             }
             this.localidad = localidad;
+            if (this.localidad != null) {
+                this.localidad.setInvitado(this);
+            }
+        }
+    }
+
+    public void setCoche(Coche coche) {
+        if (this.coche != coche) {
+            if (this.coche != null && this.coche.getInvitado() != null) {
+                this.coche.getInvitado().setCoche(null);
+            }
+            this.coche = coche;
+            this.coche.setInvitado(this);
         }
     }
 }
