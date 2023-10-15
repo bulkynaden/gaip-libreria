@@ -95,11 +95,22 @@ public final class InvitacionesManager {
         Reparticion asignacionUnidad = entry.getValue();
 
         int totalAnfitriones = totalAnfitrionesPorUnidad.get(unidad);
-        distribuirInvitacionPersonalizada(asignacionUnidad.getInvitacionesTribuna(), totalAnfitriones, reparticionesPorUnidad, unidad, true);
-        distribuirInvitacionPersonalizada(asignacionUnidad.getInvitacionesGenerica(), totalAnfitriones, reparticionesPorUnidad, unidad, false);
+
+        List<Reparticion> reparticionesTribuna = distribuirInvitacionPersonalizada(asignacionUnidad.getInvitacionesTribuna(), totalAnfitriones, true);
+        List<Reparticion> reparticionesGenerica = distribuirInvitacionPersonalizada(asignacionUnidad.getInvitacionesGenerica(), totalAnfitriones, false);
+
+        List<Reparticion> combinedReparticiones = new ArrayList<>();
+
+        for (int i = 0; i < totalAnfitriones; i++) {
+            int tribuna = (i < reparticionesTribuna.size()) ? reparticionesTribuna.get(i).getInvitacionesTribuna() : 0;
+            int generica = (i < reparticionesGenerica.size()) ? reparticionesGenerica.get(i).getInvitacionesGenerica() : 0;
+            combinedReparticiones.add(new Reparticion(tribuna, generica));
+        }
+
+        reparticionesPorUnidad.put(unidad, combinedReparticiones);
     }
 
-    private static void distribuirInvitacionPersonalizada(int cantidadInvitaciones, int totalAnfitriones, Map<String, List<Reparticion>> reparticionesPorUnidad, String unidad, boolean esTribuna) {
+    private static List<Reparticion> distribuirInvitacionPersonalizada(int cantidadInvitaciones, int totalAnfitriones, boolean esTribuna) {
         int base = cantidadInvitaciones / totalAnfitriones;
         int remanente = cantidadInvitaciones % totalAnfitriones;
 
@@ -120,7 +131,7 @@ public final class InvitacionesManager {
             reparticiones.add(reparticion);
         }
 
-        reparticionesPorUnidad.put(unidad, reparticiones);
+        return reparticiones;
     }
 
     private static Map<String, Integer> obtenerTotalAnfitrionesPorUnidad(Acto acto) {
