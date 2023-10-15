@@ -207,7 +207,7 @@ public interface Acto {
         return getZonas().stream().mapToInt(e -> e.getNumeroLocalidadesParaRepartir()).sum();
     }
 
-    default int getNumeroLocalidadesParaRepartirPorTipoDeZOna(TipoDeZona tipo) {
+    default int getNumeroLocalidadesParaRepartirPorTipoDeZona(TipoDeZona tipo) {
         return getZonas().stream().filter(e -> e.getZona().getTipoDeZona() == tipo).mapToInt(e -> e.getNumeroLocalidadesParaRepartir()).sum();
     }
 

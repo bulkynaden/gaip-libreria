@@ -1,5 +1,6 @@
 package es.mdef.gaip_libreria.utilidades;
 
+import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Reparticion {
-    private int invitacionesTribuna;
-    private int invitacionesGenerica;
+    private TipoDeZona tipoDeZona;
+    private int numeroDeInvitaciones;
 }
