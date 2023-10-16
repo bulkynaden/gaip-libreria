@@ -25,7 +25,7 @@ public final class InvitacionesManager {
      * @param acto El acto del cual se quieren repartir las localidades.
      * @return Un mapa con la distribución de localidades por unidad de formación.
      */
-    public Map<String, List<List<Reparticion>>> calcularReparto(Acto acto) {
+    public static Map<String, List<List<Reparticion>>> calcularReparto(Acto acto) {
         Map<String, List<List<Reparticion>>> distribucionPorUnidad = new HashMap<>();
 
         for (TipoDeZona tipo : TipoDeZona.values()) {
