@@ -79,4 +79,44 @@ public final class InvitacionesManager {
         }
         return distribucionPorUnidad;
     }
+
+    public static Map<String, List<Reparticion>> calcularRepartoPersonalizado(Acto acto, Map<String, List<Reparticion>> distribucionPersonalizada) {
+        Map<String, List<Reparticion>> distribucionPorUnidad = new HashMap<>();
+
+        for (TipoDeZona tipo : TipoDeZona.values()) {
+            int totalSolicitado = distribucionPersonalizada.values().stream()
+                    .flatMapToInt(list -> list.stream()
+                            .filter(rep -> rep.getTipoDeZona() == tipo)
+                            .mapToInt(Reparticion::getNumeroDeInvitaciones))
+                    .sum();
+
+            int totalDisponible = acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(tipo);
+            if (totalSolicitado > totalDisponible) {
+                throw new IllegalArgumentException("La cantidad solicitada para el tipo de zona " + tipo + " excede el límite disponible.");
+            }
+        }
+        
+        for (TipoDeZona tipo : TipoDeZona.values()) {
+            for (String unidad : acto.getUnidadesDeFormacion()) {
+                int totalInvitacionesZona = distribucionPersonalizada.get(unidad).stream()
+                        .filter(r -> r.getTipoDeZona() == tipo)
+                        .mapToInt(Reparticion::getNumeroDeInvitaciones)
+                        .sum();
+
+                List<Anfitrion> anfitrionesUnidad = acto.getAnfitriones().stream()
+                        .filter(a -> unidad.equals(a.getUnidadDeFormacion()))
+                        .toList();
+
+                int basePorAnfitrion = totalInvitacionesZona / anfitrionesUnidad.size();
+                int sobraPorAnfitrion = totalInvitacionesZona % anfitrionesUnidad.size();
+
+                for (int i = 0; i < anfitrionesUnidad.size(); i++) {
+                    int invitacionesFinal = (i < sobraPorAnfitrion) ? (basePorAnfitrion + 1) : basePorAnfitrion;
+                    distribucionPorUnidad.computeIfAbsent(unidad, k -> new ArrayList<>())
+                            .add(new Reparticion(tipo, invitacionesFinal));
+                }
+            }
+        }
+        return distribucionPorUnidad;
+    }
 }
