@@ -4,10 +4,8 @@ import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Gestiona el proceso de distribución de invitaciones para un acto específico.
@@ -27,158 +25,54 @@ public final class InvitacionesManager {
      * @param acto El acto del cual se quieren repartir las localidades.
      * @return Un mapa con la distribución de localidades por unidad de formación.
      */
-    public static Map<String, List<List<Reparticion>>> calcularReparto(Acto acto) {
-        Map<String, List<List<Reparticion>>> reparticionesPorUnidad = new HashMap<>();
+    public Map<String, List<List<Reparticion>>> calcularReparto(Acto acto) {
+        Map<String, List<List<Reparticion>>> distribucionPorUnidad = new HashMap<>();
 
-        int numeroAnfitriones = acto.getAnfitriones().size();
-        if (numeroAnfitriones == 0) {
-            return reparticionesPorUnidad;
-        }
-
-        distribuirInvitaciones(acto, reparticionesPorUnidad);
-
-        return reparticionesPorUnidad;
-    }
-
-    /**
-     * Calcula el reparto de localidades entre anfitriones de un acto basándose en una asignación personalizada.
-     *
-     * @param acto         El acto del cual se quieren repartir las localidades.
-     * @param asignaciones Las asignaciones personalizadas por unidad de formación.
-     * @return Un mapa con la distribución de localidades por unidad de formación.
-     */
-    public static Map<String, List<List<Reparticion>>> calcularRepartoPersonalizado(Acto acto, Map<String, Reparticion> asignaciones) {
-        Map<String, List<List<Reparticion>>> reparticionesPorUnidad = new HashMap<>();
-        Map<String, Integer> totalAnfitrionesPorUnidad = obtenerTotalAnfitrionesPorUnidad(acto);
-
-        for (Map.Entry<String, Reparticion> entry : asignaciones.entrySet()) {
-            String unidad = entry.getKey();
-            validarUnidadConAnfitriones(unidad, totalAnfitrionesPorUnidad);
-
-            distribuirInvitacionesPersonalizadas(entry, totalAnfitrionesPorUnidad, reparticionesPorUnidad);
-        }
-
-        return reparticionesPorUnidad;
-    }
-
-    private static void distribuirInvitacionesPersonalizadas(Map.Entry<String, Reparticion> entry, Map<String, Integer> totalAnfitrionesPorUnidad, Map<String, List<List<Reparticion>>> reparticionesPorUnidad) {
-        String unidad = entry.getKey();
-        Reparticion asignacionUnidad = entry.getValue();
-        int totalAnfitriones = totalAnfitrionesPorUnidad.get(unidad);
-
-        for (var tipo : TipoDeZona.values()) {
-            List<Reparticion> reparticionesPorTipo = distribuirInvitacionPersonalizada(asignacionUnidad.getNumeroDeInvitaciones(), totalAnfitriones, tipo);
-            List<Reparticion> repartosAnfitrion = obtenerOCrearRepartoAnfitrion(unidad, tipo, reparticionesPorUnidad);
-            repartosAnfitrion.addAll(reparticionesPorTipo);
-        }
-    }
-
-    private static List<Reparticion> distribuirInvitacionPersonalizada(int cantidadInvitaciones, int totalAnfitriones, TipoDeZona tipo) {
-        int base = cantidadInvitaciones / totalAnfitriones;
-        int remanente = cantidadInvitaciones % totalAnfitriones;
-
-        List<Reparticion> reparticiones = new ArrayList<>();
-        for (int i = 0; i < totalAnfitriones; i++) {
-            int cantidadParaAnfitrion = base;
-            if (remanente > 0) {
-                cantidadParaAnfitrion++;
-                remanente--;
-            }
-
-            Reparticion reparticion = new Reparticion(tipo, cantidadParaAnfitrion);
-            reparticiones.add(reparticion);
-        }
-
-        return reparticiones;
-    }
-
-    private static void distribuirInvitaciones(Acto acto, Map<String, List<List<Reparticion>>> reparticionesPorUnidad) {
         for (TipoDeZona tipo : TipoDeZona.values()) {
-            int cantidadLocalidades = acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(tipo);
-            int numeroAnfitriones = acto.getAnfitriones().size();
+            int totalInvitacionesZona = acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(tipo);
 
-            int base = cantidadLocalidades / numeroAnfitriones;
-            int remanente = cantidadLocalidades % numeroAnfitriones;
+            for (String unidad : acto.getUnidadesDeFormacion()) {
+                Set<Anfitrion> anfitrionesUnidad = acto.getAnfitriones().stream()
+                        .filter(a -> unidad.equals(a.getUnidadDeFormacion()))
+                        .collect(Collectors.toSet());
 
-            for (Anfitrion anfitrion : acto.getAnfitriones()) {
-                String unidad = anfitrion.getUnidadDeFormacion();
-                int cantidadParaAnfitrion = base;
+                int totalAnfitriones = anfitrionesUnidad.size();
+                int invitacionesPorAnfitrion = totalInvitacionesZona / totalAnfitriones;
+                int sobrantes = totalInvitacionesZona % totalAnfitriones;
 
-                if (remanente > 0) {
-                    cantidadParaAnfitrion++;
-                    remanente--;
+                List<List<Reparticion>> repartosPorAnfitriones = distribucionPorUnidad.getOrDefault(unidad, new ArrayList<>());
+                for (Anfitrion anfitrion : anfitrionesUnidad) {
+                    List<Reparticion> reparticionAnfitrion = new ArrayList<>();
+                    reparticionAnfitrion.add(new Reparticion(tipo, invitacionesPorAnfitrion));
+                    repartosPorAnfitriones.add(reparticionAnfitrion);
                 }
+                distribucionPorUnidad.put(unidad, repartosPorAnfitriones);
 
-                reparticionesPorUnidad.putIfAbsent(unidad, new ArrayList<>());
-
-                List<Reparticion> repartosAnfitrion = reparticionesPorUnidad.get(unidad).stream()
-                        .filter(lista -> lista.stream().anyMatch(reparticion -> reparticion.getTipoDeZona() == tipo))
-                        .findFirst()
-                        .orElseGet(() -> {
-                            List<Reparticion> nuevaLista = new ArrayList<>();
-                            reparticionesPorUnidad.get(unidad).add(nuevaLista);
-                            return nuevaLista;
-                        });
-
-                Reparticion reparticionActual = repartosAnfitrion.stream()
-                        .filter(reparticion -> reparticion.getTipoDeZona() == tipo)
-                        .findFirst()
-                        .orElseGet(() -> {
-                            Reparticion nuevaReparticion = new Reparticion(tipo, 0);
-                            repartosAnfitrion.add(nuevaReparticion);
-                            return nuevaReparticion;
-                        });
-
-                reparticionActual.setNumeroDeInvitaciones(reparticionActual.getNumeroDeInvitaciones() + cantidadParaAnfitrion);
+                while (sobrantes > 0) {
+                    for (List<Reparticion> reparticionAnfitrion : repartosPorAnfitriones) {
+                        for (Reparticion r : reparticionAnfitrion) {
+                            if (r.getTipoDeZona() == tipo) {
+                                r.setNumeroDeInvitaciones(r.getNumeroDeInvitaciones() + 1);
+                                sobrantes--;
+                                if (sobrantes == 0) break;
+                            }
+                        }
+                        if (sobrantes == 0) break;
+                    }
+                }
             }
         }
-    }
 
-    private static List<Reparticion> distribuirInvitacionPersonalizada(int cantidadInvitaciones, int totalAnfitriones) {
-        int base = cantidadInvitaciones / totalAnfitriones;
-        int remanente = cantidadInvitaciones % totalAnfitriones;
-
-        List<Reparticion> reparticiones = new ArrayList<>();
-        for (int i = 0; i < totalAnfitriones; i++) {
-            int cantidadParaAnfitrion = base;
-            if (remanente > 0) {
-                cantidadParaAnfitrion++;
-                remanente--;
+        for (List<List<Reparticion>> repartosPorAnfitriones : distribucionPorUnidad.values()) {
+            for (List<Reparticion> reparticionAnfitrion : repartosPorAnfitriones) {
+                for (TipoDeZona tipo : TipoDeZona.values()) {
+                    if (reparticionAnfitrion.stream().noneMatch(r -> r.getTipoDeZona() == tipo)) {
+                        reparticionAnfitrion.add(new Reparticion(tipo, 0));
+                    }
+                }
             }
-
-            Reparticion reparticion = new Reparticion();
-            reparticion.setNumeroDeInvitaciones(cantidadParaAnfitrion);
-            reparticion.setTipoDeZona(null);
-            reparticiones.add(reparticion);
         }
 
-        return reparticiones;
-    }
-
-    private static Map<String, Integer> obtenerTotalAnfitrionesPorUnidad(Acto acto) {
-        Map<String, Integer> totalAnfitrionesPorUnidad = new HashMap<>();
-        for (Anfitrion anfitrion : acto.getAnfitriones()) {
-            totalAnfitrionesPorUnidad.put(anfitrion.getUnidadDeFormacion(), totalAnfitrionesPorUnidad.getOrDefault(anfitrion.getUnidadDeFormacion(), 0) + 1);
-        }
-        return totalAnfitrionesPorUnidad;
-    }
-
-    private static void validarUnidadConAnfitriones(String unidad, Map<String, Integer> totalAnfitrionesPorUnidad) {
-        if (!totalAnfitrionesPorUnidad.containsKey(unidad)) {
-            throw new IllegalArgumentException("La unidad " + unidad + " no tiene anfitriones asignados.");
-        }
-    }
-
-    private static List<Reparticion> obtenerOCrearRepartoAnfitrion(String unidad, TipoDeZona tipo, Map<String, List<List<Reparticion>>> reparticionesPorUnidad) {
-        reparticionesPorUnidad.putIfAbsent(unidad, new ArrayList<>());
-
-        return reparticionesPorUnidad.get(unidad).stream()
-                .filter(lista -> lista.stream().anyMatch(reparticion -> reparticion.getTipoDeZona() == tipo))
-                .findFirst()
-                .orElseGet(() -> {
-                    List<Reparticion> nuevaLista = new ArrayList<>();
-                    reparticionesPorUnidad.get(unidad).add(nuevaLista);
-                    return nuevaLista;
-                });
+        return distribucionPorUnidad;
     }
 }
