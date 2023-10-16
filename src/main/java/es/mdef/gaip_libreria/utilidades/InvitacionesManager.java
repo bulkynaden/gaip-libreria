@@ -42,12 +42,17 @@ public final class InvitacionesManager {
             for (TipoDeZona tipo : TipoDeZona.values()) {
                 int totalInvitacionesZona = acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(tipo);
                 int invitacionesUnidad = (totalInvitacionesZona * anfitrionesUnidad.size()) / totalAnfitriones;
+
                 int invitacionesPorAnfitrion = invitacionesUnidad / anfitrionesUnidad.size();
                 int sobras = invitacionesUnidad % anfitrionesUnidad.size();
 
                 for (int i = 0; i < anfitrionesUnidad.size(); i++) {
-                    int invitaciones = (i < sobras) ? (invitacionesPorAnfitrion + 1) : invitacionesPorAnfitrion;
-                    reparticionesUnidad.add(new Reparticion(tipo, invitaciones));
+                    int invitacionesFinal = invitacionesPorAnfitrion;
+                    if (sobras > 0) {
+                        invitacionesFinal += 1;
+                        sobras--;
+                    }
+                    reparticionesUnidad.add(new Reparticion(tipo, invitacionesFinal));
                 }
             }
 
