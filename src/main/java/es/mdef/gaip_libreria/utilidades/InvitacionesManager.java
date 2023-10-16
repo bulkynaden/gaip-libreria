@@ -27,8 +27,8 @@ public final class InvitacionesManager {
      * @param acto El acto del cual se quieren repartir las localidades.
      * @return Un mapa con la distribución de localidades por unidad de formación.
      */
-    public static Map<String, List<List<Reparticion>>> calcularReparto(Acto acto) {
-        Map<String, List<List<Reparticion>>> distribucionPorUnidad = new HashMap<>();
+    public static Map<String, List<Reparticion>> calcularReparto(Acto acto) {
+        Map<String, List<Reparticion>> distribucionPorUnidad = new HashMap<>();
 
         int totalAnfitriones = acto.getAnfitriones().size();
 
@@ -37,18 +37,21 @@ public final class InvitacionesManager {
                     .filter(a -> unidad.equals(a.getUnidadDeFormacion()))
                     .toList();
 
+            List<Reparticion> reparticionesUnidad = new ArrayList<>();
+
             for (TipoDeZona tipo : TipoDeZona.values()) {
                 int totalInvitacionesZona = acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(tipo);
                 int invitacionesUnidad = (totalInvitacionesZona * anfitrionesUnidad.size()) / totalAnfitriones;
                 int invitacionesPorAnfitrion = invitacionesUnidad / anfitrionesUnidad.size();
+                int sobras = invitacionesUnidad % anfitrionesUnidad.size();
 
-                for (Anfitrion anfitrion : anfitrionesUnidad) {
-                    List<Reparticion> reparticionesPorAnfitrion = new ArrayList<>();
-                    reparticionesPorAnfitrion.add(new Reparticion(tipo, invitacionesPorAnfitrion));
-
-                    distribucionPorUnidad.computeIfAbsent(unidad, k -> new ArrayList<>()).add(reparticionesPorAnfitrion);
+                for (int i = 0; i < anfitrionesUnidad.size(); i++) {
+                    int invitaciones = (i < sobras) ? (invitacionesPorAnfitrion + 1) : invitacionesPorAnfitrion;
+                    reparticionesUnidad.add(new Reparticion(tipo, invitaciones));
                 }
             }
+
+            distribucionPorUnidad.put(unidad, reparticionesUnidad);
         }
 
         return distribucionPorUnidad;
