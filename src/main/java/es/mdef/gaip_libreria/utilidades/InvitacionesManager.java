@@ -28,32 +28,29 @@ public final class InvitacionesManager {
      * @return Un mapa con la distribución de localidades por unidad de formación.
      */
     public static Map<String, List<List<Reparticion>>> calcularReparto(Acto acto) {
-        Map<String, List<List<Reparticion>>> distribucionPorAnfitrion = new HashMap<>();
+        Map<String, List<List<Reparticion>>> distribucionPorUnidad = new HashMap<>();
+
+        int totalAnfitriones = acto.getAnfitriones().size();
 
         for (String unidad : acto.getUnidadesDeFormacion()) {
             List<Anfitrion> anfitrionesUnidad = acto.getAnfitriones().stream()
                     .filter(a -> unidad.equals(a.getUnidadDeFormacion()))
                     .toList();
 
-            for (Anfitrion anfitrion : anfitrionesUnidad) {
-                List<Reparticion> reparticionesPorAnfitrion = new ArrayList<>();
-                for (TipoDeZona tipo : TipoDeZona.values()) {
-                    int totalInvitacionesZona = acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(tipo);
-                    int totalAnfitriones = anfitrionesUnidad.size();
-                    int invitacionesPorAnfitrion = totalInvitacionesZona / totalAnfitriones;
-                    int sobrantes = totalInvitacionesZona % totalAnfitriones;
+            for (TipoDeZona tipo : TipoDeZona.values()) {
+                int totalInvitacionesZona = acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(tipo);
+                int invitacionesUnidad = (totalInvitacionesZona * anfitrionesUnidad.size()) / totalAnfitriones;
+                int invitacionesPorAnfitrion = invitacionesUnidad / anfitrionesUnidad.size();
 
+                for (Anfitrion anfitrion : anfitrionesUnidad) {
+                    List<Reparticion> reparticionesPorAnfitrion = new ArrayList<>();
                     reparticionesPorAnfitrion.add(new Reparticion(tipo, invitacionesPorAnfitrion));
 
-                    if (sobrantes > 0) {
-                        reparticionesPorAnfitrion.get(reparticionesPorAnfitrion.size() - 1).setNumeroDeInvitaciones(invitacionesPorAnfitrion + 1);
-                        sobrantes--;
-                    }
+                    distribucionPorUnidad.computeIfAbsent(unidad, k -> new ArrayList<>()).add(reparticionesPorAnfitrion);
                 }
-                distribucionPorAnfitrion.computeIfAbsent(unidad, k -> new ArrayList<>()).add(reparticionesPorAnfitrion);
             }
         }
 
-        return distribucionPorAnfitrion;
+        return distribucionPorUnidad;
     }
 }
