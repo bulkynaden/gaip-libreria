@@ -62,9 +62,13 @@ public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
     public void setInvitado(Invitado invitado) {
         if (this.invitado != invitado) {
             if (this.invitado != null && this.invitado.getLocalidad() != null) {
-                this.invitado.getLocalidad().setLocalidad(null);
+                this.invitado.getLocalidad().setInvitado(null);
+                this.invitado.setLocalidad(null);
             }
             this.invitado = invitado;
+            if (this.invitado != null) {
+                this.invitado.setLocalidad(this);
+            }
         }
     }
 }

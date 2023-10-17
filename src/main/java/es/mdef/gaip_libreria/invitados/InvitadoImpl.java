@@ -74,6 +74,7 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
         if (this.localidad != localidad) {
             if (this.localidad != null && this.localidad.getInvitado() != null) {
                 this.localidad.getInvitado().setLocalidad(null);
+                this.localidad.setInvitado(null);
             }
             this.localidad = localidad;
             if (this.localidad != null) {
