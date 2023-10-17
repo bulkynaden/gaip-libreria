@@ -28,19 +28,20 @@ public final class AsignadorAsientos {
         anfitrionesOrdenados.sort(new ComparadorPorCantidadDeInvitadosEnZona(TRIBUNA));
         for (Anfitrion anfitrion : anfitrionesOrdenados) {
             int numeroInvitados = (int) anfitrion.getNumeroInvitadosPorZona(TRIBUNA);
+            if (numeroInvitados > 0) {
+                List<Invitado> invitados = obtenerInvitados(anfitrion);
 
-            List<Invitado> invitados = obtenerInvitados(anfitrion);
+                List<ZonaConfigurada> zonasOrdenadas = ordenarZonasPorPrioridad(
+                        anfitrion.getUnidadDeFormacion(),
+                        acto.getZonas());
 
-            List<ZonaConfigurada> zonasOrdenadas = ordenarZonasPorPrioridad(
-                    anfitrion.getUnidadDeFormacion(),
-                    acto.getZonas());
-
-            for (ZonaConfigurada zona : zonasOrdenadas) {
-                for (LocalidadConfigurada fila : zona.getLocalidades()) {
-                    List<LocalidadConfigurada> asientosConsecutivos = obtenerLocalidadesConsecutivas(fila, numeroInvitados);
-                    if (asientosConsecutivos.size() == numeroInvitados) {
-                        sentar(invitados, asientosConsecutivos);
-                        break;
+                for (ZonaConfigurada zona : zonasOrdenadas) {
+                    for (LocalidadConfigurada fila : zona.getLocalidades()) {
+                        List<LocalidadConfigurada> asientosConsecutivos = obtenerLocalidadesConsecutivas(fila, numeroInvitados);
+                        if (asientosConsecutivos.size() == numeroInvitados) {
+                            sentar(invitados, asientosConsecutivos);
+                            break;
+                        }
                     }
                 }
             }
