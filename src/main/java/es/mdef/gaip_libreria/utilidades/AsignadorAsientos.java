@@ -4,6 +4,7 @@ import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
 import es.mdef.gaip_libreria.invitados.Invitado;
+import es.mdef.gaip_libreria.zonas.LocalidadNumerada;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 import es.mdef.gaip_libreria.zonas_configuradas.PrioridadPorUnidad;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
@@ -91,6 +92,7 @@ public final class AsignadorAsientos {
             LocalidadConfigurada localidadConfigurada = localidadesConsecutivas.get(i);
             Invitado invitado = invitados.get(i);
             invitado.setLocalidad(localidadConfigurada);
+            System.out.println(((LocalidadNumerada) localidadConfigurada.getLocalidad()).getNumero());
             localidadConfigurada.setInvitado(invitado);
         }
     }
