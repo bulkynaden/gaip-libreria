@@ -75,6 +75,9 @@ public interface LocalidadConfigurada {
     void setEstadoLocalidad(EstadoLocalidad estadoLocalidad);
 
     default LocalidadConfigurada getSiguienteLocalidad() {
+        if (getLocalidad() == null) {
+            return null;
+        }
         return getZonaConfigurada().getLocalidades().stream().filter(e -> e.getLocalidad() == getLocalidad().getSiguienteLocalidad()).findFirst().orElse(null);
     }
 
