@@ -35,6 +35,7 @@ public final class AsignadorAsientos {
                 List<ZonaConfigurada> zonasOrdenadas = ordenarZonasPorPrioridad(
                         anfitrion.getUnidadDeFormacion(),
                         acto.getZonas());
+                
 
                 for (ZonaConfigurada zona : zonasOrdenadas) {
                     for (LocalidadConfigurada fila : zona.getLocalidades()) {
