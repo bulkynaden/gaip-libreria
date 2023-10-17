@@ -29,10 +29,9 @@ public final class AsignadorAsientos {
         for (Anfitrion anfitrion : anfitrionesOrdenados) {
             int numeroInvitados = (int) anfitrion.getNumeroInvitadosDeUnActoPorZona(acto, TRIBUNA);
             System.out.println("numero de invitados: " + numeroInvitados);
+            List<Invitado> invitados = obtenerInvitados(acto, anfitrion);
+            System.out.println("numero de invitados: " + invitados.size());
             if (numeroInvitados > 0) {
-                List<Invitado> invitados = obtenerInvitados(anfitrion);
-
-                System.out.println("numero de invitados: " + invitados.size());
                 List<ZonaConfigurada> zonasOrdenadas = ordenarZonasPorPrioridad(
                         anfitrion.getUnidadDeFormacion(),
                         acto.getZonas());
@@ -50,8 +49,8 @@ public final class AsignadorAsientos {
         }
     }
 
-    private static List<Invitado> obtenerInvitados(Anfitrion anfitrion) {
-        return anfitrion.getInvitacionesPorActo().stream()
+    private static List<Invitado> obtenerInvitados(Acto acto, Anfitrion anfitrion) {
+        return anfitrion.getInvitacionesPorActo().stream().filter(e -> e.getActo() == acto)
                 .flatMap(e -> e.getInvitaciones().stream())
                 .filter(e1 -> e1.getTipoDeZona() == TRIBUNA)
                 .flatMap(e2 -> e2.getInvitados().stream())
