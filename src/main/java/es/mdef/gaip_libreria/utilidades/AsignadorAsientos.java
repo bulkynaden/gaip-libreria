@@ -3,6 +3,7 @@ package es.mdef.gaip_libreria.utilidades;
 import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
+import es.mdef.gaip_libreria.invitados.Invitacion;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.zonas.LocalidadNumerada;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
@@ -25,31 +26,42 @@ public final class AsignadorAsientos {
 
     public static void sentarInvitados(Acto acto) {
         Set<Anfitrion> anfitriones = acto.getAnfitriones();
-        List<Anfitrion> anfitrionesOrdenados = new ArrayList<>(anfitriones.stream().toList());
-        anfitrionesOrdenados.sort(new ComparadorPorCantidadDeInvitadosEnZona(TRIBUNA, acto));
+        List<Anfitrion> anfitrionesOrdenados = anfitriones.stream()
+                .sorted(new ComparadorPorCantidadDeInvitadosEnZona(TRIBUNA, acto))
+                .toList();
+
         for (Anfitrion anfitrion : anfitrionesOrdenados) {
             int numeroInvitados = (int) anfitrion.getNumeroInvitadosDeUnActoPorZona(acto, TRIBUNA);
             List<Invitado> invitados = obtenerInvitados(acto, anfitrion);
+
+            boolean invitadosSentados = false;
+
             if (numeroInvitados > 0) {
                 List<ZonaConfigurada> zonasOrdenadas = ordenarZonasPorPrioridad(
                         anfitrion.getUnidadDeFormacion(),
                         acto.getZonas());
 
-                flag:
                 for (ZonaConfigurada zona : zonasOrdenadas) {
                     for (LocalidadConfigurada fila : zona.getLocalidades()) {
                         List<LocalidadConfigurada> asientosConsecutivos = obtenerLocalidadesConsecutivas(fila, numeroInvitados);
                         if (asientosConsecutivos.size() <= invitados.size()) {
-                            boolean sentados = sentar(invitados, asientosConsecutivos);
-                            if (sentados) {
-                                break flag;
+                            invitadosSentados = sentar(invitados, asientosConsecutivos);
+                            if (invitadosSentados) {
+                                break;
                             }
                         }
                     }
+
+                    if (invitadosSentados) {
+                        break;
+                    }
                 }
             }
+            Invitacion a = anfitrion.getInvitacionesPorActo().stream().filter(e -> e.getActo() == acto).findFirst().get().getInvitaciones().stream().filter(e -> e.getTipoDeZona() == TRIBUNA).findFirst().get();
+            a.getInvitados().forEach(e -> System.out.println(e.getNombre() + " " + ((LocalidadNumerada) e.getLocalidad().getLocalidad()).getNumero()));
         }
     }
+
 
     private static List<Invitado> obtenerInvitados(Acto acto, Anfitrion anfitrion) {
         return anfitrion.getInvitacionesPorActo().stream().filter(e -> e.getActo() == acto)
