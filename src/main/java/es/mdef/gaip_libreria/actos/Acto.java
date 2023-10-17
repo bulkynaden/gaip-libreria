@@ -5,6 +5,7 @@ import es.mdef.gaip_libreria.constantes.EstadoDeUnaLocalidad;
 import es.mdef.gaip_libreria.constantes.TipoDeActo;
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
+import es.mdef.gaip_libreria.invitados.InvitacionesPorActo;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 
@@ -160,6 +161,34 @@ public interface Acto {
      * @param anfitrion el {@link Anfitrion} a quitar del acto.
      */
     void quitarAnfitrion(Anfitrion anfitrion);
+
+    /**
+     * Obtiene las invitaciones por acto que el anfitrión ha extendido.
+     *
+     * @return Conjunto de invitaciones por acto asociadas al anfitrión.
+     */
+    Set<InvitacionesPorActo> getInvitacionesPorActo();
+
+    /**
+     * Establece las invitaciones por acto que el anfitrión ha extendido.
+     *
+     * @param invitacionesPorActo Conjunto de invitaciones por acto.
+     */
+    void setInvitacionesPorActo(Set<InvitacionesPorActo> invitacionesPorActo);
+
+    /**
+     * Agrega una invitación por acto al conjunto de invitaciones del anfitrión.
+     *
+     * @param invitacionesPorActo Invitación por acto a agregar.
+     */
+    void agregarInvitacionesPorActo(InvitacionesPorActo invitacionesPorActo);
+
+    /**
+     * Elimina una invitación por acto del conjunto de invitaciones del anfitrión.
+     *
+     * @param invitacionesPorActo Invitación por acto a eliminar.
+     */
+    void quitarInvitacionesPorActo(InvitacionesPorActo invitacionesPorActo);
 
     /**
      * Agrega una zona configurada específica al conjunto de zonas del acto.

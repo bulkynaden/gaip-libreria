@@ -3,6 +3,7 @@ package es.mdef.gaip_libreria.actos;
 import es.mdef.gaip_libreria.constantes.EstadoActo;
 import es.mdef.gaip_libreria.constantes.TipoDeActo;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
+import es.mdef.gaip_libreria.invitados.InvitacionesPorActo;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 import lombok.Data;
@@ -22,6 +23,7 @@ import java.util.Set;
 public class ActoImpl implements Acto {
     private final Set<Anfitrion> anfitriones = new HashSet<>();
     private final Set<ZonaConfigurada> zonas = new HashSet<>();
+    private final Set<InvitacionesPorActo> invitacionesPorActo = new HashSet<>();
     private String nombre;
     private String descripcion;
     private Instalacion instalacion;
@@ -185,6 +187,57 @@ public class ActoImpl implements Acto {
         if (zona != null && zonas.contains(zona)) {
             zonas.remove(zona);
             zona.setActo(null);
+        }
+    }
+
+    /**
+     * Establece las invitaciones por acto para el anfitrión y mantiene la coherencia bidireccional.
+     *
+     * @param invitacionesPorActo Conjunto de invitaciones por acto.
+     */
+    @Override
+    public void setInvitacionesPorActo(Set<InvitacionesPorActo> invitacionesPorActo) {
+        if (this.invitacionesPorActo != invitacionesPorActo) {
+            this.invitacionesPorActo.clear();
+            if (invitacionesPorActo != null) {
+                invitacionesPorActo.forEach(this::agregarInvitacionesPorActo);
+            }
+        }
+    }
+
+    /**
+     * Agrega una invitación por acto al anfitrión y establece la relación bidireccional.
+     *
+     * @param invitacionPorActo La invitación por acto a agregar.
+     */
+    @Override
+    public void agregarInvitacionesPorActo(InvitacionesPorActo invitacionPorActo) {
+        if (invitacionPorActo == null) {
+            throw new IllegalArgumentException("La invitación por acto no puede ser nula.");
+        }
+        if (!invitacionesPorActo.contains(invitacionPorActo)) {
+            invitacionesPorActo.add(invitacionPorActo);
+            if (invitacionPorActo.getActo() != this) {
+                invitacionPorActo.setActo(this);
+            }
+        }
+    }
+
+    /**
+     * Elimina una invitación por acto y rompe la relación bidireccional.
+     *
+     * @param invitacionPorActo La invitación por acto a eliminar.
+     */
+    @Override
+    public void quitarInvitacionesPorActo(InvitacionesPorActo invitacionPorActo) {
+        if (invitacionPorActo == null) {
+            throw new IllegalArgumentException("La invitación por acto no puede ser nula.");
+        }
+        if (invitacionesPorActo.contains(invitacionPorActo)) {
+            invitacionesPorActo.remove(invitacionPorActo);
+            if (invitacionPorActo.getActo() == this) {
+                invitacionPorActo.setActo(null);
+            }
         }
     }
 }
