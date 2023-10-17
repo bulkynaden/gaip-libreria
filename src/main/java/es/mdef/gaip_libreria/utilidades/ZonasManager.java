@@ -1,7 +1,6 @@
 package es.mdef.gaip_libreria.utilidades;
 
 import es.mdef.gaip_libreria.zonas.Localidad;
-import es.mdef.gaip_libreria.zonas.LocalidadNumerada;
 import es.mdef.gaip_libreria.zonas.Zona;
 
 import java.util.List;
@@ -11,7 +10,6 @@ public final class ZonasManager {
     }
 
     public static void asignarCoordenadas(Zona zona) {
-        System.out.println(zona.getNombre());
         List<Localidad> localidades = zona.getLocalidades();
         double[] inicioFilas = zona.getXInicioFilas();
         double xActual = inicioFilas[0];
@@ -19,9 +17,6 @@ public final class ZonasManager {
 
         int filaActual = 0;
         for (Localidad localidad : localidades) {
-            if (localidad instanceof LocalidadNumerada num) {
-                System.out.println(num.getNumero());
-            }
             localidad.setX(xActual);
             localidad.setY(yActual);
             if (localidad.getImplicaSalto() && !localidad.getImplicaSaltoFila()) {
