@@ -5,6 +5,7 @@ import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
 import es.mdef.gaip_libreria.invitados.Invitacion;
 import es.mdef.gaip_libreria.invitados.Invitado;
+import es.mdef.gaip_libreria.zonas.LocalidadNumerada;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 import es.mdef.gaip_libreria.zonas_configuradas.PrioridadPorUnidad;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
@@ -41,8 +42,11 @@ public final class AsignadorAsientos {
                         acto.getZonas());
 
                 for (ZonaConfigurada zona : zonasOrdenadas) {
-                    for (LocalidadConfigurada fila : zona.getLocalidades()) {
-                        List<LocalidadConfigurada> asientosConsecutivos = obtenerLocalidadesConsecutivas(fila, numeroInvitados);
+                    for (LocalidadConfigurada localidad : zona.getLocalidades()) {
+                        if (localidad instanceof LocalidadNumerada localidadNumerada) {
+                            System.out.println(zona.getZona().getNombre() + " " + localidadNumerada.getNumero());
+                        }
+                        List<LocalidadConfigurada> asientosConsecutivos = obtenerLocalidadesConsecutivas(localidad, numeroInvitados);
                         if (asientosConsecutivos.size() <= invitados.size()) {
                             invitadosSentados = sentar(invitados, asientosConsecutivos);
                             if (invitadosSentados) {
