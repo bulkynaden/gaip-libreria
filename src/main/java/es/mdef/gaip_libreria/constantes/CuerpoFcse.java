@@ -9,12 +9,14 @@ package es.mdef.gaip_libreria.constantes;
  *     <li>TIERRA - Representa el Ejército de Tierra.</li>
  *     <li>ARMADA - Representa La Armada.</li>
  *     <li>GC - Representa la Guardia Civil</li>
+ *     <li>CUERPOS_COMUNES - Representa los Cuerpos Comunes.</li>
  *     <li>CNP - Representa la Policía Nacional.</li>
+ *     <li>OTROS</li>
  * </ul>
  * </p>
  */
 public enum CuerpoFcse {
-    AIRE, TIERRA, ARMADA, GC, CNP;
+    AIRE, TIERRA, ARMADA, GC, CUERPOS_COMUNES, CNP, OTROS;
 
     /**
      * Convierte una cadena de texto al valor enum correspondiente.

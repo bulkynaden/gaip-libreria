@@ -46,7 +46,9 @@ public final class EmpleoFinder {
             case TIERRA -> findEmpleoInTierra(empleo);
             case ARMADA -> findEmpleoInArmada(empleo);
             case GC -> findEmpleoInGc(empleo);
+            case CUERPOS_COMUNES -> findEmpleoInCuerposComunes(empleo);
             case CNP -> findEmpleoInCNP(empleo);
+            case OTROS -> null;
         };
     }
 
@@ -86,6 +88,15 @@ public final class EmpleoFinder {
         throw new IllegalArgumentException("Empleo no encontrado en GC: " + empleo);
     }
 
+    private static Empleo findEmpleoInCuerposComunes(String empleo) {
+        for (EmpleoCc e : EmpleoCc.values()) {
+            if (e.name().equals(empleo)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Empleo no encontrado en Cuerpos Comunes: " + empleo);
+    }
+    
     private static Empleo findEmpleoInCNP(String empleo) {
         for (EmpleoPoliciaNacional e : EmpleoPoliciaNacional.values()) {
             if (e.name().equals(empleo)) {
