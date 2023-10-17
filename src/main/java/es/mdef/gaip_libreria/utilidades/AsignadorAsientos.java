@@ -19,6 +19,8 @@ import static es.mdef.gaip_libreria.constantes.EstadoLocalidad.NORMAL;
 import static es.mdef.gaip_libreria.constantes.TipoDeZona.TRIBUNA;
 
 public final class AsignadorAsientos {
+    private AsignadorAsientos() {
+    }
 
     public static void sentarInvitados(Acto acto) {
         Set<Anfitrion> anfitriones = acto.getAnfitriones();
@@ -26,12 +28,12 @@ public final class AsignadorAsientos {
         anfitrionesOrdenados.sort(new ComparadorPorCantidadDeInvitadosEnZona(TRIBUNA));
         for (Anfitrion anfitrion : anfitrionesOrdenados) {
             int numeroInvitados = (int) anfitrion.getNumeroInvitadosPorZona(TRIBUNA);
-            List<Invitado> invitados = anfitrion.getInvitacionesPorActo().stream()
-                    .flatMap(e -> e.getInvitaciones().stream())
-                    .filter(e1 -> e1.getTipoDeZona() == TRIBUNA)
-                    .flatMap(e2 -> e2.getInvitados().stream())
-                    .toList();
-            List<ZonaConfigurada> zonasOrdenadas = ordenarZonasPorPrioridad(anfitrion.getUnidadDeFormacion(), acto.getZonas());
+
+            List<Invitado> invitados = obtenerInvitados(anfitrion);
+
+            List<ZonaConfigurada> zonasOrdenadas = ordenarZonasPorPrioridad(
+                    anfitrion.getUnidadDeFormacion(),
+                    acto.getZonas());
 
             for (ZonaConfigurada zona : zonasOrdenadas) {
                 for (LocalidadConfigurada fila : zona.getLocalidades()) {
@@ -43,6 +45,14 @@ public final class AsignadorAsientos {
                 }
             }
         }
+    }
+
+    private static List<Invitado> obtenerInvitados(Anfitrion anfitrion) {
+        return anfitrion.getInvitacionesPorActo().stream()
+                .flatMap(e -> e.getInvitaciones().stream())
+                .filter(e1 -> e1.getTipoDeZona() == TRIBUNA)
+                .flatMap(e2 -> e2.getInvitados().stream())
+                .toList();
     }
 
     private static List<ZonaConfigurada> ordenarZonasPorPrioridad(String unidad, Set<ZonaConfigurada> zonas) {

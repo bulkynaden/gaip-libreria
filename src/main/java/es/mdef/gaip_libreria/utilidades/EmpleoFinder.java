@@ -48,7 +48,7 @@ public final class EmpleoFinder {
             case GC -> findEmpleoInGc(empleo);
             case CUERPOS_COMUNES -> findEmpleoInCuerposComunes(empleo);
             case CNP -> findEmpleoInCNP(empleo);
-            case OTROS -> () -> empleo;
+            case EJERCITO_EXTRANJERO, OTROS -> () -> empleo;
         };
     }
 
