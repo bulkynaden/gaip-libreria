@@ -109,5 +109,5 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
                 .count();
     }
 
-    int compararPorCantidadDeInvitadosDeUnTipoDeZona(Anfitrion a2, TipoDeZona tipo);
+    int compararPorCantidadDeInvitadosDeUnTipoDeZona(Acto acto, TipoDeZona tipo, Anfitrion anfitrion1, Anfitrion anfitrion2);
 }

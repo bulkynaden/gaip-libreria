@@ -118,9 +118,9 @@ public final class InvitacionesManager {
         return distribucionPorUnidad;
     }
 
-    private static List<Anfitrion> ordenarAnfitrionesPorNumeroDeInvitados(Set<Anfitrion> anfitrionesSet) {
+    private static List<Anfitrion> ordenarAnfitrionesPorNumeroDeInvitados(Acto acto, Set<Anfitrion> anfitrionesSet) {
         List<Anfitrion> anfitriones = new ArrayList<>(anfitrionesSet);
-        anfitriones.sort(new ComparadorPorCantidadDeInvitadosEnZona(TipoDeZona.TRIBUNA));
+        anfitriones.sort(new ComparadorPorCantidadDeInvitadosEnZona(TipoDeZona.TRIBUNA, acto));
         return anfitriones;
     }
 }

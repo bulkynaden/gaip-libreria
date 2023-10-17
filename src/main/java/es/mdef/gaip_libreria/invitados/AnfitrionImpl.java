@@ -181,13 +181,14 @@ public class AnfitrionImpl extends PersonaImpl implements Anfitrion {
     }
 
     @Override
-    public int compareTo(Anfitrion o) {
-        return this.unidadDeFormacion.compareTo(o.getUnidadDeFormacion());
+    public int compararPorCantidadDeInvitadosDeUnTipoDeZona(Acto acto, TipoDeZona tipo, Anfitrion anfitrion1, Anfitrion anfitrion2) {
+        long thisCount = this.getNumeroInvitadosDeUnActoPorZona(acto, tipo);
+        long otherCount = anfitrion2.getNumeroInvitadosDeUnActoPorZona(acto, tipo);
+        return Long.compare(otherCount, thisCount);
     }
 
-    public int compararPorCantidadDeInvitadosDeUnTipoDeZona(Anfitrion o, TipoDeZona tipo) {
-        long thisCount = this.getNumeroInvitadosPorZona(tipo);
-        long otherCount = o.getNumeroInvitadosPorZona(tipo);
-        return Long.compare(otherCount, thisCount);
+    @Override
+    public int compareTo(Anfitrion o) {
+        return this.unidadDeFormacion.compareTo(o.getUnidadDeFormacion());
     }
 }

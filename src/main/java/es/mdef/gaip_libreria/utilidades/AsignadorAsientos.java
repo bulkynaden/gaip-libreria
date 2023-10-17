@@ -25,7 +25,7 @@ public final class AsignadorAsientos {
     public static void sentarInvitados(Acto acto) {
         Set<Anfitrion> anfitriones = acto.getAnfitriones();
         List<Anfitrion> anfitrionesOrdenados = new ArrayList<>(anfitriones.stream().toList());
-        anfitrionesOrdenados.sort(new ComparadorPorCantidadDeInvitadosEnZona(TRIBUNA));
+        anfitrionesOrdenados.sort(new ComparadorPorCantidadDeInvitadosEnZona(TRIBUNA, acto));
         for (Anfitrion anfitrion : anfitrionesOrdenados) {
             int numeroInvitados = (int) anfitrion.getNumeroInvitadosDeUnActoPorZona(acto, TRIBUNA);
             System.out.println("numero de invitados: " + numeroInvitados);
@@ -35,7 +35,6 @@ public final class AsignadorAsientos {
                 List<ZonaConfigurada> zonasOrdenadas = ordenarZonasPorPrioridad(
                         anfitrion.getUnidadDeFormacion(),
                         acto.getZonas());
-                
 
                 for (ZonaConfigurada zona : zonasOrdenadas) {
                     for (LocalidadConfigurada fila : zona.getLocalidades()) {
