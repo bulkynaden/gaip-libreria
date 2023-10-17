@@ -90,6 +90,7 @@ public final class AsignadorAsientos {
         for (int i = 0; i < invitados.size(); i++) {
             LocalidadConfigurada localidadConfigurada = localidadesConsecutivas.get(i);
             Invitado invitado = invitados.get(i);
+            invitado.setLocalidad(localidadConfigurada);
             localidadConfigurada.setInvitado(invitado);
         }
     }
