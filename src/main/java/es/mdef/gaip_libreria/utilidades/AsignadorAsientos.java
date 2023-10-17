@@ -43,7 +43,7 @@ public final class AsignadorAsientos {
 
                 for (ZonaConfigurada zona : zonasOrdenadas) {
                     for (LocalidadConfigurada localidad : zona.getLocalidades()) {
-                        if (localidad instanceof LocalidadNumerada localidadNumerada) {
+                        if (localidad.getLocalidad() instanceof LocalidadNumerada localidadNumerada) {
                             System.out.println(zona.getZona().getNombre() + " " + localidadNumerada.getNumero());
                         }
                         List<LocalidadConfigurada> asientosConsecutivos = obtenerLocalidadesConsecutivas(localidad, numeroInvitados);
