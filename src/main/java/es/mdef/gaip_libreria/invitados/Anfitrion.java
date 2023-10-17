@@ -106,7 +106,7 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
         return this.getInvitacionesPorActo().stream().filter(e -> e.getActo() == acto)
                 .flatMap(e -> e.getInvitaciones().stream())
                 .filter(e -> e.getTipoDeZona() == tipoDeZona)
-                .count();
+                .mapToInt(e -> e.getInvitados().size()).sum();
     }
 
     int compararPorCantidadDeInvitadosDeUnTipoDeZona(Acto acto, TipoDeZona tipo, Anfitrion anfitrion1, Anfitrion anfitrion2);
