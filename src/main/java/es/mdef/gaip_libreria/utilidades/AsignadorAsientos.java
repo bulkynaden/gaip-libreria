@@ -27,7 +27,7 @@ public final class AsignadorAsientos {
         List<Anfitrion> anfitrionesOrdenados = new ArrayList<>(anfitriones.stream().toList());
         anfitrionesOrdenados.sort(new ComparadorPorCantidadDeInvitadosEnZona(TRIBUNA));
         for (Anfitrion anfitrion : anfitrionesOrdenados) {
-            int numeroInvitados = (int) anfitrion.getNumeroInvitadosPorZona(TRIBUNA);
+            int numeroInvitados = (int) anfitrion.getNumeroInvitadosDeUnActoPorZona(acto, TRIBUNA);
             System.out.println("numero de invitados: " + numeroInvitados);
             if (numeroInvitados > 0) {
                 List<Invitado> invitados = obtenerInvitados(anfitrion);

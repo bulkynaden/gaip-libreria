@@ -102,8 +102,8 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
      */
     void quitarActo(Acto acto);
 
-    default long getNumeroInvitadosPorZona(TipoDeZona tipoDeZona) {
-        return this.getInvitacionesPorActo().stream()
+    default long getNumeroInvitadosDeUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
+        return this.getInvitacionesPorActo().stream().filter(e -> e.getActo() == acto)
                 .flatMap(e -> e.getInvitaciones().stream())
                 .filter(e -> e.getTipoDeZona() == tipoDeZona)
                 .count();
