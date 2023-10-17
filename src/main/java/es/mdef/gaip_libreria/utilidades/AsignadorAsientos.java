@@ -3,9 +3,7 @@ package es.mdef.gaip_libreria.utilidades;
 import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
-import es.mdef.gaip_libreria.invitados.Invitacion;
 import es.mdef.gaip_libreria.invitados.Invitado;
-import es.mdef.gaip_libreria.zonas.LocalidadNumerada;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 import es.mdef.gaip_libreria.zonas_configuradas.PrioridadPorUnidad;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
@@ -43,9 +41,6 @@ public final class AsignadorAsientos {
 
                 for (ZonaConfigurada zona : zonasOrdenadas) {
                     for (LocalidadConfigurada localidad : zona.getLocalidades()) {
-                        if (localidad.getLocalidad() instanceof LocalidadNumerada localidadNumerada) {
-                            System.out.println(zona.getZona().getNombre() + " " + localidadNumerada.getNumero());
-                        }
                         List<LocalidadConfigurada> asientosConsecutivos = obtenerLocalidadesConsecutivas(localidad, numeroInvitados);
                         if (asientosConsecutivos.size() <= invitados.size()) {
                             invitadosSentados = sentar(invitados, asientosConsecutivos);
@@ -60,7 +55,6 @@ public final class AsignadorAsientos {
                     }
                 }
             }
-            Invitacion a = anfitrion.getInvitacionesPorActo().stream().filter(e -> e.getActo() == acto).findFirst().get().getInvitaciones().stream().filter(e -> e.getTipoDeZona() == TRIBUNA).findFirst().get();
         }
     }
 
