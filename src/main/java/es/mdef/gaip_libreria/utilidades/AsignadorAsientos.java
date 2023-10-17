@@ -1,7 +1,6 @@
 package es.mdef.gaip_libreria.utilidades;
 
 import es.mdef.gaip_libreria.actos.Acto;
-import es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
 import es.mdef.gaip_libreria.invitados.Invitado;
@@ -16,6 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static es.mdef.gaip_libreria.constantes.EstadoLocalidad.NORMAL;
+import static es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad.LIBRE;
 import static es.mdef.gaip_libreria.constantes.TipoDeZona.TRIBUNA;
 
 public final class AsignadorAsientos {
@@ -28,9 +28,11 @@ public final class AsignadorAsientos {
         anfitrionesOrdenados.sort(new ComparadorPorCantidadDeInvitadosEnZona(TRIBUNA));
         for (Anfitrion anfitrion : anfitrionesOrdenados) {
             int numeroInvitados = (int) anfitrion.getNumeroInvitadosPorZona(TRIBUNA);
+            System.out.println("numero de invitados: " + numeroInvitados);
             if (numeroInvitados > 0) {
                 List<Invitado> invitados = obtenerInvitados(anfitrion);
 
+                System.out.println("numero de invitados: " + invitados.size());
                 List<ZonaConfigurada> zonasOrdenadas = ordenarZonasPorPrioridad(
                         anfitrion.getUnidadDeFormacion(),
                         acto.getZonas());
@@ -70,13 +72,11 @@ public final class AsignadorAsientos {
         List<LocalidadConfigurada> localidadesConsecutivas = new ArrayList<>();
 
         while (localidad != null && localidadesConsecutivas.size() < numeroInvitados) {
-            if (localidad.getEstadoLocalidad() == NORMAL && localidad.getEstadoOcupacionLocalidad() == EstadoOcupacionLocalidad.LIBRE) {
+            if (localidad.getEstadoLocalidad() == NORMAL && localidad.getEstadoOcupacionLocalidad() == LIBRE) {
                 localidadesConsecutivas.add(localidad);
                 if (localidad.getLocalidad().getImplicaSaltoFila() || localidad.getLocalidad().getImplicaSalto()) {
                     if (localidadesConsecutivas.size() < numeroInvitados) {
                         localidadesConsecutivas.clear();
-                    } else {
-                        break;
                     }
                 }
             } else {
