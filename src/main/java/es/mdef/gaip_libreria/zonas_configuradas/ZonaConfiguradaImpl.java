@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(of = "acto")
 public class ZonaConfiguradaImpl implements ZonaConfigurada {
-    private final Set<LocalidadConfigurada> localidades = new HashSet<>();
+    private final Set<LocalidadConfigurada> localidades = new LinkedHashSet<>();
     private final Set<PrioridadPorUnidad> prioridades = new HashSet<>();
     private Zona zona;
     private Acto acto;
