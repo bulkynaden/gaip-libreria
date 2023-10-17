@@ -10,7 +10,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,7 +24,7 @@ import java.util.Set;
 @Data
 public class ActoImpl implements Acto {
     private final Set<Anfitrion> anfitriones = new HashSet<>();
-    private final Set<ZonaConfigurada> zonas = new HashSet<>();
+    private final List<ZonaConfigurada> zonas = new ArrayList<>();
     private final Set<InvitacionesPorActo> invitacionesPorActo = new HashSet<>();
     private String nombre;
     private String descripcion;
@@ -94,7 +96,7 @@ public class ActoImpl implements Acto {
      *
      * @param zonas El conjunto de zonas configuradas para el acto.
      */
-    public void setZonas(Set<ZonaConfigurada> zonas) {
+    public void setZonas(List<ZonaConfigurada> zonas) {
         if (this.zonas != zonas) {
             this.zonas.forEach(zona -> zona.setActo(null));
             this.zonas.clear();

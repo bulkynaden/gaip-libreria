@@ -10,6 +10,7 @@ import es.mdef.gaip_libreria.unidades.Instalacion;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -125,14 +126,14 @@ public interface Acto {
      *
      * @return un conjunto de {@link ZonaConfigurada}s asociadas al acto.
      */
-    Set<ZonaConfigurada> getZonas();
+    List<ZonaConfigurada> getZonas();
 
     /**
      * Asigna o establece el conjunto de zonas configuradas para el acto.
      *
      * @param zonas el conjunto de {@link ZonaConfigurada}s a establecer.
      */
-    void setZonas(Set<ZonaConfigurada> zonas);
+    void setZonas(List<ZonaConfigurada> zonas);
 
     /**
      * Obtiene el conjunto de anfitriones que han extendido invitaciones para el acto.

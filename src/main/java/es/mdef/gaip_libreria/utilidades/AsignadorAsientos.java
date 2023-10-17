@@ -5,7 +5,6 @@ import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
 import es.mdef.gaip_libreria.invitados.Invitacion;
 import es.mdef.gaip_libreria.invitados.Invitado;
-import es.mdef.gaip_libreria.zonas.LocalidadNumerada;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 import es.mdef.gaip_libreria.zonas_configuradas.PrioridadPorUnidad;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
@@ -70,7 +69,7 @@ public final class AsignadorAsientos {
                 .toList();
     }
 
-    private static List<ZonaConfigurada> ordenarZonasPorPrioridad(String unidad, Set<ZonaConfigurada> zonas) {
+    private static List<ZonaConfigurada> ordenarZonasPorPrioridad(String unidad, List<ZonaConfigurada> zonas) {
         return zonas.stream()
                 .sorted(Comparator.comparingInt(z -> z.getPrioridades().stream()
                         .filter(p -> p.getUnidad().equals(unidad))
@@ -108,8 +107,6 @@ public final class AsignadorAsientos {
             LocalidadConfigurada localidadConfigurada = localidadesConsecutivas.get(i);
             Invitado invitado = invitados.get(i);
             invitado.setLocalidad(localidadConfigurada);
-            System.out.println("zona: " + localidadConfigurada.getLocalidad().getZona().getNombre() + ((LocalidadNumerada) localidadConfigurada.getLocalidad()).getNumero());
-            localidadConfigurada.setInvitado(invitado);
         }
 
         return true;

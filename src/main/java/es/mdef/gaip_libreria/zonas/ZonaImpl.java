@@ -5,15 +5,14 @@ import es.mdef.gaip_libreria.unidades.Instalacion;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @EqualsAndHashCode(of = {"nombre", "tipoDeZona", "numeroLocalidades"})
 @Data
 public class ZonaImpl implements Zona {
-    private Set<Localidad> localidades;
+    private List<Localidad> localidades = new ArrayList<>();
     private String nombre;
     private int numeroLocalidades;
     private TipoDeZona tipoDeZona;
@@ -29,14 +28,9 @@ public class ZonaImpl implements Zona {
     private double saltoY;
 
     public ZonaImpl() {
-        if (this instanceof ZonaNumerada) {
-            localidades = new LinkedHashSet<>();
-        } else {
-            localidades = new HashSet<>();
-        }
     }
 
-    public void setLocalidades(Set<Localidad> localidades) {
+    public void setLocalidades(List<Localidad> localidades) {
         if (this.localidades != localidades) {
             this.localidades.forEach(localidad -> localidad.setZona(null));
             if (localidades != null) {

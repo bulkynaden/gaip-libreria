@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,7 +19,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"nombre"})
 public class InstalacionImpl implements Instalacion {
     @Getter
-    private final Set<Zona> zonas = new HashSet<>();
+    private final List<Zona> zonas = new ArrayList<>();
     @Getter
     private final Set<Acto> actos = new HashSet<>();
     private String nombre;
@@ -48,7 +50,7 @@ public class InstalacionImpl implements Instalacion {
      *
      * @param zonas el conjunto de zonas a establecer.
      */
-    public void setZonas(Set<Zona> zonas) {
+    public void setZonas(List<Zona> zonas) {
         this.zonas.clear();
         if (zonas != null) {
             zonas.forEach(this::agregarZona);

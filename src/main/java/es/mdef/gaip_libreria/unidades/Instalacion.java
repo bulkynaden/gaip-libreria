@@ -3,6 +3,7 @@ package es.mdef.gaip_libreria.unidades;
 import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.zonas.Zona;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,14 +37,14 @@ public interface Instalacion {
      *
      * @return un conjunto de zonas pertenecientes a la instalación.
      */
-    Set<Zona> getZonas();
+    List<Zona> getZonas();
 
     /**
      * Asocia un conjunto de zonas a esta instalación.
      *
      * @param zonas el conjunto de zonas a asociar.
      */
-    void setZonas(Set<Zona> zonas);
+    void setZonas(List<Zona> zonas);
 
     /**
      * Obtiene el conjunto de actos que se llevarán a cabo o se han llevado a cabo en esta instalación.

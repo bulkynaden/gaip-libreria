@@ -4,7 +4,7 @@ import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import es.mdef.gaip_libreria.herramientas.Figura;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * Representa una zona dentro de una {@link Instalacion}.
@@ -51,14 +51,14 @@ public interface Zona extends Figura {
      *
      * @return las localidades asociadas.
      */
-    Set<Localidad> getLocalidades();
+    List<Localidad> getLocalidades();
 
     /**
      * Establece el conjunto de {@link Localidad} asociadas a esta zona.
      *
      * @param localidades las localidades a asociar.
      */
-    void setLocalidades(Set<Localidad> localidades);
+    void setLocalidades(List<Localidad> localidades);
 
     /**
      * Obtiene el {@link TipoDeZona} asociado a esta zona.
