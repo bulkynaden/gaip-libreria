@@ -1,16 +1,11 @@
 package es.mdef.gaip_libreria.utilidades;
 
 import es.mdef.gaip_libreria.actos.Acto;
-import es.mdef.gaip_libreria.constantes.EstadoLocalidad;
-import es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad;
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
-import es.mdef.gaip_libreria.invitados.*;
-import es.mdef.gaip_libreria.zonas.LocalidadNumerada;
-import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
-import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
+import es.mdef.gaip_libreria.invitados.Anfitrion;
+import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Gestiona el proceso de distribución de invitaciones para un acto específico.
@@ -123,70 +118,9 @@ public final class InvitacionesManager {
         return distribucionPorUnidad;
     }
 
-    public static void repartirInvitados(Acto acto) {
-        List<Anfitrion> anfitriones = ordenarAnfitrionesPorNumeroDeInvitados(acto.getAnfitriones());
-        for (ZonaConfigurada zona : acto.getZonas()) {
-            List<LocalidadConfigurada> localidadesOrdenadas = ordenarLocalidadesPorNumero(zona.getLocalidades());
-            for (LocalidadConfigurada localidad : localidadesOrdenadas) {
-                sentarInvitadosDeAnfitrionesEnLocalidad(anfitriones, localidad, acto);
-            }
-        }
-    }
-
     private static List<Anfitrion> ordenarAnfitrionesPorNumeroDeInvitados(Set<Anfitrion> anfitrionesSet) {
         List<Anfitrion> anfitriones = new ArrayList<>(anfitrionesSet);
         anfitriones.sort(new ComparadorPorCantidadDeInvitadosEnZona(TipoDeZona.TRIBUNA));
         return anfitriones;
-    }
-
-    private static List<LocalidadConfigurada> ordenarLocalidadesPorNumero(Set<LocalidadConfigurada> localidadesSet) {
-        return localidadesSet.stream()
-                .sorted(Comparator.comparingInt(o -> ((LocalidadNumerada) o.getLocalidad()).getNumero()))
-                .collect(Collectors.toList());
-    }
-
-    private static void sentarInvitadosDeAnfitrionesEnLocalidad(List<Anfitrion> anfitriones, LocalidadConfigurada localidadInicial, Acto acto) {
-        for (Anfitrion anfitrion : anfitriones) {
-            long numero = anfitrion.getNumeroInvitadosPorZona(TipoDeZona.TRIBUNA);
-            if (esPosibleSentarInvitados(localidadInicial, numero)) {
-                asignarInvitados(anfitrion, localidadInicial, acto, numero);
-            }
-        }
-    }
-
-    private static boolean esPosibleSentarInvitados(LocalidadConfigurada localidad, long numeroInvitados) {
-        LocalidadConfigurada localidadActual = localidad;
-        for (int i = 0; i < numeroInvitados; i++) {
-            if (localidadActual == null || localidadActual.getEstadoLocalidad() != EstadoLocalidad.NORMAL ||
-                    localidadActual.getEstadoOcupacionLocalidad() != EstadoOcupacionLocalidad.LIBRE ||
-                    localidadActual.getLocalidad().getImplicaSalto() ||
-                    localidadActual.getLocalidad().getImplicaSaltoFila()) {
-                return false;
-            }
-            localidadActual = localidadActual.getSiguienteLocalidad();
-        }
-        return true;
-    }
-
-    private static void asignarInvitados(Anfitrion anfitrion, LocalidadConfigurada localidadInicial, Acto acto, long numeroInvitados) {
-        Set<InvitacionesPorActo> invitacionesPorActo = anfitrion.getInvitacionesPorActo();
-        InvitacionesPorActo inv = invitacionesPorActo.stream()
-                .filter(e -> e.getActo() == acto && e.getAnfitrion() == anfitrion)
-                .findFirst()
-                .orElse(null);
-
-        if (inv != null) {
-            Set<Invitacion> invitaciones = inv.getInvitaciones().stream()
-                    .filter(e -> e.getTipoDeZona() == TipoDeZona.TRIBUNA)
-                    .collect(Collectors.toSet());
-
-            LocalidadConfigurada localidadActual = localidadInicial;
-            for (Invitacion invitacion : invitaciones) {
-                for (Invitado invitado : invitacion.getInvitados()) {
-                    invitado.setLocalidad(localidadActual);
-                    localidadActual = localidadActual.getSiguienteLocalidad();
-                }
-            }
-        }
     }
 }
