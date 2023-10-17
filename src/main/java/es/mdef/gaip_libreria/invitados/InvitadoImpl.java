@@ -71,8 +71,10 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
      * @throws IllegalArgumentException si la localidad es nula.
      */
     public void setLocalidad(LocalidadConfigurada localidad) {
-        if (this.localidad != null && !this.localidad.equals(localidad)) {
-            this.localidad.setInvitado(null);
+        if (this.localidad != localidad) {
+            if (this.localidad != null) {
+                this.localidad.setLocalidad(null);
+            }
             this.localidad = localidad;
             if (this.localidad != null) {
                 this.localidad.setInvitado(this);

@@ -58,7 +58,6 @@ public final class AsignadorAsientos {
                 }
             }
             Invitacion a = anfitrion.getInvitacionesPorActo().stream().filter(e -> e.getActo() == acto).findFirst().get().getInvitaciones().stream().filter(e -> e.getTipoDeZona() == TRIBUNA).findFirst().get();
-            a.getInvitados().forEach(e -> System.out.println(e.getNombre() + " " + ((LocalidadNumerada) e.getLocalidad().getLocalidad()).getNumero()));
         }
     }
 
