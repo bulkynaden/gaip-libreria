@@ -86,6 +86,10 @@ public final class AsignadorAsientos {
     }
 
     private static void sentar(List<Invitado> invitados, List<LocalidadConfigurada> localidadesConsecutivas) {
+        System.out.println("invitados: " + invitados.size());
+        System.out.println("localidadesConsecutivas: " + localidadesConsecutivas.size());
+
+        invitados.forEach(e -> System.out.println(e.getNombre()));
         for (int i = 0; i < invitados.size(); i++) {
             LocalidadConfigurada localidadConfigurada = localidadesConsecutivas.get(i);
             Invitado invitado = invitados.get(i);
