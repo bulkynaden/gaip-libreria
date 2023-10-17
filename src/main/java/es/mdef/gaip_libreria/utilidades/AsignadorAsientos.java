@@ -38,7 +38,7 @@ public final class AsignadorAsientos {
                 for (ZonaConfigurada zona : zonasOrdenadas) {
                     for (LocalidadConfigurada fila : zona.getLocalidades()) {
                         List<LocalidadConfigurada> asientosConsecutivos = obtenerLocalidadesConsecutivas(fila, numeroInvitados);
-                        if (asientosConsecutivos.size() == numeroInvitados) {
+                        if (asientosConsecutivos.size() <= invitados.size()) {
                             sentar(invitados, asientosConsecutivos);
                             break;
                         }
