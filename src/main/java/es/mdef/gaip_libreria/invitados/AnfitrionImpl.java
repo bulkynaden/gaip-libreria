@@ -179,4 +179,15 @@ public class AnfitrionImpl extends PersonaImpl implements Anfitrion {
             }
         }
     }
+
+    @Override
+    public int compareTo(Anfitrion o) {
+        return this.unidadDeFormacion.compareTo(o.getUnidadDeFormacion());
+    }
+
+    public int compararPorCantidadDeInvitadosDeUnTipoDeZona(Anfitrion o, TipoDeZona tipo) {
+        long thisCount = this.getNumeroInvitadosPorZona(tipo);
+        long otherCount = o.getNumeroInvitadosPorZona(tipo);
+        return Long.compare(otherCount, thisCount);
+    }
 }

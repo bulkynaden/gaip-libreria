@@ -74,6 +74,10 @@ public interface LocalidadConfigurada {
      */
     void setEstadoLocalidad(EstadoLocalidad estadoLocalidad);
 
+    default LocalidadConfigurada getSiguienteLocalidad() {
+        return getZonaConfigurada().getLocalidades().stream().filter(e -> e.getLocalidad() == getLocalidad().getSiguienteLocalidad()).findFirst().orElse(null);
+    }
+
     /**
      * Obtiene el {@link EstadoOcupacionLocalidad} de esta localidad configurada.
      *

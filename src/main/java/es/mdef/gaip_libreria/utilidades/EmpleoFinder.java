@@ -40,11 +40,12 @@ public final class EmpleoFinder {
      */
     public static Empleo findEmpleo(String empleo, String cuerpoStr) {
         CuerpoFcse cuerpo = CuerpoFcse.delValor(cuerpoStr);
-        
+
         return switch (cuerpo) {
             case AIRE -> findEmpleoInAire(empleo);
             case TIERRA -> findEmpleoInTierra(empleo);
             case ARMADA -> findEmpleoInArmada(empleo);
+            case GC -> findEmpleoInGc(empleo);
             case CNP -> findEmpleoInCNP(empleo);
         };
     }
@@ -74,6 +75,15 @@ public final class EmpleoFinder {
             }
         }
         throw new IllegalArgumentException("Empleo no encontrado en Armada: " + empleo);
+    }
+
+    private static Empleo findEmpleoInGc(String empleo) {
+        for (EmpleoGc e : EmpleoGc.values()) {
+            if (e.name().equals(empleo)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Empleo no encontrado en GC: " + empleo);
     }
 
     private static Empleo findEmpleoInCNP(String empleo) {

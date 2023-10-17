@@ -13,7 +13,7 @@ import java.util.Set;
  * Esta interfaz extiende a {@link Persona}, heredando sus propiedades y comportamientos.
  * </p>
  */
-public interface Anfitrion extends Persona {
+public interface Anfitrion extends Persona, Comparable<Anfitrion> {
 
     /**
      * Obtiene los actos asociados al anfitrión.
@@ -101,4 +101,13 @@ public interface Anfitrion extends Persona {
      * @param acto Acto a eliminar.
      */
     void quitarActo(Acto acto);
+
+    default long getNumeroInvitadosPorZona(TipoDeZona tipoDeZona) {
+        return this.getInvitacionesPorActo().stream()
+                .flatMap(e -> e.getInvitaciones().stream())
+                .filter(e -> e.getTipoDeZona() == tipoDeZona)
+                .count();
+    }
+
+    int compararPorCantidadDeInvitadosDeUnTipoDeZona(Anfitrion a2, TipoDeZona tipo);
 }
