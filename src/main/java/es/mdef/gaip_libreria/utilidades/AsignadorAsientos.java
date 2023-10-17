@@ -40,8 +40,10 @@ public final class AsignadorAsientos {
                     for (LocalidadConfigurada fila : zona.getLocalidades()) {
                         List<LocalidadConfigurada> asientosConsecutivos = obtenerLocalidadesConsecutivas(fila, numeroInvitados);
                         if (asientosConsecutivos.size() <= invitados.size()) {
-                            sentar(invitados, asientosConsecutivos);
-                            break flag;
+                            boolean sentados = sentar(invitados, asientosConsecutivos);
+                            if (sentados) {
+                                break flag;
+                            }
                         }
                     }
                 }
@@ -87,7 +89,10 @@ public final class AsignadorAsientos {
         return localidadesConsecutivas;
     }
 
-    private static void sentar(List<Invitado> invitados, List<LocalidadConfigurada> localidadesConsecutivas) {
+    private static boolean sentar(List<Invitado> invitados, List<LocalidadConfigurada> localidadesConsecutivas) {
+        if (invitados.size() != localidadesConsecutivas.size()) {
+            return false;
+        }
         for (int i = 0; i < invitados.size(); i++) {
             LocalidadConfigurada localidadConfigurada = localidadesConsecutivas.get(i);
             Invitado invitado = invitados.get(i);
@@ -95,5 +100,7 @@ public final class AsignadorAsientos {
             System.out.println("zona: " + localidadConfigurada.getLocalidad().getZona().getNombre() + ((LocalidadNumerada) localidadConfigurada.getLocalidad()).getNumero());
             localidadConfigurada.setInvitado(invitado);
         }
+
+        return true;
     }
 }
