@@ -4,6 +4,7 @@ import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Define las características y comportamientos específicos de un anfitrión.
@@ -107,6 +108,16 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
                 .flatMap(e -> e.getInvitaciones().stream())
                 .filter(e -> e.getTipoDeZona() == tipoDeZona)
                 .mapToInt(e -> e.getInvitados().size()).sum();
+    }
+
+    default Set<Invitado> getInvitadosAUnActo(Acto acto) {
+        return this.getInvitacionesPorActo().stream()
+                .filter(e -> e.getActo().equals(acto))
+                .map(InvitacionesPorActo::getInvitaciones)
+                .flatMap(Set::stream)
+                .map(Invitacion::getInvitados)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
     }
 
     int compararPorCantidadDeInvitadosDeUnTipoDeZona(Acto acto, TipoDeZona tipo, Anfitrion anfitrion1, Anfitrion anfitrion2);
