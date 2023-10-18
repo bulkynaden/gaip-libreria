@@ -97,8 +97,13 @@ public class ZonaConfiguradaImpl implements ZonaConfigurada {
      */
     public void setPrioridades(Set<PrioridadPorUnidad> prioridades) {
         if (this.prioridades != prioridades) {
-            this.prioridades.forEach(prioridad -> prioridad.setZona(null));
+
+            Set<PrioridadPorUnidad> copyOfPrioridades = new HashSet<>(this.prioridades);
+
+            copyOfPrioridades.forEach(prioridad -> prioridad.setZona(null));
+
             this.prioridades.clear();
+
             if (prioridades != null) {
                 prioridades.forEach(this::agregarPrioridad);
             }
