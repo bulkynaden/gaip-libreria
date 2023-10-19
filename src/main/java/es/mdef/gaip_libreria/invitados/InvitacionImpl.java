@@ -85,12 +85,12 @@ public class InvitacionImpl implements Invitacion {
     @Override
     public void agregarInvitado(Invitado invitado) {
         if (invitado != null) {
-            if (getTipoDeZona() == TipoDeZona.TRIBUNA && this.invitados.size() < numeroMaximoInvitados) {
-                this.invitados.add(invitado);
-                invitado.setInvitacion(this);
-            } else {
+            if (getTipoDeZona() == TipoDeZona.TRIBUNA && this.invitados.size() >= numeroMaximoInvitados) {
                 throw new IllegalArgumentException("Se ha alcanzado el número máximo de invitados.");
             }
+            
+            this.invitados.add(invitado);
+            invitado.setInvitacion(this);
         } else {
             throw new IllegalArgumentException("El invitado no puede ser nulo.");
         }
