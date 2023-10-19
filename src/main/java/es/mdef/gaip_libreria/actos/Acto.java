@@ -269,7 +269,7 @@ public interface Acto {
                 .collect(Collectors.toSet());
     }
 
-    default Set<Invitado> getInvitadosSinAsignar(TipoDeZona tipoDeZona) {
+    default Set<Invitado> getInvitadosSinAsignar() {
         return getInvitacionesPorActo().stream()
                 .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream())
                 .flatMap(invitacion -> invitacion.getInvitados().stream().filter(invitado -> invitado.getLocalidad() == null))
