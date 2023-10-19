@@ -3,9 +3,12 @@ package es.mdef.gaip_libreria.zonas;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.rmi.server.UID;
+
 @Data
-@EqualsAndHashCode(of = "implicaSalto")
+@EqualsAndHashCode(of = {"internalId", "implicaSalto", "implicaSaltoFila", "x", "y", "altura", "anchura"})
 public class LocalidadImpl implements Localidad {
+    private UID internalId;
     private Zona zona;
     private Localidad siguienteLocalidad;
     private Boolean implicaSalto;
@@ -14,6 +17,10 @@ public class LocalidadImpl implements Localidad {
     private double y;
     private double altura;
     private double anchura;
+
+    public LocalidadImpl() {
+        internalId = new UID();
+    }
 
     public void setZona(Zona zona) {
         if (this.zona != zona) {

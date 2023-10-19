@@ -6,14 +6,17 @@ import es.mdef.gaip_libreria.zonas.Localidad;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.rmi.server.UID;
+
 /**
  * Implementación concreta de la interfaz {@link LocalidadConfigurada}.
  * Esta clase representa una localidad específica que ha sido configurada con un estado y asociada a un invitado y una zona.
  */
 @Data
-@EqualsAndHashCode(of = "estadoLocalidad")
+@EqualsAndHashCode(of = {"internalId", "estadoLocalidad"})
 public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
     private static final EstadoLocalidad ESTADO_LOCALIDAD_POR_DEFECTO = EstadoLocalidad.BLOQUEADA;
+    private UID internalId;
     private Invitado invitado;
     private Localidad localidad;
     private EstadoLocalidad estadoLocalidad;
@@ -23,6 +26,7 @@ public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
      * Constructor por defecto.
      */
     public LocalidadConfiguradaImpl() {
+        internalId = new UID();
         setEstadoLocalidad(ESTADO_LOCALIDAD_POR_DEFECTO);
     }
 
