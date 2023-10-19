@@ -3,7 +3,6 @@ package es.mdef.gaip_libreria.zonas_configuradas;
 import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.zonas.Zona;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -16,7 +15,6 @@ import java.util.Set;
  * Esta clase implementa la interfaz {@link ZonaConfigurada}.
  */
 @Data
-@EqualsAndHashCode(of = "acto")
 public class ZonaConfiguradaImpl implements ZonaConfigurada {
     private final Set<LocalidadConfigurada> localidades = new LinkedHashSet<>();
     private final Set<PrioridadPorUnidad> prioridades = new HashSet<>();
