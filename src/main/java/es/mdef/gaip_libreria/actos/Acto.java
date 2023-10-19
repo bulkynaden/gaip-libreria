@@ -6,12 +6,14 @@ import es.mdef.gaip_libreria.constantes.TipoDeActo;
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.invitados.InvitacionesPorActo;
+import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Define las características y comportamientos específicos de un acto.
@@ -234,11 +236,11 @@ public interface Acto {
     }
 
     default int getNumeroLocalidadesParaRepartir() {
-        return getZonas().stream().mapToInt(e -> e.getNumeroLocalidadesParaRepartir()).sum();
+        return getZonas().stream().mapToInt(ZonaConfigurada::getNumeroLocalidadesParaRepartir).sum();
     }
 
     default int getNumeroLocalidadesParaRepartirPorTipoDeZona(TipoDeZona tipo) {
-        return getZonas().stream().filter(e -> e.getZona().getTipoDeZona() == tipo).mapToInt(e -> e.getNumeroLocalidadesParaRepartir()).sum();
+        return getZonas().stream().filter(e -> e.getZona().getTipoDeZona() == tipo).mapToInt(ZonaConfigurada::getNumeroLocalidadesParaRepartir).sum();
     }
 
     /**
@@ -251,5 +253,26 @@ public interface Acto {
                 .map(Anfitrion::getUnidadDeFormacion)
                 .distinct()
                 .toArray(String[]::new);
+    }
+
+    default Set<Invitado> getInvitados() {
+        return getInvitacionesPorActo().stream()
+                .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream())
+                .flatMap(invitacion -> invitacion.getInvitados().stream())
+                .collect(Collectors.toSet());
+    }
+
+    default Set<Invitado> getInvitadosPorTipoDeZona(TipoDeZona tipoDeZona) {
+        return getInvitacionesPorActo().stream()
+                .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream().filter(invitacion -> invitacion.getTipoDeZona() == tipoDeZona))
+                .flatMap(invitacion -> invitacion.getInvitados().stream())
+                .collect(Collectors.toSet());
+    }
+
+    default Set<Invitado> getInvitadosSinAsignar(TipoDeZona tipoDeZona) {
+        return getInvitacionesPorActo().stream()
+                .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream())
+                .flatMap(invitacion -> invitacion.getInvitados().stream().filter(invitado -> invitado.getLocalidad() == null))
+                .collect(Collectors.toSet());
     }
 }
