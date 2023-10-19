@@ -88,7 +88,6 @@ public class InvitacionImpl implements Invitacion {
             if (getTipoDeZona() == TipoDeZona.TRIBUNA && this.invitados.size() >= numeroMaximoInvitados) {
                 throw new IllegalArgumentException("Se ha alcanzado el número máximo de invitados.");
             }
-            
             this.invitados.add(invitado);
             invitado.setInvitacion(this);
         } else {
@@ -104,15 +103,11 @@ public class InvitacionImpl implements Invitacion {
      */
     @Override
     public void quitarInvitado(Invitado invitado) {
-        if (invitado != null) {
-            if (this.invitados.contains(invitado)) {
-                this.invitados.remove(invitado);
+        if (this.invitados.contains(invitado)) {
+            this.invitados.remove(invitado);
+            if (invitado != null) {
                 invitado.setInvitacion(null);
-            } else {
-                throw new IllegalArgumentException("El invitado no está en la lista.");
             }
-        } else {
-            throw new IllegalArgumentException("El invitado no puede ser nulo.");
         }
     }
 
