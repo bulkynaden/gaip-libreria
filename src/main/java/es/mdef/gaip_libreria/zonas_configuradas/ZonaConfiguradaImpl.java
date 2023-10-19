@@ -5,7 +5,6 @@ import es.mdef.gaip_libreria.zonas.Zona;
 import lombok.Data;
 
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -16,7 +15,7 @@ import java.util.Set;
  */
 @Data
 public class ZonaConfiguradaImpl implements ZonaConfigurada {
-    private final Set<LocalidadConfigurada> localidades = new LinkedHashSet<>();
+    private final Set<LocalidadConfigurada> localidades = new HashSet<>();
     private final Set<PrioridadPorUnidad> prioridades = new HashSet<>();
     private Zona zona;
     private Acto acto;
