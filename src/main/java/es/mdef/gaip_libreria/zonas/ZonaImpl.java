@@ -6,13 +6,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 
 @EqualsAndHashCode(of = {"nombre", "tipoDeZona", "numeroLocalidades"})
 @Data
 public class ZonaImpl implements Zona {
-    private Set<Localidad> localidades = new HashSet<>();
+    private Set<Localidad> localidades;
     private String nombre;
     private int numeroLocalidades;
     private TipoDeZona tipoDeZona;
@@ -28,6 +29,11 @@ public class ZonaImpl implements Zona {
     private double saltoY;
 
     public ZonaImpl() {
+        if (this instanceof ZonaNumerada) {
+            localidades = new LinkedHashSet<>();
+        } else {
+            localidades = new HashSet<>();
+        }
     }
 
     public void setLocalidades(Set<Localidad> localidades) {
