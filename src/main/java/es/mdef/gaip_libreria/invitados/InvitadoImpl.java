@@ -49,17 +49,12 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
      * @param nuevaInvitacion La invitación a asociar con el invitado.
      */
     public void setInvitacion(Invitacion nuevaInvitacion) {
-        if (nuevaInvitacion == null) {
-            throw new IllegalArgumentException("La invitación no puede ser nula.");
-        }
         if (this.invitacion != nuevaInvitacion) {
             Invitacion invitacionAnterior = this.invitacion;
             this.invitacion = nuevaInvitacion;
-
             if (invitacionAnterior != null) {
                 invitacionAnterior.quitarInvitado(this);
             }
-
             nuevaInvitacion.agregarInvitado(this);
         }
     }
