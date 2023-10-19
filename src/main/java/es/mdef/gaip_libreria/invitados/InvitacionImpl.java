@@ -85,7 +85,7 @@ public class InvitacionImpl implements Invitacion {
     @Override
     public void agregarInvitado(Invitado invitado) {
         if (invitado != null) {
-            if (this.invitados.size() < numeroMaximoInvitados) {
+            if (getTipoDeZona() == TipoDeZona.TRIBUNA && this.invitados.size() < numeroMaximoInvitados) {
                 this.invitados.add(invitado);
                 invitado.setInvitacion(this);
             } else {
