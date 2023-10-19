@@ -46,16 +46,17 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
      * Asocia una invitación al invitado. Si el invitado ya estaba asociado a otra invitación,
      * se elimina esa asociación previa. Establece la relación bidireccional entre el invitado y la invitación.
      *
-     * @param nuevaInvitacion La invitación a asociar con el invitado.
+     * @param invitacion La invitación a asociar con el invitado.
      */
-    public void setInvitacion(Invitacion nuevaInvitacion) {
-        if (this.invitacion != nuevaInvitacion) {
-            Invitacion invitacionAnterior = this.invitacion;
-            this.invitacion = nuevaInvitacion;
-            if (invitacionAnterior != null) {
-                invitacionAnterior.quitarInvitado(this);
+    public void setInvitacion(Invitacion invitacion) {
+        if (this.invitacion != invitacion) {
+            if (this.invitacion != null) {
+                this.invitacion.quitarInvitado(this);
             }
-            nuevaInvitacion.agregarInvitado(this);
+            this.invitacion = invitacion;
+            if (this.invitacion != null) {
+                this.invitacion.agregarInvitado(this);
+            }
         }
     }
 
@@ -68,7 +69,7 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
     public void setLocalidad(LocalidadConfigurada localidad) {
         if (this.localidad != localidad) {
             if (this.localidad != null) {
-                this.localidad.setLocalidad(null);
+                this.localidad.setInvitado(null);
             }
             this.localidad = localidad;
             if (this.localidad != null) {
