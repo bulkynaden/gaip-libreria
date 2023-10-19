@@ -74,23 +74,6 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
     void quitarInvitacionesPorActo(InvitacionesPorActo invitacionesPorActo);
 
     /**
-     * Invita a una persona a un acto específico en una zona determinada.
-     *
-     * @param invitado   Persona a invitar.
-     * @param acto       Acto al que se invita.
-     * @param tipoDeZona Zona en la que se ubicará el invitado.
-     */
-    void agregarInvitado(Invitado invitado, Acto acto, TipoDeZona tipoDeZona);
-
-    /**
-     * Retira la invitación a una persona de un acto específico.
-     *
-     * @param invitado Persona a la que se le retira la invitación.
-     * @param acto     Acto del que se retira la invitación.
-     */
-    void quitarInvitado(Invitado invitado, Acto acto);
-
-    /**
      * Agrega un acto al conjunto de actos a los que el anfitrión invitará personas.
      *
      * @param acto Acto a agregar.
@@ -122,17 +105,29 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
     }
 
     int compararPorCantidadDeInvitadosDeUnTipoDeZona(Acto acto, TipoDeZona tipo, Anfitrion anfitrion1, Anfitrion anfitrion2);
+    
+    default void agregarInvitados(Acto acto, Collection<Invitado> invitados) {
+        invitados.forEach(invitado -> agregarInvitado(acto, invitado));
+    }
 
     default void agregarInvitado(Acto acto, Invitado invitado) {
+        agregarInvitado(acto, invitado, invitado.getInvitacion().getTipoDeZona());
+    }
+
+    default void agregarInvitado(Acto acto, Invitado invitado, TipoDeZona tipoDeZona) {
         if (invitado instanceof InvitadoFcse invitadoFcse && invitadoFcse.getAsisteDeUniforme()) {
             getInvitacionPorTipoDeZona(acto, TipoDeZona.ACOTADO).agregarInvitado(invitado);
         } else {
-            getInvitacionPorTipoDeZona(acto, invitado.getInvitacion().getTipoDeZona()).agregarInvitado(invitado);
+            getInvitacionPorTipoDeZona(acto, tipoDeZona).agregarInvitado(invitado);
         }
     }
 
-    default void agregarInvitados(Acto acto, Collection<Invitado> invitados) {
-        invitados.forEach(invitado -> agregarInvitado(acto, invitado));
+    default void quitarInvitado(Acto acto, Invitado invitado) {
+        if (invitado instanceof InvitadoFcse invitadoFcse && invitadoFcse.getAsisteDeUniforme()) {
+            getInvitacionPorTipoDeZona(acto, TipoDeZona.ACOTADO).quitarInvitado(invitado);
+        } else {
+            getInvitacionPorTipoDeZona(acto, invitado.getInvitacion().getTipoDeZona()).agregarInvitado(invitado);
+        }
     }
 
     default Invitacion getInvitacionPorTipoDeZona(Acto acto, TipoDeZona tipoDeZona) {
