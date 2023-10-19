@@ -5,7 +5,10 @@ import es.mdef.gaip_libreria.zonas.Zona;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Clase que representa una zona específica configurada con sus propiedades asociadas y las relaciones con otras entidades.
@@ -15,7 +18,7 @@ import java.util.*;
 @Data
 @EqualsAndHashCode(of = "acto")
 public class ZonaConfiguradaImpl implements ZonaConfigurada {
-    private final List<LocalidadConfigurada> localidades = new ArrayList<>();
+    private final Set<LocalidadConfigurada> localidades = new LinkedHashSet<>();
     private final Set<PrioridadPorUnidad> prioridades = new HashSet<>();
     private Zona zona;
     private Acto acto;
@@ -46,7 +49,7 @@ public class ZonaConfiguradaImpl implements ZonaConfigurada {
      *
      * @param localidades El conjunto de localidades configuradas para la zona.
      */
-    public void setLocalidades(List<LocalidadConfigurada> localidades) {
+    public void setLocalidades(Set<LocalidadConfigurada> localidades) {
         if (this.localidades != localidades) {
             this.localidades.forEach(localidad -> localidad.setZonaConfigurada(null));
             this.localidades.clear();
