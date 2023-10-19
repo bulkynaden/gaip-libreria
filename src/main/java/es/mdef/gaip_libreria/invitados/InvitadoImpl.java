@@ -57,10 +57,10 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
             this.invitacion = nuevaInvitacion;
 
             if (invitacionAnterior != null) {
-                invitacionAnterior.getInvitados().remove(this);
+                invitacionAnterior.quitarInvitado(this);
             }
 
-            nuevaInvitacion.getInvitados().add(this);
+            nuevaInvitacion.agregarInvitado(this);
         }
     }
 

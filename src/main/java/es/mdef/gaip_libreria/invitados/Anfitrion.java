@@ -3,6 +3,7 @@ package es.mdef.gaip_libreria.invitados;
 import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -121,4 +122,26 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
     }
 
     int compararPorCantidadDeInvitadosDeUnTipoDeZona(Acto acto, TipoDeZona tipo, Anfitrion anfitrion1, Anfitrion anfitrion2);
+
+    default void agregarInvitado(Acto acto, Invitado invitado) {
+        if (invitado instanceof InvitadoFcse invitadoFcse && invitadoFcse.getAsisteDeUniforme()) {
+            getInvitacionPorTipoDeZona(acto, TipoDeZona.ACOTADO).agregarInvitado(invitado);
+        } else {
+            getInvitacionPorTipoDeZona(acto, invitado.getInvitacion().getTipoDeZona()).agregarInvitado(invitado);
+        }
+    }
+
+    default void agregarInvitados(Acto acto, Collection<Invitado> invitados) {
+        invitados.forEach(invitado -> agregarInvitado(acto, invitado));
+    }
+
+    default Invitacion getInvitacionPorTipoDeZona(Acto acto, TipoDeZona tipoDeZona) {
+        return getInvitacionesPorActo()
+                .stream()
+                .filter(e -> e.getActo() == acto)
+                .map(InvitacionesPorActo::getInvitaciones)
+                .flatMap(Collection::stream)
+                .filter(e -> e.getTipoDeZona() == tipoDeZona)
+                .findFirst().orElseThrow();
+    }
 }
