@@ -54,15 +54,27 @@ public class ZonaImpl implements Zona {
 
     @Override
     public void agregarLocalidad(Localidad localidad) {
-        if (localidad != null) {
+        if (localidad == null) {
+            throw new IllegalArgumentException("La localidad no puede ser nula.");
+        }
+        if (!localidades.contains(localidad)) {
             localidades.add(localidad);
-            localidad.setZona(this);
+            if (localidad.getZona() != this) {
+                localidad.setZona(this);
+            }
         }
     }
 
     @Override
     public void quitarLocalidad(Localidad localidad) {
-        localidades.remove(localidad);
-        localidad.setZona(null);
+        if (localidad == null) {
+            throw new IllegalArgumentException("La localidad no puede ser nula.");
+        }
+        if (localidades.contains(localidad)) {
+            localidades.remove(localidad);
+            if (localidad.getZona() == this) {
+                localidad.setZona(null);
+            }
+        }
     }
 }
