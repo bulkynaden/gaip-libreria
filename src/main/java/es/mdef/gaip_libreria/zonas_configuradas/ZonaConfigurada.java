@@ -7,6 +7,7 @@ import es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad;
 import es.mdef.gaip_libreria.zonas.Localidad;
 import es.mdef.gaip_libreria.zonas.Zona;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -54,14 +55,14 @@ public interface ZonaConfigurada {
      *
      * @return las localidades configuradas asociadas.
      */
-    Set<LocalidadConfigurada> getLocalidades();
+    List<LocalidadConfigurada> getLocalidades();
 
     /**
      * Establece el conjunto de {@link LocalidadConfigurada} asociadas a esta configuración.
      *
      * @param localidades las localidades configuradas a asociar.
      */
-    void setLocalidades(Set<LocalidadConfigurada> localidades);
+    void setLocalidades(List<LocalidadConfigurada> localidades);
 
     /**
      * Obtiene el conjunto de {@link PrioridadPorUnidad} asociadas a esta configuración.
