@@ -10,7 +10,7 @@ package es.mdef.gaip_libreria.zonas;
  * Las zonas numeradas son útiles cuando se desea tener un control más detallado sobre la numeración de las localidades dentro de una zona específica.
  * </p>
  */
-public interface ZonaNumerada extends Zona<LocalidadNumerada> {
+public interface ZonaNumerada extends Zona {
 
     /**
      * Obtiene el punto de inicio de la numeración de las localidades en esta zona numerada.

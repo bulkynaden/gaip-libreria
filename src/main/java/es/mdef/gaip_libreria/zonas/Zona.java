@@ -16,7 +16,7 @@ import java.util.Set;
  * Además, proporciona métodos para agregar y quitar localidades de la zona.
  * </p>
  */
-public interface Zona<T extends Localidad> extends Figura {
+public interface Zona extends Figura {
 
     /**
      * Obtiene el nombre de la zona.
@@ -51,14 +51,14 @@ public interface Zona<T extends Localidad> extends Figura {
      *
      * @return las localidades asociadas.
      */
-    Set<T> getLocalidades();
+    Set<Localidad> getLocalidades();
 
     /**
      * Establece el conjunto de {@link Localidad} asociadas a esta zona.
      *
      * @param localidades las localidades a asociar.
      */
-    void setLocalidades(Set<T> localidades);
+    void setLocalidades(Set<Localidad> localidades);
 
     /**
      * Obtiene el {@link TipoDeZona} asociado a esta zona.
@@ -93,14 +93,14 @@ public interface Zona<T extends Localidad> extends Figura {
      *
      * @param localidad la localidad a agregar.
      */
-    void agregarLocalidad(T localidad);
+    void agregarLocalidad(Localidad localidad);
 
     /**
      * Quita una {@link Localidad} de esta zona.
      *
      * @param localidad la localidad a quitar.
      */
-    void quitarLocalidad(T localidad);
+    void quitarLocalidad(Localidad localidad);
 
     double[] getXInicioFilas();
 

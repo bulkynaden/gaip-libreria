@@ -5,6 +5,6 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(of = {"inicioNumeracion"}, callSuper = true)
 @Data
-public class ZonaNumeradaImpl extends ZonaImpl<LocalidadNumerada> implements ZonaNumerada {
+public class ZonaNumeradaImpl extends ZonaImpl implements ZonaNumerada {
     private int inicioNumeracion;
 }
