@@ -43,7 +43,7 @@ public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
      * @param zonaConfigurada La zona configurada para la localidad.
      */
     public void setZonaConfigurada(ZonaConfigurada zonaConfigurada) {
-        /*if (this.zonaConfigurada != zonaConfigurada) {
+        if (this.zonaConfigurada != zonaConfigurada) {
             if (this.zonaConfigurada != null) {
                 this.zonaConfigurada.quitarLocalidad(this);
             }
@@ -51,8 +51,7 @@ public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
             if (this.zonaConfigurada != null) {
                 this.zonaConfigurada.agregarLocalidad(this);
             }
-        }*/
-        this.zonaConfigurada = zonaConfigurada;
+        }
     }
 
     /**
