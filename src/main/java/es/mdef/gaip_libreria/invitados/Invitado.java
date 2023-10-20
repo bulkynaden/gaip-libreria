@@ -1,5 +1,6 @@
 package es.mdef.gaip_libreria.invitados;
 
+import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 
 /**
@@ -60,5 +61,9 @@ public interface Invitado extends Persona {
 
     default Anfitrion getAnfitrion() {
         return getInvitacion().getInvitacionesPorActo().getAnfitrion();
+    }
+
+    default Acto getActo() {
+        return getInvitacion().getInvitacionesPorActo().getActo();
     }
 }

@@ -1,5 +1,6 @@
 package es.mdef.gaip_libreria.zonas_configuradas;
 
+import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.constantes.EstadoLocalidad;
 import es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad;
 import es.mdef.gaip_libreria.invitados.Invitado;
@@ -88,5 +89,9 @@ public interface LocalidadConfigurada {
      */
     default EstadoOcupacionLocalidad getEstadoOcupacionLocalidad() {
         return getInvitado() == null ? EstadoOcupacionLocalidad.LIBRE : EstadoOcupacionLocalidad.OCUPADA;
+    }
+
+    default Acto getActo() {
+        return getZonaConfigurada().getActo();
     }
 }
