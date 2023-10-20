@@ -1,6 +1,7 @@
 package es.mdef.gaip_libreria.unidades;
 
 import es.mdef.gaip_libreria.actos.Acto;
+import es.mdef.gaip_libreria.zonas.Localidad;
 import es.mdef.gaip_libreria.zonas.Zona;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,7 +20,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"nombre"})
 public class InstalacionImpl implements Instalacion {
     @Getter
-    private final List<Zona> zonas = new ArrayList<>();
+    private final List<Zona<? extends Localidad>> zonas = new ArrayList<>();
     @Getter
     private final Set<Acto> actos = new HashSet<>();
     private String nombre;
@@ -50,7 +51,7 @@ public class InstalacionImpl implements Instalacion {
      *
      * @param zonas el conjunto de zonas a establecer.
      */
-    public void setZonas(List<Zona> zonas) {
+    public void setZonas(List<Zona<? extends Localidad>> zonas) {
         this.zonas.clear();
         if (zonas != null) {
             zonas.forEach(this::agregarZona);
@@ -76,7 +77,7 @@ public class InstalacionImpl implements Instalacion {
      *
      * @param zona la zona a agregar. No puede ser nula.
      */
-    public void agregarZona(Zona zona) {
+    public void agregarZona(Zona<? extends Localidad> zona) {
         if (zona == null) {
             throw new IllegalArgumentException("La zona no puede ser nula.");
         }
@@ -93,7 +94,7 @@ public class InstalacionImpl implements Instalacion {
      *
      * @param zona la zona a quitar.
      */
-    public void quitarZona(Zona zona) {
+    public void quitarZona(Zona<? extends Localidad> zona) {
         if (zona != null && zonas.contains(zona)) {
             zonas.remove(zona);
             zona.setInstalacion(null);

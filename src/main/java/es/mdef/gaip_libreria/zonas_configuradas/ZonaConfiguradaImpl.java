@@ -1,6 +1,7 @@
 package es.mdef.gaip_libreria.zonas_configuradas;
 
 import es.mdef.gaip_libreria.actos.Acto;
+import es.mdef.gaip_libreria.zonas.Localidad;
 import es.mdef.gaip_libreria.zonas.Zona;
 import lombok.Data;
 
@@ -18,7 +19,7 @@ import java.util.Set;
 public class ZonaConfiguradaImpl implements ZonaConfigurada {
     private final Set<LocalidadConfigurada> localidades = new LinkedHashSet<>();
     private final Set<PrioridadPorUnidad> prioridades = new HashSet<>();
-    private Zona zona;
+    private Zona<? extends Localidad> zona;
     private Acto acto;
 
     /**

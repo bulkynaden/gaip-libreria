@@ -4,6 +4,7 @@ import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.constantes.EstadoDeUnaLocalidad;
 import es.mdef.gaip_libreria.constantes.EstadoLocalidad;
 import es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad;
+import es.mdef.gaip_libreria.zonas.Localidad;
 import es.mdef.gaip_libreria.zonas.Zona;
 
 import java.util.Set;
@@ -25,14 +26,14 @@ public interface ZonaConfigurada {
      *
      * @return la zona asociada.
      */
-    Zona getZona();
+    Zona<? extends Localidad> getZona();
 
     /**
      * Establece la {@link Zona} asociada a esta configuración.
      *
      * @param zona la zona a asociar.
      */
-    void setZona(Zona zona);
+    void setZona(Zona<? extends Localidad> zona);
 
     /**
      * Obtiene el {@link Acto} asociado a esta configuración.

@@ -33,7 +33,7 @@ public interface Localidad extends Figura {
      *
      * @return la zona asociada a esta localidad.
      */
-    Zona getZona();
+    Zona<? extends Localidad> getZona();
 
     /**
      * Establece la zona a la que pertenece esta localidad.

@@ -11,7 +11,7 @@ package es.mdef.gaip_libreria.zonas;
  * entre otros, donde cada asiento tiene un número único para identificación.
  * </p>
  */
-public interface LocalidadNumerada {
+public interface LocalidadNumerada extends Localidad {
 
     /**
      * Obtiene el número asignado a esta localidad numerada.
