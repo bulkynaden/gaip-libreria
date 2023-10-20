@@ -1,6 +1,7 @@
 package es.mdef.gaip_libreria.invitados;
 
 import es.mdef.gaip_libreria.constantes.Sexo;
+import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -74,6 +75,18 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
             this.localidad = localidad;
             if (this.localidad != null) {
                 this.localidad.setInvitado(this);
+                cambiarTipoDeInvitacion();
+            }
+        }
+    }
+
+    private void cambiarTipoDeInvitacion() {
+        if (getInvitacion() != null) {
+            TipoDeZona tipoDeZona = getLocalidad().getZonaConfigurada().getZona().getTipoDeZona();
+            if (tipoDeZona != getInvitacion().getTipoDeZona()) {
+                getInvitacion().quitarInvitado(this);
+                Invitacion nuevaInvitacion = getInvitacion().getInvitacionesPorActo().getInvitaciones().stream().filter(e -> e.getTipoDeZona() == tipoDeZona).findFirst().orElseThrow();
+                nuevaInvitacion.agregarInvitado(this);
             }
         }
     }
