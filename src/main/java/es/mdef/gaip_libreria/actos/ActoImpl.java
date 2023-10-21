@@ -243,7 +243,7 @@ public class ActoImpl implements Acto {
         }
     }
 
-    public void agregarAnfitriones(Collection<Anfitrion> anfitriones) {
+    public <T extends Anfitrion> void agregarAnfitriones(Collection<T> anfitriones) {
         anfitriones.forEach(this::agregarAnfitrion);
     }
 
