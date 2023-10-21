@@ -2,7 +2,7 @@ package es.mdef.gaip_libreria.invitados;
 
 import es.mdef.gaip_libreria.constantes.Sexo;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 
 /**
  * Define las características y comportamientos básicos de una persona.
@@ -88,14 +88,14 @@ public interface Persona {
      *
      * @return la fecha de nacimiento de la persona.
      */
-    ZonedDateTime getFechaNacimiento();
+    LocalDate getFechaNacimiento();
 
     /**
      * Establece una nueva fecha de nacimiento para la persona.
      *
      * @param fechaNacimiento la fecha de nacimiento a establecer.
      */
-    void setFechaNacimiento(ZonedDateTime fechaNacimiento);
+    void setFechaNacimiento(LocalDate fechaNacimiento);
 
     /**
      * Obtiene la dirección de correo electrónico de la persona.

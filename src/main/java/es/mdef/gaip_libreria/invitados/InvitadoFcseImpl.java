@@ -3,12 +3,12 @@ package es.mdef.gaip_libreria.invitados;
 import es.mdef.gaip_libreria.constantes.CuerpoFcse;
 import es.mdef.gaip_libreria.constantes.Sexo;
 import es.mdef.gaip_libreria.constantes.SituacionMilitar;
-import es.mdef.gaip_libreria.utilidades.EmpleoFinder;
+import es.mdef.gaip_libreria.utilidades.BusadorEmpleos;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 
 @EqualsAndHashCode(callSuper = true)
 @Setter
@@ -23,7 +23,7 @@ public class InvitadoFcseImpl extends InvitadoImpl implements InvitadoFcse {
     @Getter
     private CuerpoFcse cuerpo;
 
-    protected InvitadoFcseImpl(CuerpoFcse cuerpo, String empleo, String nombre, String primerApellido, String segundoApellido, String dni, Sexo sexo, ZonedDateTime fechaNacimiento, String email, String telefono, String parentesco, Coche coche, SituacionMilitar situacionMilitar, boolean asisteDeUniforme, boolean requiereVestuario, boolean entregaNombramiento) {
+    protected InvitadoFcseImpl(CuerpoFcse cuerpo, String empleo, String nombre, String primerApellido, String segundoApellido, String dni, Sexo sexo, LocalDate fechaNacimiento, String email, String telefono, String parentesco, Coche coche, SituacionMilitar situacionMilitar, boolean asisteDeUniforme, boolean requiereVestuario, boolean entregaNombramiento) {
         super(nombre, primerApellido, segundoApellido, dni, sexo, fechaNacimiento, email, telefono, parentesco, coche);
         this.cuerpo = cuerpo;
         this.situacion = situacionMilitar;
@@ -56,11 +56,11 @@ public class InvitadoFcseImpl extends InvitadoImpl implements InvitadoFcse {
     }
 
     public void setEmpleo(String empleo) {
-        setEmpleo(EmpleoFinder.findEmpleo(empleo, cuerpo));
+        setEmpleo(BusadorEmpleos.findEmpleo(empleo, cuerpo));
     }
-    
+
     private boolean validarEmpleo(Empleo empleo) {
-        Empleo foundEmpleo = EmpleoFinder.findEmpleo(String.valueOf(empleo), cuerpo);
+        Empleo foundEmpleo = BusadorEmpleos.findEmpleo(String.valueOf(empleo), cuerpo);
         return foundEmpleo != null;
     }
 }

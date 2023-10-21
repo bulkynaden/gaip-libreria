@@ -2,7 +2,7 @@ package es.mdef.gaip_libreria.zonas_configuradas;
 
 import es.mdef.gaip_libreria.constantes.EstadoLocalidad;
 import es.mdef.gaip_libreria.invitados.Invitado;
-import es.mdef.gaip_libreria.zonas.Localidad;
+import es.mdef.gaip_libreria.localidades.Localidad;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -1,4 +1,6 @@
-package es.mdef.gaip_libreria.zonas;
+package es.mdef.gaip_libreria.localidades;
+
+import es.mdef.gaip_libreria.zonas.ZonaNumerada;
 
 /**
  * Representa una localidad numerada dentro de una {@link ZonaNumerada}.

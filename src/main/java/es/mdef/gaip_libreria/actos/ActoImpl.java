@@ -1,6 +1,8 @@
 package es.mdef.gaip_libreria.actos;
 
+import es.mdef.gaip.anfitriones.AnfitrionEntity;
 import es.mdef.gaip_libreria.constantes.EstadoActo;
+import es.mdef.gaip_libreria.constantes.EstadoCreacion;
 import es.mdef.gaip_libreria.constantes.TipoDeActo;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.invitados.InvitacionesPorActo;
@@ -10,10 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Clase que representa un acto específico con sus propiedades asociadas y las relaciones con otras entidades.
@@ -30,6 +29,7 @@ public class ActoImpl implements Acto {
     private String descripcion;
     private Instalacion instalacion;
     private EstadoActo estado;
+    private EstadoCreacion estadoCreacion;
     private ZonedDateTime fecha;
     private ZonedDateTime fechaLimiteRegistro;
     private TipoDeActo tipo;
@@ -71,6 +71,7 @@ public class ActoImpl implements Acto {
         this.fecha = fecha;
         this.fechaLimiteRegistro = fechaLimiteRegistro;
         this.tipo = tipoDeActo;
+        setEstadoCreacion(EstadoCreacion.CARGA_ANFITRIONES);
     }
 
     /**
@@ -241,5 +242,19 @@ public class ActoImpl implements Acto {
                 invitacionPorActo.setActo(null);
             }
         }
+    }
+
+    public void agregarAnfitriones(Collection<AnfitrionEntity> anfitriones) {
+        anfitriones.forEach(this::agregarAnfitrion);
+    }
+
+    public void setEstadoCreacion(EstadoCreacion estadoCreacion) {
+        if (getEstadoCreacion() == null || estadoCreacion.ordinal() > getEstadoCreacion().ordinal()) {
+            this.estadoCreacion = estadoCreacion;
+        }
+    }
+
+    public void quitarAnfitriones() {
+        anfitriones.forEach(this::quitarAnfitrion);
     }
 }

@@ -105,7 +105,7 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
     }
 
     int compararPorCantidadDeInvitadosDeUnTipoDeZona(Acto acto, TipoDeZona tipo, Anfitrion anfitrion1, Anfitrion anfitrion2);
-    
+
     default void agregarInvitados(Acto acto, Collection<Invitado> invitados) {
         invitados.forEach(invitado -> agregarInvitado(acto, invitado));
     }

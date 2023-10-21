@@ -4,7 +4,7 @@ import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.constantes.EstadoLocalidad;
 import es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad;
 import es.mdef.gaip_libreria.invitados.Invitado;
-import es.mdef.gaip_libreria.zonas.Localidad;
+import es.mdef.gaip_libreria.localidades.Localidad;
 
 /**
  * Representa una localidad configurada dentro de una {@link ZonaConfigurada}.

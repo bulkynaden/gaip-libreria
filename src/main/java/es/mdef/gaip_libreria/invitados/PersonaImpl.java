@@ -3,7 +3,7 @@ package es.mdef.gaip_libreria.invitados;
 import es.mdef.gaip_libreria.constantes.Sexo;
 import lombok.Data;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 
 /**
  * Representa a una persona en el sistema.
@@ -38,7 +38,7 @@ public class PersonaImpl implements Persona {
     /**
      * Fecha de nacimiento de la persona.
      */
-    private ZonedDateTime fechaNacimiento;
+    private LocalDate fechaNacimiento;
 
     /**
      * Telefono de la persona.
@@ -51,10 +51,10 @@ public class PersonaImpl implements Persona {
     private String email;
 
     public PersonaImpl() {
-        this("", "", "", "", Sexo.HOMBRE, ZonedDateTime.now(), "", "");
+        this("", "", "", "", Sexo.HOMBRE, LocalDate.now(), "", "");
     }
 
-    public PersonaImpl(String nombre, String primerApellido, String segundoApellido, String dni, Sexo sexo, ZonedDateTime fechaNacimiento, String email, String telefono) {
+    public PersonaImpl(String nombre, String primerApellido, String segundoApellido, String dni, Sexo sexo, LocalDate fechaNacimiento, String email, String telefono) {
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;

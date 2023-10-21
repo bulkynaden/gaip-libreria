@@ -2,6 +2,7 @@ package es.mdef.gaip_libreria.zonas;
 
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import es.mdef.gaip_libreria.herramientas.Figura;
+import es.mdef.gaip_libreria.localidades.Localidad;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 
 import java.util.Set;

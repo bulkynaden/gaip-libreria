@@ -10,12 +10,12 @@ import es.mdef.gaip_libreria.invitados.Empleo;
  * Esta clase no debe ser instanciada.
  * </p>
  */
-public final class EmpleoFinder {
+public final class BusadorEmpleos {
 
     /**
      * Constructor privado para prevenir la instanciación de esta clase utilitaria.
      */
-    private EmpleoFinder() {
+    private BusadorEmpleos() {
     }
 
     /**

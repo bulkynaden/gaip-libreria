@@ -1,4 +1,4 @@
-package es.mdef.gaip_libreria.zonas;
+package es.mdef.gaip_libreria.localidades;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,6 +1,7 @@
-package es.mdef.gaip_libreria.zonas;
+package es.mdef.gaip_libreria.localidades;
 
 import es.mdef.gaip_libreria.herramientas.Figura;
+import es.mdef.gaip_libreria.zonas.Zona;
 
 /**
  * Representa una localidad individual dentro de una {@link Zona}.

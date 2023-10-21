@@ -1,12 +1,14 @@
 package es.mdef.gaip_libreria.zonas_configuradas;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Implementación concreta de la interfaz {@link PrioridadPorUnidad}.
  * Esta clase representa una prioridad específica asignada a una unidad y asociada a una zona configurada.
  */
 @Data
+@EqualsAndHashCode(of = {"prioridad", "unidad"})
 public class PrioridadPorUnidadImpl implements PrioridadPorUnidad {
     private int prioridad;
     private String unidad;

@@ -1,13 +1,11 @@
 package es.mdef.gaip_libreria.actos;
 
-import es.mdef.gaip_libreria.constantes.EstadoActo;
-import es.mdef.gaip_libreria.constantes.EstadoDeUnaLocalidad;
-import es.mdef.gaip_libreria.constantes.TipoDeActo;
-import es.mdef.gaip_libreria.constantes.TipoDeZona;
+import es.mdef.gaip_libreria.constantes.*;
 import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.invitados.InvitacionesPorActo;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.unidades.Instalacion;
+import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 
 import java.time.ZonedDateTime;
@@ -24,7 +22,6 @@ import java.util.stream.Collectors;
  * </p>
  */
 public interface Acto {
-
     /**
      * Obtiene el nombre del acto.
      *
@@ -275,4 +272,20 @@ public interface Acto {
                 .flatMap(invitacion -> invitacion.getInvitados().stream().filter(invitado -> invitado.getLocalidad() == null))
                 .collect(Collectors.toSet());
     }
+
+    default List<LocalidadConfigurada> getLocalidadesPorEstado(EstadoLocalidad estado) {
+        return getZonas().stream().flatMap(e -> e.getLocalidades().stream()).filter(e -> e.getEstadoLocalidad() == estado).collect(Collectors.toList());
+    }
+
+    default List<LocalidadConfigurada> getLocalidades() {
+        return getZonas().stream().flatMap(e -> e.getLocalidades().stream()).collect(Collectors.toList());
+    }
+
+    default List<ZonaConfigurada> getZonasConfiguradasPorTipo(TipoDeZona tipoDeZona) {
+        return getZonas().stream().filter(e -> e.getZona().getTipoDeZona() == tipoDeZona).collect(Collectors.toList());
+    }
+
+    EstadoCreacion getEstadoCreacion();
+
+    void setEstadoCreacion(EstadoCreacion estadoCreacion);
 }
