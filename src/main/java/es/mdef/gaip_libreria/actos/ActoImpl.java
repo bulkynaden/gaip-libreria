@@ -1,6 +1,5 @@
 package es.mdef.gaip_libreria.actos;
 
-import es.mdef.gaip.anfitriones.AnfitrionEntity;
 import es.mdef.gaip_libreria.constantes.EstadoActo;
 import es.mdef.gaip_libreria.constantes.EstadoCreacion;
 import es.mdef.gaip_libreria.constantes.TipoDeActo;
@@ -244,7 +243,7 @@ public class ActoImpl implements Acto {
         }
     }
 
-    public void agregarAnfitriones(Collection<AnfitrionEntity> anfitriones) {
+    public void agregarAnfitriones(Collection<Anfitrion> anfitriones) {
         anfitriones.forEach(this::agregarAnfitrion);
     }
 

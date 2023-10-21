@@ -1,7 +1,5 @@
 package es.mdef.gaip_libreria.actos;
 
-import es.mdef.gaip.actos.ActoEntity;
-import es.mdef.gaip.excepciones.AccionNoPermitidaParaElEstadoActual;
 import es.mdef.gaip_libreria.constantes.AccionesActo;
 import es.mdef.gaip_libreria.constantes.EstadoActo;
 
@@ -30,13 +28,11 @@ public final class ActosHelper {
     private ActosHelper() {
     }
 
-    public static void validarAccion(Acto acto, AccionesActo accion) {
-        if (!VALIDACIONES.get(accion).contains(acto.getEstado())) {
-            throw new AccionNoPermitidaParaElEstadoActual(acto.getEstado().name());
-        }
+    public static boolean validarAccion(Acto acto, AccionesActo accion) {
+        return VALIDACIONES.get(accion).contains(acto.getEstado());
     }
 
-    public static boolean validarFechaFinRegistro(ActoEntity acto, ZonedDateTime ahora) {
+    public static boolean validarFechaFinRegistro(Acto acto, ZonedDateTime ahora) {
         return ahora.isAfter(acto.getFechaLimiteRegistro()) && acto.getEstado() != VALIDACION && acto.getEstado().ordinal() < VALIDACION.ordinal();
     }
 }
