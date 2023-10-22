@@ -1,7 +1,7 @@
 package es.mdef.gaip_libreria.actos;
 
+import es.mdef.gaip_libreria.anfitriones.Anfitrion;
 import es.mdef.gaip_libreria.constantes.*;
-import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.invitados.InvitacionesPorActo;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.unidades.Instalacion;
@@ -139,14 +139,14 @@ public interface Acto {
      *
      * @return un conjunto de {@link Anfitrion}s asociados al acto.
      */
-    Set<Anfitrion> getAnfitriones();
+    <T extends Anfitrion> Set<T> getAnfitriones();
 
     /**
      * Asigna o establece el conjunto de anfitriones que han extendido invitaciones para el acto.
      *
      * @param anfitriones el conjunto de {@link Anfitrion}s a establecer.
      */
-    void setAnfitriones(Set<Anfitrion> anfitriones);
+    <T extends Anfitrion> void setAnfitriones(Set<T> anfitriones);
 
     /**
      * Agrega un anfitrión específico al conjunto de anfitriones del acto.
@@ -288,4 +288,8 @@ public interface Acto {
     EstadoCreacion getEstadoCreacion();
 
     void setEstadoCreacion(EstadoCreacion estadoCreacion);
+
+    default void quitarAnfitriones() {
+        getAnfitriones().forEach(this::quitarAnfitrion);
+    }
 }

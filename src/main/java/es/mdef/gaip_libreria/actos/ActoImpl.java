@@ -1,9 +1,9 @@
 package es.mdef.gaip_libreria.actos;
 
+import es.mdef.gaip_libreria.anfitriones.Anfitrion;
 import es.mdef.gaip_libreria.constantes.EstadoActo;
 import es.mdef.gaip_libreria.constantes.EstadoCreacion;
 import es.mdef.gaip_libreria.constantes.TipoDeActo;
-import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.invitados.InvitacionesPorActo;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
@@ -111,7 +111,7 @@ public class ActoImpl implements Acto {
      *
      * @param anfitriones El conjunto de anfitriones para el acto.
      */
-    public void setAnfitriones(Set<Anfitrion> anfitriones) {
+    public <T extends Anfitrion> void setAnfitriones(Set<T> anfitriones) {
         if (this.anfitriones != anfitriones) {
             this.anfitriones.forEach(anfitrion -> anfitrion.quitarActo(this));
             this.anfitriones.clear();
@@ -151,12 +151,12 @@ public class ActoImpl implements Acto {
         if (anfitrion == null) {
             throw new IllegalArgumentException("El anfitrión no puede ser nulo.");
         }
-        if (anfitriones.contains(anfitrion)) {
-            anfitriones.remove(anfitrion);
-            if (anfitrion.getActos() != null && anfitrion.getActos().contains(this)) {
-                anfitrion.quitarActo(this);
-            }
+
+        if (anfitriones.remove(anfitrion) && anfitrion.getActos().contains(this)) {
+            anfitrion.quitarActo(this);
         }
+
+        getInvitacionesPorActo().removeIf(invitacion -> invitacion.getAnfitrion() == anfitrion);
     }
 
     /**
@@ -251,9 +251,5 @@ public class ActoImpl implements Acto {
         if (getEstadoCreacion() == null || estadoCreacion.ordinal() > getEstadoCreacion().ordinal()) {
             this.estadoCreacion = estadoCreacion;
         }
-    }
-
-    public void quitarAnfitriones() {
-        anfitriones.forEach(this::quitarAnfitrion);
     }
 }

@@ -1,8 +1,8 @@
 package es.mdef.gaip_libreria.utilidades;
 
 import es.mdef.gaip_libreria.actos.Acto;
+import es.mdef.gaip_libreria.anfitriones.Anfitrion;
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
-import es.mdef.gaip_libreria.invitados.Anfitrion;
 import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
 
 import java.util.*;

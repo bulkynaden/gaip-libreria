@@ -1,7 +1,7 @@
 package es.mdef.gaip_libreria.utilidades;
 
 import es.mdef.gaip_libreria.actos.Acto;
-import es.mdef.gaip_libreria.invitados.Anfitrion;
+import es.mdef.gaip_libreria.anfitriones.Anfitrion;
 import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;

@@ -1,6 +1,7 @@
 package es.mdef.gaip_libreria.invitados;
 
 import es.mdef.gaip_libreria.actos.Acto;
+import es.mdef.gaip_libreria.anfitriones.Anfitrion;
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
 
 import java.util.Comparator;

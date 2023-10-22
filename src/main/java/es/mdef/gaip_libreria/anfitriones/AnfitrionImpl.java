@@ -1,7 +1,9 @@
-package es.mdef.gaip_libreria.invitados;
+package es.mdef.gaip_libreria.anfitriones;
 
 import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
+import es.mdef.gaip_libreria.invitados.InvitacionesPorActo;
+import es.mdef.gaip_libreria.invitados.PersonaImpl;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
