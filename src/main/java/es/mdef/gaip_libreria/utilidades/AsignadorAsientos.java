@@ -109,4 +109,15 @@ public final class AsignadorAsientos {
 
         return true;
     }
+
+    public static void levantarInvitados(Acto acto) {
+        acto.getInvitados().stream().filter(e -> localidadEsLibrerable(e.getLocalidad())).forEach(e -> e.setLocalidad(null));
+    }
+
+    private static boolean localidadEsLibrerable(LocalidadConfigurada localidadConfigurada) {
+        if (localidadConfigurada == null) {
+            return false;
+        }
+        return localidadConfigurada.getEstadoLocalidad() == NORMAL;
+    }
 }
