@@ -65,16 +65,17 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
      * Establece la localidad para la localidad configurada y mantiene la coherencia bidireccional.
      *
      * @param localidad La localidad asociada a la localidad configurada. No puede ser nula.
-     * @throws IllegalArgumentException si la localidad es nula.
      */
     public void setLocalidad(LocalidadConfigurada localidad) {
         if (this.localidad != localidad) {
-            LocalidadConfigurada antiguaLocalidad = this.localidad;
+            LocalidadConfigurada oldLocalidad = this.localidad;
             this.localidad = localidad;
-            if (antiguaLocalidad != null) {
-                antiguaLocalidad.setInvitado(null);
+
+            if (oldLocalidad != null) {
+                oldLocalidad.setInvitado(null);
             }
-            if (this.localidad != null) {
+
+            if (this.localidad != null && this.localidad.getInvitado() != this) {
                 this.localidad.setInvitado(this);
                 cambiarTipoDeInvitacion();
             }
