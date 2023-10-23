@@ -69,10 +69,11 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
      */
     public void setLocalidad(LocalidadConfigurada localidad) {
         if (this.localidad != localidad) {
-            if (this.localidad != null) {
-                this.localidad.setInvitado(null);
-            }
+            LocalidadConfigurada antiguaLocalidad = this.localidad;
             this.localidad = localidad;
+            if (antiguaLocalidad != null) {
+                antiguaLocalidad.setInvitado(null);
+            }
             if (this.localidad != null) {
                 this.localidad.setInvitado(this);
                 cambiarTipoDeInvitacion();
