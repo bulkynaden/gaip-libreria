@@ -26,11 +26,11 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
     Set<Acto> getActos();
 
     /**
-     * Establece los actos a los que el anfitrión invitará personas.
+     * Establece los actos asociados al anfitrión.
      *
-     * @param actos Conjunto de actos a asociar al anfitrión.
+     * @param actos Conjunto de actos.
      */
-    void setActos(Set<Acto> actos);
+    <T extends Acto> void setActos(Set<T> actos);
 
     /**
      * Obtiene la unidad de formación del anfitrión.
@@ -58,7 +58,7 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
      *
      * @param invitacionesPorActo Conjunto de invitaciones por acto.
      */
-    void setInvitacionesPorActo(Set<InvitacionesPorActo> invitacionesPorActo);
+    <T extends InvitacionesPorActo> void setInvitacionesPorActo(Set<T> invitacionesPorActo);
 
     /**
      * Agrega una invitación por acto al conjunto de invitaciones del anfitrión.
@@ -88,47 +88,23 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
      */
     void quitarActo(Acto acto);
 
-    default long getNumeroInvitadosDeUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
-        return this.getInvitacionesPorActo().stream().filter(e -> e.getActo() == acto)
-                .flatMap(e -> e.getInvitaciones().stream())
-                .filter(e -> e.getTipoDeZona() == tipoDeZona)
-                .mapToInt(e -> e.getInvitados().size()).sum();
-    }
 
-    default long getNumeroInvitadosSinAsignarDeUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
-        return this.getInvitacionesPorActo().stream().filter(e -> e.getActo() == acto)
-                .flatMap(e -> e.getInvitaciones().stream())
-                .filter(e -> e.getTipoDeZona() == tipoDeZona)
-                .mapToLong(e -> e.getInvitados().stream().filter(invitado -> invitado.getLocalidad() == null).count()).sum();
-    }
-
-    default Set<Invitado> getInvitadosSinAsignarDeUnActo(Acto acto) {
-        return this.getInvitacionesPorActo().stream()
-                .filter(e -> e.getActo().equals(acto))
-                .map(InvitacionesPorActo::getInvitaciones)
-                .flatMap(Set::stream)
-                .map(Invitacion::getInvitados)
-                .flatMap(Set::stream)
-                .filter(invitado -> invitado.getLocalidad() == null)
-                .collect(Collectors.toSet());
-    }
-
-    default Set<Invitado> getInvitadosAUnActo(Acto acto) {
-        return this.getInvitacionesPorActo().stream()
-                .filter(e -> e.getActo().equals(acto))
-                .map(InvitacionesPorActo::getInvitaciones)
-                .flatMap(Set::stream)
-                .map(Invitacion::getInvitados)
-                .flatMap(Set::stream)
-                .collect(Collectors.toSet());
-    }
-
-    int compararPorCantidadDeInvitadosDeUnTipoDeZona(Acto acto, TipoDeZona tipo, Anfitrion anfitrion1, Anfitrion anfitrion2);
-
+    /**
+     * Agrega un conjunto de invitados al acto especificado.
+     *
+     * @param acto      Acto al cual agregar los invitados.
+     * @param invitados Conjunto de invitados a agregar.
+     */
     default <T extends Invitado> void agregarInvitados(Acto acto, Collection<T> invitados) {
         invitados.forEach(invitado -> agregarInvitado(acto, invitado));
     }
 
+    /**
+     * Agrega un invitado al acto especificado.
+     *
+     * @param acto     Acto al cual agregar el invitado.
+     * @param invitado Invitado a agregar.
+     */
     default void agregarInvitado(Acto acto, Invitado invitado) {
         if (invitado.getInvitacion() == null) {
             agregarInvitado(acto, invitado, null);
@@ -136,6 +112,13 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
         agregarInvitado(acto, invitado, invitado.getInvitacion().getTipoDeZona());
     }
 
+    /**
+     * Agrega un invitado al acto especificado.
+     *
+     * @param acto       Acto al cual agregar el invitado.
+     * @param invitado   Invitado a agregar.
+     * @param tipoDeZona Tipo de zona al que pertenece el invitado.
+     */
     default void agregarInvitado(Acto acto, Invitado invitado, TipoDeZona tipoDeZona) {
         if (tipoDeZona == null) {
             getInvitacionPorTipoDeZona(acto, TipoDeZona.LISTA_DE_ESPERA).agregarInvitado(invitado);
@@ -156,13 +139,122 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
         }
     }
 
-    default Invitacion getInvitacionPorTipoDeZona(Acto acto, TipoDeZona tipoDeZona) {
-        return getInvitacionesPorActo()
-                .stream()
-                .filter(e -> e.getActo() == acto)
+    /**
+     * Devuelve el número de invitados de un acto en una zona específica.
+     *
+     * @param acto       Acto específico.
+     * @param tipoDeZona Tipo de zona específico.
+     * @return Número de invitados de un acto en una zona específica.
+     */
+    default long getNumeroInvitadosDeUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
+        return getInvitadosAUnActoPorZona(acto, tipoDeZona).size();
+    }
+
+    /**
+     * Devuelve el número de invitados sin asignar de un acto en una zona específica.
+     *
+     * @param acto       Acto específico.
+     * @param tipoDeZona Tipo de zona específico.
+     * @return Número de invitados sin asignar de un acto en una zona específica.
+     */
+    default long getNumeroInvitadosSinAsignarDeUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
+        return getInvitadosSinAsignarDeUnActoPorZona(acto, tipoDeZona).size();
+    }
+
+    /**
+     * Devuelve los invitados de un acto sin asignar.
+     *
+     * @param acto Acto específico.
+     * @return Conjunto de invitados sin asignar de un acto.
+     */
+    default Set<Invitado> getInvitadosSinAsignarDeUnActo(Acto acto) {
+        return getInvitacionesDeActo(acto).stream()
+                .map(Invitacion::getInvitados)
+                .flatMap(Set::stream)
+                .filter(invitado -> invitado.getLocalidad() == null)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Devuelve los invitados de un acto sin asignar en una zona específica.
+     *
+     * @param acto       Acto específico.
+     * @param tipoDeZona Tipo de zona específica.
+     * @return Conjunto de invitados sin asignar de un acto en una zona específica.
+     */
+    default Set<Invitado> getInvitadosSinAsignarDeUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
+        return getInvitacionesDeActo(acto).stream()
+                .filter(e -> e.getTipoDeZona() == tipoDeZona)
+                .map(Invitacion::getInvitados)
+                .flatMap(Set::stream)
+                .filter(invitado -> invitado.getLocalidad() == null)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Devuelve los invitados de un acto.
+     *
+     * @param acto Acto específico.
+     * @return Conjunto de invitados de un acto.
+     */
+    default Set<Invitado> getInvitadosAUnActo(Acto acto) {
+        return getInvitacionesDeActo(acto).stream()
+                .map(Invitacion::getInvitados)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+    }
+
+
+    /**
+     * Devuelve los invitados de un acto en una zona específica.
+     *
+     * @param acto       Acto específico.
+     * @param tipoDeZona Tipo de zona específica.
+     * @return Conjunto de invitados de un acto en una zona específica.
+     */
+    default Set<Invitado> getInvitadosAUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
+        return getInvitacionesDeActo(acto).stream()
+                .filter(e -> e.getTipoDeZona() == tipoDeZona)
+                .map(Invitacion::getInvitados)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Devuelve las invitaciones de un acto.
+     *
+     * @param acto Acto específico.
+     * @return Conjunto de invitaciones de un acto.
+     */
+    private Set<Invitacion> getInvitacionesDeActo(Acto acto) {
+        return this.getInvitacionesPorActo().stream()
+                .filter(e -> e.getActo().equals(acto))
                 .map(InvitacionesPorActo::getInvitaciones)
-                .flatMap(Collection::stream)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Devuelve la invitación por tipo de zona de un acto.
+     *
+     * @param acto       Acto específico.
+     * @param tipoDeZona Tipo de zona específica.
+     * @return Invitación por tipo de zona de un acto.
+     */
+    default Invitacion getInvitacionPorTipoDeZona(Acto acto, TipoDeZona tipoDeZona) {
+        return getInvitacionesDeActo(acto).stream()
                 .filter(e -> e.getTipoDeZona() == tipoDeZona)
                 .findFirst().orElseThrow();
     }
+
+    /**
+     * Compara dos anfitriones por la cantidad de invitados de un tipo de zona en un acto específico.
+     *
+     * @param acto       Acto específico.
+     * @param tipo       Tipo de zona específico.
+     * @param anfitrion1 Primer anfitrión a comparar.
+     * @param anfitrion2 Segundo anfitrión a comparar.
+     * @return Valor negativo, cero o positivo si el primer anfitrión tiene menos, igual o más invitados que el segundo anfitrión, respectivamente.
+     */
+    int compararPorCantidadDeInvitadosDeUnTipoDeZona(Acto acto, TipoDeZona tipo, Anfitrion anfitrion1, Anfitrion anfitrion2);
 }

@@ -35,7 +35,7 @@ public class AnfitrionImpl extends PersonaImpl implements Anfitrion {
      * @param actos El conjunto de actos a asociar con este anfitrión.
      */
     @Override
-    public void setActos(Set<Acto> actos) {
+    public <T extends Acto> void setActos(Set<T> actos) {
         this.actos.forEach(e -> e.quitarAnfitrion(this));
         this.actos.clear();
         if (actos != null) {
@@ -49,7 +49,7 @@ public class AnfitrionImpl extends PersonaImpl implements Anfitrion {
      * @param invitacionesPorActo Conjunto de invitaciones por acto.
      */
     @Override
-    public void setInvitacionesPorActo(Set<InvitacionesPorActo> invitacionesPorActo) {
+    public <T extends InvitacionesPorActo> void setInvitacionesPorActo(Set<T> invitacionesPorActo) {
         if (this.invitacionesPorActo != invitacionesPorActo) {
             this.invitacionesPorActo.clear();
             if (invitacionesPorActo != null) {
