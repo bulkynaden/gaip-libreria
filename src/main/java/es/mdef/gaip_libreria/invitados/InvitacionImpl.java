@@ -85,8 +85,6 @@ public class InvitacionImpl implements Invitacion {
     @Override
     public void agregarInvitado(Invitado invitado) {
         if (invitado != null) {
-            //TODO borrar log
-            System.out.println(getTipoDeZona());
             if (getTipoDeZona() == TipoDeZona.TRIBUNA && this.invitados.size() >= numeroMaximoInvitados) {
                 throw new IllegalArgumentException("Se ha alcanzado el número máximo de invitados.");
             }
