@@ -30,7 +30,7 @@ public final class AsignadorAsientos {
 
         for (Anfitrion anfitrion : anfitrionesOrdenados) {
             int numeroInvitados = (int) anfitrion.getNumeroInvitadosDeUnActoPorZona(acto, TRIBUNA);
-            List<Invitado> invitados = obtenerInvitados(acto, anfitrion);
+            Set<Invitado> invitados = obtenerInvitados(acto, anfitrion);
 
             boolean invitadosSentados = false;
 
@@ -59,12 +59,8 @@ public final class AsignadorAsientos {
     }
 
 
-    private static List<Invitado> obtenerInvitados(Acto acto, Anfitrion anfitrion) {
-        return anfitrion.getInvitacionesPorActo().stream().filter(e -> e.getActo() == acto)
-                .flatMap(e -> e.getInvitaciones().stream())
-                .filter(e1 -> e1.getTipoDeZona() == TRIBUNA)
-                .flatMap(e2 -> e2.getInvitados().stream())
-                .toList();
+    private static Set<Invitado> obtenerInvitados(Acto acto, Anfitrion anfitrion) {
+        return anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, TRIBUNA);
     }
 
     private static List<ZonaConfigurada> ordenarZonasPorPrioridad(String unidad, List<ZonaConfigurada> zonas) {
@@ -97,14 +93,15 @@ public final class AsignadorAsientos {
         return localidadesConsecutivas;
     }
 
-    private static boolean sentar(List<Invitado> invitados, List<LocalidadConfigurada> localidadesConsecutivas) {
+    private static boolean sentar(Set<Invitado> invitados, List<LocalidadConfigurada> localidadesConsecutivas) {
         if (invitados.size() != localidadesConsecutivas.size()) {
             return false;
         }
-        for (int i = 0; i < invitados.size(); i++) {
+        int i = 0;
+        for (Invitado invitado : invitados) {
             LocalidadConfigurada localidadConfigurada = localidadesConsecutivas.get(i);
-            Invitado invitado = invitados.get(i);
             invitado.setLocalidad(localidadConfigurada);
+            i++;
         }
 
         return true;
