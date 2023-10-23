@@ -35,4 +35,8 @@ public final class ActosHelper {
     public static boolean validarFechaFinRegistro(Acto acto, ZonedDateTime ahora) {
         return ahora.isAfter(acto.getFechaLimiteRegistro()) && acto.getEstado() != VALIDACION && acto.getEstado().ordinal() < VALIDACION.ordinal();
     }
+
+    public static boolean validarFechaDelActo(Acto acto, ZonedDateTime ahora) {
+        return ahora.isAfter(acto.getFecha().plusDays(1));
+    }
 }
