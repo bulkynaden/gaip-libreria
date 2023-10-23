@@ -108,8 +108,9 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
     default void agregarInvitado(Acto acto, Invitado invitado) {
         if (invitado.getInvitacion() == null) {
             agregarInvitado(acto, invitado, null);
+        } else {
+            agregarInvitado(acto, invitado, invitado.getInvitacion().getTipoDeZona());
         }
-        agregarInvitado(acto, invitado, invitado.getInvitacion().getTipoDeZona());
     }
 
     /**
@@ -125,18 +126,18 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
         }
 
         if (invitado instanceof InvitadoFcse invitadoFcse && invitadoFcse.getAsisteDeUniforme()) {
-            getInvitacionPorTipoDeZona(acto, TipoDeZona.ACOTADO).agregarInvitado(invitado);
+            if (invitado.getInvitacion() != null && invitado.getInvitacion().getTipoDeZona() != TipoDeZona.LISTA_DE_ESPERA) {
+                getInvitacionPorTipoDeZona(acto, TipoDeZona.ACOTADO).agregarInvitado(invitado);
+            } else {
+                getInvitacionPorTipoDeZona(acto, TipoDeZona.LISTA_DE_ESPERA).agregarInvitado(invitado);
+            }
         } else {
             getInvitacionPorTipoDeZona(acto, tipoDeZona).agregarInvitado(invitado);
         }
     }
 
     default void quitarInvitado(Acto acto, Invitado invitado) {
-        if (invitado instanceof InvitadoFcse invitadoFcse && invitadoFcse.getAsisteDeUniforme()) {
-            getInvitacionPorTipoDeZona(acto, TipoDeZona.ACOTADO).quitarInvitado(invitado);
-        } else {
-            getInvitacionPorTipoDeZona(acto, invitado.getInvitacion().getTipoDeZona()).agregarInvitado(invitado);
-        }
+        getInvitacionPorTipoDeZona(acto, invitado.getInvitacion().getTipoDeZona()).quitarInvitado(invitado);
     }
 
     /**
@@ -203,7 +204,6 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
     }
-
 
     /**
      * Devuelve los invitados de un acto en una zona específica.
