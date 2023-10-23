@@ -62,8 +62,8 @@ public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
     public void setInvitado(Invitado invitado) {
         if (this.invitado != invitado) {
             if (this.invitado != null) {
-                System.out.println(invitado.getNombre() + invitado.getPrimerApellido());
-                System.out.println(this.invitado.getNombre() + " " + invitado.getPrimerApellido());
+                System.out.println(this.invitado.getNombre() + this.invitado.getPrimerApellido());
+                System.out.println(this.invitado.getNombre() + " " + (invitado == null));
                 this.invitado.setLocalidad(null);
             }
             this.invitado = invitado;
