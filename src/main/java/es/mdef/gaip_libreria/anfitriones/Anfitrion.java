@@ -95,6 +95,24 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
                 .mapToInt(e -> e.getInvitados().size()).sum();
     }
 
+    default long getNumeroInvitadosSinAsignarDeUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
+        return this.getInvitacionesPorActo().stream().filter(e -> e.getActo() == acto)
+                .flatMap(e -> e.getInvitaciones().stream())
+                .filter(e -> e.getTipoDeZona() == tipoDeZona)
+                .mapToLong(e -> e.getInvitados().stream().filter(invitado -> invitado.getLocalidad() == null).count()).sum();
+    }
+
+    default Set<Invitado> getInvitadosSinAsignarDeUnActo(Acto acto) {
+        return this.getInvitacionesPorActo().stream()
+                .filter(e -> e.getActo().equals(acto))
+                .map(InvitacionesPorActo::getInvitaciones)
+                .flatMap(Set::stream)
+                .map(Invitacion::getInvitados)
+                .flatMap(Set::stream)
+                .filter(invitado -> invitado.getLocalidad() == null)
+                .collect(Collectors.toSet());
+    }
+
     default Set<Invitado> getInvitadosAUnActo(Acto acto) {
         return this.getInvitacionesPorActo().stream()
                 .filter(e -> e.getActo().equals(acto))
@@ -122,7 +140,7 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
         if (tipoDeZona == null) {
             getInvitacionPorTipoDeZona(acto, TipoDeZona.LISTA_DE_ESPERA).agregarInvitado(invitado);
         }
-        
+
         if (invitado instanceof InvitadoFcse invitadoFcse && invitadoFcse.getAsisteDeUniforme()) {
             getInvitacionPorTipoDeZona(acto, TipoDeZona.ACOTADO).agregarInvitado(invitado);
         } else {
