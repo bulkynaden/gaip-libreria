@@ -25,7 +25,13 @@ public class InvitacionesPorActoImpl implements InvitacionesPorActo {
     @Override
     public void setActo(Acto acto) {
         if (this.acto != acto) {
+            if (this.acto != null && this.acto.getInvitacionesPorActo().contains(this)) {
+                this.acto.quitarInvitacionesPorActo(this);
+            }
             this.acto = acto;
+            if (this.acto != null && !this.acto.getInvitacionesPorActo().contains(this)) {
+                this.acto.agregarInvitacionesPorActo(this);
+            }
         }
     }
 
