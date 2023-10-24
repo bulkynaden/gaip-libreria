@@ -30,7 +30,7 @@ public class InvitacionImpl implements Invitacion {
     public InvitacionImpl(TipoDeZona tipoDeZona, int numeroMaximoInvitados, InvitacionesPorActo invitacionesPorActo) {
         this.tipoDeZona = tipoDeZona;
         this.numeroMaximoInvitados = numeroMaximoInvitados;
-        this.invitacionesPorActo = invitacionesPorActo;
+        setInvitacionesPorActo(invitacionesPorActo);
     }
 
     @Override
@@ -47,8 +47,8 @@ public class InvitacionImpl implements Invitacion {
     public void setInvitacionesPorActo(InvitacionesPorActo invitacionesPorActo) {
         if (this.invitacionesPorActo != invitacionesPorActo) {
             this.invitacionesPorActo = invitacionesPorActo;
-            if (invitacionesPorActo != null && invitacionesPorActo.getInvitaciones().contains(this)) {
-                invitacionesPorActo.quitarInvitacion(this);
+            if (invitacionesPorActo != null && !invitacionesPorActo.getInvitaciones().contains(this)) {
+                invitacionesPorActo.agregarInvitacion(this);
             }
         }
     }
