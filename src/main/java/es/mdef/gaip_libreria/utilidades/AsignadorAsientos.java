@@ -60,7 +60,7 @@ public final class AsignadorAsientos {
         int numeroInvitados = (int) anfitrion.getNumeroInvitadosDeUnActoPorZona(acto, TRIBUNA);
         Set<Invitado> invitados = obtenerInvitados(acto, anfitrion, TRIBUNA);
         if (numeroInvitados > 0) {
-            List<ZonaConfigurada> zonasOrdenadas = ordenarZonasPorPrioridad(anfitrion.getUnidadDeFormacion(), acto.getZonas());
+            List<ZonaConfigurada> zonasOrdenadas = ordenarZonasPorPrioridad(anfitrion.getUnidadDeFormacion(), acto.getZonasConfiguradasPorTipo(TRIBUNA));
             for (ZonaConfigurada zona : zonasOrdenadas) {
                 if (sentarInvitadosEnZona(invitados, zona, numeroInvitados)) {
                     break;
@@ -110,8 +110,7 @@ public final class AsignadorAsientos {
     }
 
     private static LocalidadConfigurada obtenerLocalidadLibreDeZonaGenerica(Acto acto) {
-        return acto.getZonas().stream()
-                .filter(zona -> GENERICA.equals(zona.getZona().getTipoDeZona()))
+        return acto.getZonasConfiguradasPorTipo(GENERICA).stream()
                 .flatMap(zona -> zona.getLocalidades().stream())
                 .filter(localidad -> LIBRE.equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad()))
                 .findFirst()
