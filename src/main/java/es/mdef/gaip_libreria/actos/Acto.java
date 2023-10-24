@@ -178,18 +178,18 @@ public interface Acto {
     void setInvitacionesPorActo(Set<InvitacionesPorActo> invitacionesPorActo);
 
     /**
-     * Agrega una invitación por acto al conjunto de invitaciones del anfitrión.
+     * Agrega una invitación por acto
      *
-     * @param invitacionesPorActo Invitación por acto a agregar.
+     * @param invitacionPorActo la invitación por acto a agregar.
      */
-    void agregarInvitacionesPorActo(InvitacionesPorActo invitacionesPorActo);
+    void agregarInvitacionesPorActo(InvitacionesPorActo invitacionPorActo);
 
     /**
-     * Elimina una invitación por acto del conjunto de invitaciones del anfitrión.
+     * Quita una invitación por acto
      *
-     * @param invitacionesPorActo Invitación por acto a eliminar.
+     * @param invitacionPorActo la invitación por acto a quitard.
      */
-    void quitarInvitacionesPorActo(InvitacionesPorActo invitacionesPorActo);
+    void quitarInvitacionesPorActo(InvitacionesPorActo invitacionPorActo);
 
     /**
      * Agrega una zona configurada específica al conjunto de zonas del acto.
