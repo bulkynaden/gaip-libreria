@@ -9,6 +9,7 @@ import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -290,6 +291,7 @@ public interface Acto {
     void setEstadoCreacion(EstadoCreacion estadoCreacion);
 
     default void quitarAnfitriones() {
-        getAnfitriones().forEach(this::quitarAnfitrion);
+        List<Anfitrion> anfitrionesParaBorrar = new ArrayList<>(getAnfitriones());
+        anfitrionesParaBorrar.forEach(this::quitarAnfitrion);
     }
 }
