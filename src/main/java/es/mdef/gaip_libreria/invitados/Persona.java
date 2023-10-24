@@ -124,4 +124,8 @@ public interface Persona {
      * @param telefono el número de teléfono a establecer.
      */
     void setTelefono(String telefono);
+
+    default String getNombreCompleto() {
+        return getNombre() + " " + getPrimerApellido() + " " + getSegundoApellido();
+    }
 }
