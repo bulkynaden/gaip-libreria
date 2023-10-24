@@ -106,7 +106,7 @@ public interface ZonaConfigurada {
     void quitarLocalidad(LocalidadConfigurada localidad);
 
     default int getNumeroLocalidadesTotales() {
-        return getLocalidades().size();
+        return getZona().getNumeroLocalidades();
     }
 
     default int getNumeroLocalidadesPorEstado(EstadoDeUnaLocalidad estado) {
