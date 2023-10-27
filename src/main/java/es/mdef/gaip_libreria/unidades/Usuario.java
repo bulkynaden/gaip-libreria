@@ -1,6 +1,6 @@
 package es.mdef.gaip_libreria.unidades;
 
-import es.mdef.gaip_libreria.constantes.Rol;
+import es.mdef.gaip_libreria.constantes.Role;
 import es.mdef.gaip_libreria.invitados.Persona;
 
 /**
@@ -25,7 +25,7 @@ public interface Usuario extends Persona {
      *
      * @return el rol asignado al usuario.
      */
-    Rol getRol();
+    Role getRole();
 
     /**
      * Establece un nuevo rol para el usuario.
@@ -33,9 +33,9 @@ public interface Usuario extends Persona {
      * Cambiar el rol de un usuario puede modificar sus permisos y capacidades dentro del sistema.
      * </p>
      *
-     * @param rol el nuevo rol a asignar al usuario.
+     * @param role el nuevo rol a asignar al usuario.
      */
-    void setRol(Rol rol);
+    void setRole(Role role);
 
     /**
      * Obtiene la unidad organizativa a la que está asociado el usuario.

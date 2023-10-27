@@ -1,6 +1,6 @@
 package es.mdef.gaip_libreria.unidades;
 
-import es.mdef.gaip_libreria.constantes.Rol;
+import es.mdef.gaip_libreria.constantes.Role;
 import es.mdef.gaip_libreria.invitados.PersonaImpl;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,14 +11,14 @@ import lombok.Getter;
  * Esta clase hereda de {@link PersonaImpl} y representa un usuario específico del sistema.
  * Además de las propiedades heredadas de Persona, un usuario tiene un rol, una unidad asociada y una contraseña.
  */
-@EqualsAndHashCode(of = {"rol", "password"}, callSuper = true)
+@EqualsAndHashCode(of = {"role", "password"}, callSuper = true)
 @Data
 public class UsuarioImpl extends PersonaImpl implements Usuario {
 
     /**
      * Rol asociado al usuario. Define los permisos y capacidades del usuario dentro del sistema.
      */
-    private Rol rol;
+    private Role role;
 
     /**
      * Unidad a la que está asociado el usuario. Representa una agrupación o departamento específico.
