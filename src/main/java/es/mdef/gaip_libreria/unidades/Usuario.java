@@ -1,6 +1,5 @@
 package es.mdef.gaip_libreria.unidades;
 
-import es.mdef.gaip_libreria.constantes.Role;
 import es.mdef.gaip_libreria.invitados.Persona;
 
 /**
@@ -16,27 +15,7 @@ import es.mdef.gaip_libreria.invitados.Persona;
  * </p>
  */
 public interface Usuario extends Persona {
-
-    /**
-     * Obtiene el rol asociado al usuario.
-     * <p>
-     * El rol define los permisos y capacidades del usuario dentro del sistema.
-     * </p>
-     *
-     * @return el rol asignado al usuario.
-     */
-    Role getRole();
-
-    /**
-     * Establece un nuevo rol para el usuario.
-     * <p>
-     * Cambiar el rol de un usuario puede modificar sus permisos y capacidades dentro del sistema.
-     * </p>
-     *
-     * @param role el nuevo rol a asignar al usuario.
-     */
-    void setRole(Role role);
-
+    
     /**
      * Obtiene la unidad organizativa a la que está asociado el usuario.
      * <p>
@@ -53,21 +32,4 @@ public interface Usuario extends Persona {
      * @param unidad la nueva unidad a la que se asociará el usuario.
      */
     void setUnidad(Unidad unidad);
-
-    /**
-     * Obtiene la contraseña utilizada por el usuario para autenticarse en el sistema.
-     *
-     * @return la contraseña del usuario.
-     */
-    String getPassword();
-
-    /**
-     * Establece una nueva contraseña para el usuario.
-     * <p>
-     * Es importante garantizar que las contraseñas sean seguras y se almacenen de forma segura.
-     * </p>
-     *
-     * @param password la nueva contraseña a asignar al usuario.
-     */
-    void setPassword(String password);
 }
