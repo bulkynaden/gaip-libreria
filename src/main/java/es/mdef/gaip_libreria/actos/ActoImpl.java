@@ -42,7 +42,7 @@ public class ActoImpl implements Acto {
      * Constructor por defecto. Inicializa un acto con valores predeterminados.
      */
     public ActoImpl() {
-        this("", "", null, null, TipoDeActo.SIN_ENTREGA);
+        this("", "", null, null, TipoDeActo.SIN_ENTREGA, null);
     }
 
     /**
@@ -54,8 +54,8 @@ public class ActoImpl implements Acto {
      * @param fechaLimiteRegistro La fecha límite para el registro al acto.
      * @param tipoDeActo          El tipo de acto. No puede ser nulo.
      */
-    public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, ZonedDateTime fechaLimiteRegistro, TipoDeActo tipoDeActo) {
-        this(nombre, descripcion, fecha, fechaLimiteRegistro, EstadoActo.CREACION, tipoDeActo);
+    public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, ZonedDateTime fechaLimiteRegistro, TipoDeActo tipoDeActo, Instalacion instalacion) {
+        this(nombre, descripcion, fecha, fechaLimiteRegistro, EstadoActo.CREACION, tipoDeActo, instalacion);
     }
 
     /**
@@ -68,13 +68,14 @@ public class ActoImpl implements Acto {
      * @param estado              El estado actual del acto.
      * @param tipoDeActo          El tipo de acto.
      */
-    public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, ZonedDateTime fechaLimiteRegistro, EstadoActo estado, TipoDeActo tipoDeActo) {
-        this.estado = estado;
+    public ActoImpl(String nombre, String descripcion, ZonedDateTime fecha, ZonedDateTime fechaLimiteRegistro, EstadoActo estado, TipoDeActo tipoDeActo, Instalacion instalacion) {
+        setEstado(estado);
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.fechaLimiteRegistro = fechaLimiteRegistro;
-        this.tipo = tipoDeActo;
+        setTipo(tipoDeActo);
+        setInstalacion(instalacion);
         setEstadoCreacion(EstadoCreacion.CARGA_ANFITRIONES);
     }
 
