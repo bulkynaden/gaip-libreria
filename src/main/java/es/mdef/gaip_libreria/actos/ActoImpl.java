@@ -7,6 +7,7 @@ import es.mdef.gaip_libreria.constantes.TipoDeActo;
 import es.mdef.gaip_libreria.invitados.InvitacionesPorActo;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,9 +20,11 @@ import java.util.*;
  * Un acto puede tener múltiples anfitriones e invitados y está asociado a una instalación específica.
  * Esta clase implementa la interfaz {@link Acto}.
  */
-@EqualsAndHashCode(of = {"nombre", "descripcion", "fecha"})
+
 @Data
 @Builder(toBuilder = true)
+@EqualsAndHashCode(of = {"nombre", "descripcion", "fecha"})
+@AllArgsConstructor
 public class ActoImpl implements Acto {
     private final Set<Anfitrion> anfitriones = new HashSet<>();
     private final List<ZonaConfigurada> zonas = new ArrayList<>();
