@@ -7,6 +7,7 @@ import es.mdef.gaip_libreria.constantes.TipoDeActo;
 import es.mdef.gaip_libreria.invitados.InvitacionesPorActo;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,6 +21,7 @@ import java.util.*;
  */
 @EqualsAndHashCode(of = {"nombre", "descripcion", "fecha"})
 @Data
+@Builder(toBuilder = true)
 public class ActoImpl implements Acto {
     private final Set<Anfitrion> anfitriones = new HashSet<>();
     private final List<ZonaConfigurada> zonas = new ArrayList<>();
