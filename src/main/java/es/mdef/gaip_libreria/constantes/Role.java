@@ -7,10 +7,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Role {
     ADMIN("ROLE_ADMIN"),
-    ROLE_GESTOR_UNIDAD("ROLE_GESTOR_UNIDAD"),
-    ROLE_ANFITRION("ROLE_ANFITRION"),
-    ROLE_PROTOCOLO("ROLE_PROTOCOLO"),
-    ROLE_CONTROL("ROLE_CONTROL");
+    GESTOR_UNIDAD("ROLE_GESTOR_UNIDAD"),
+    ANFITRION("ROLE_ANFITRION"),
+    PROTOCOLO("ROLE_PROTOCOLO"),
+    CONTROL("ROLE_CONTROL");
 
     private final String role;
 
