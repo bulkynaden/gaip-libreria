@@ -1,8 +1,10 @@
 package es.mdef.gaip_libreria.constantes;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public enum Role {
     ADMIN("ROLE_ADMIN"),
     ROLE_GESTOR_UNIDAD("ROLE_GESTOR_UNIDAD"),
@@ -12,10 +14,6 @@ public enum Role {
 
     private final String role;
 
-    Role(String role) {
-        this.role = role;
-    }
-    
     @Override
     public String toString() {
         return role;
