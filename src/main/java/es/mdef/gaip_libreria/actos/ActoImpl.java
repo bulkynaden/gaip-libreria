@@ -8,7 +8,6 @@ import es.mdef.gaip_libreria.invitados.InvitacionesPorActo;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,7 +21,6 @@ import java.util.*;
  */
 
 @Data
-@Builder(toBuilder = true)
 @EqualsAndHashCode(of = {"nombre", "descripcion", "fecha"})
 @AllArgsConstructor
 public class ActoImpl implements Acto {
