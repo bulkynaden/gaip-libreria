@@ -4,9 +4,7 @@ import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import es.mdef.gaip_libreria.invitados.InvitacionesPorActo;
 import es.mdef.gaip_libreria.invitados.PersonaImpl;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,10 +22,20 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"unidadDeFormacion"}, callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AnfitrionImpl extends PersonaImpl implements Anfitrion {
     private final Set<Acto> actos = new HashSet<>();
     private final Set<InvitacionesPorActo> invitacionesPorActo = new HashSet<>();
     private String unidadDeFormacion;
+
+    public AnfitrionImpl(String nombre, String primerApellido, String segundoApellido, String unidadDeFormacion, String email) {
+        setNombre(nombre);
+        setPrimerApellido(primerApellido);
+        setSegundoApellido(segundoApellido);
+        setEmail(email);
+        setUnidadDeFormacion(unidadDeFormacion);
+    }
 
     /**
      * Establece los actos asociados al anfitrión, manteniendo la integridad de la relación bidireccional.
