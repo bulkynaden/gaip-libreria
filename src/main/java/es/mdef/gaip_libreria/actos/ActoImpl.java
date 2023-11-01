@@ -160,7 +160,13 @@ public class ActoImpl implements Acto {
             anfitrion.quitarActo(this);
         }
 
-        getInvitacionesPorActo().removeIf(invitacion -> invitacion.getAnfitrion() == anfitrion);
+        getInvitacionesPorActo().stream()
+                .filter(invitacionesPorActo -> invitacionesPorActo.getAnfitrion() == anfitrion)
+                .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream())
+                .flatMap(invitacion -> invitacion.getInvitados().stream())
+                .forEach(invitado -> invitado.setInvitacion(null, false));
+
+        getInvitacionesPorActo().removeIf(invitacionesPorActo -> invitacionesPorActo.getAnfitrion() == anfitrion);
     }
 
     /**
