@@ -4,6 +4,7 @@ import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.anfitriones.Anfitrion;
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
+import es.mdef.gaip_libreria.invitados.Invitacion;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 
@@ -12,7 +13,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static es.mdef.gaip_libreria.constantes.EstadoLocalidad.NORMAL;
 import static es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad.LIBRE;
@@ -99,27 +99,13 @@ public final class AsignadorAsientos {
     }
 
     private static List<Anfitrion> getAnfitrionesConInvitadosEnListaDeEspera(Acto acto) {
-        System.out.println("Anfitriones: " + acto.getAnfitriones().size());
-        System.out.println("Anfitriones con invitaciones: " + acto.getAnfitriones()
-                .stream()
-                .flatMap(anfitrion -> Stream.of(anfitrion.getInvitacionPorTipoDeZona(acto, LISTA_DE_ESPERA)))
-                .count());
-
-        System.out.println("Anfitriones con invitados en invitacion en lista de espera" +
-                acto.getAnfitriones()
-                        .stream()
-                        .flatMap(anfitrion -> Stream.of(anfitrion.getInvitacionPorTipoDeZona(acto, LISTA_DE_ESPERA)))
-                        .collect(Collectors.toSet())
-                        .stream()
-                        .mapToInt(invitacion -> invitacion.getInvitados().size())
-                        .sum());
         return acto.getAnfitriones()
                 .stream()
-                .filter(anfitrion -> anfitrion.getInvitacionesPorActo()
-                        .stream()
-                        .anyMatch(invitacionesPorActo -> invitacionesPorActo.getInvitaciones()
-                                .stream().anyMatch(invitacion -> invitacion.getTipoDeZona() == LISTA_DE_ESPERA && !invitacion.getInvitados().isEmpty())))
-                .toList();
+                .filter(anfitrion -> {
+                    Invitacion invitacionListaDeEspera = anfitrion.getInvitacionPorTipoDeZona(acto, LISTA_DE_ESPERA);
+                    return invitacionListaDeEspera != null && !invitacionListaDeEspera.getInvitados().isEmpty();
+                })
+                .collect(Collectors.toList());
     }
 
     /**
