@@ -39,14 +39,14 @@ public final class AsignadorAsientos {
         if (validarGenericaCabeEnTribuna(acto, localidadesRestantes)) {
             for (Invitado invitado : acto.getInvitados()) {
                 if (invitado.getInvitacion().getTipoDeZona() == GENERICA) {
-                    invitado.getAnfitrion().getInvitacionPorTipoDeZona(acto, TipoDeZona.TRIBUNA).agregarInvitado(invitado);
+                    invitado.getAnfitrion().getInvitacionPorTipoDeZona(acto, TipoDeZona.TRIBUNA).agregarInvitado(invitado, true);
                 }
             }
         } else {
             while (validarListaDeEsperaCabeEnTribuna(acto, localidadesRestantes)) {
                 for (Anfitrion anfitrion : getAnfitrionesConInvitadosEnListaDeEspera(acto)) {
                     Invitado invitado = anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, LISTA_DE_ESPERA).stream().findFirst().orElse(null);
-                    anfitrion.getInvitacionPorTipoDeZona(acto, TRIBUNA).agregarInvitado(invitado);
+                    anfitrion.getInvitacionPorTipoDeZona(acto, TRIBUNA).agregarInvitado(invitado, true);
                     localidadesRestantes--;
                 }
             }
@@ -73,7 +73,7 @@ public final class AsignadorAsientos {
                                     .flatMap(zona -> zona.getLocalidadesSinAsignar()
                                             .stream().
                                             findFirst())
-                                    .ifPresent(invitado::setLocalidad);
+                                    .ifPresent(localidadConfigurada -> invitado.setLocalidad(localidadConfigurada, true));
                         });
             }
         }
@@ -87,7 +87,7 @@ public final class AsignadorAsientos {
     public static void levantarInvitados(Acto acto) {
         acto.getInvitados().stream()
                 .filter(e -> localidadEsLibrerable(e.getLocalidad()))
-                .forEach(e -> e.setLocalidad(null));
+                .forEach(e -> e.setLocalidad(null, false));
     }
 
     private static boolean validarGenericaCabeEnTribuna(Acto acto, int localidadesRestantes) {
@@ -119,7 +119,7 @@ public final class AsignadorAsientos {
     private static void sentarEnZona(Acto acto, Anfitrion anfitrion, TipoDeZona tipoZona) {
         Set<Invitado> invitados = anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, tipoZona);
         LocalidadConfigurada localidad = obtenerLocalidadLibrePorTipoZona(acto, tipoZona);
-        invitados.forEach(invitado -> invitado.setLocalidad(localidad));
+        invitados.forEach(invitado -> invitado.setLocalidad(localidad, true));
     }
 
     /**

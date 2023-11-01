@@ -59,17 +59,17 @@ public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
      *
      * @param invitado El invitado asociado a la localidad configurada. No puede ser nulo.
      */
-    public void setInvitado(Invitado invitado) {
+    public void setInvitado(Invitado invitado, boolean superarMaximo) {
         if (this.invitado != invitado) {
             Invitado oldInvitado = this.invitado;
             this.invitado = invitado;
 
             if (oldInvitado != null) {
-                oldInvitado.setLocalidad(null);
+                oldInvitado.setLocalidad(null, superarMaximo);
             }
 
             if (this.invitado != null && this.invitado.getLocalidad() != this) {
-                this.invitado.setLocalidad(this);
+                this.invitado.setLocalidad(this, false);
             }
         }
     }

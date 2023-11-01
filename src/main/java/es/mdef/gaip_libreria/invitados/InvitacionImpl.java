@@ -60,16 +60,16 @@ public class InvitacionImpl implements Invitacion {
      * @throws IllegalArgumentException Si la cantidad de invitados excede el límite actual.
      */
     @Override
-    public void setInvitados(Set<Invitado> nuevosInvitados) {
+    public void setInvitados(Set<Invitado> nuevosInvitados, boolean superarMaximo) {
         if (nuevosInvitados != null && nuevosInvitados.size() <= numeroMaximoInvitados) {
             for (Invitado invitadoActual : this.invitados) {
-                invitadoActual.setInvitacion(null);
+                invitadoActual.setInvitacion(null, superarMaximo);
             }
 
             for (Invitado nuevoInvitado : nuevosInvitados) {
-                nuevoInvitado.setInvitacion(this);
+                nuevoInvitado.setInvitacion(this, superarMaximo);
             }
-            nuevosInvitados.forEach(this::agregarInvitado);
+            nuevosInvitados.forEach(invitado -> this.agregarInvitado(invitado, superarMaximo));
 
         } else {
             throw new IllegalArgumentException("La cantidad de invitados excede el límite actual.");
@@ -83,13 +83,13 @@ public class InvitacionImpl implements Invitacion {
      * @throws IllegalArgumentException Si el invitado es nulo o si se ha alcanzado el número máximo de invitados.
      */
     @Override
-    public void agregarInvitado(Invitado invitado) {
+    public void agregarInvitado(Invitado invitado, boolean superarMaximo) {
         if (invitado != null) {
-            if (getTipoDeZona() == TipoDeZona.TRIBUNA && this.invitados.size() >= numeroMaximoInvitados) {
+            if (getTipoDeZona() == TipoDeZona.TRIBUNA && this.invitados.size() >= numeroMaximoInvitados && !superarMaximo) {
                 throw new IllegalArgumentException("Se ha alcanzado el número máximo de invitados.");
             }
             this.invitados.add(invitado);
-            invitado.setInvitacion(this);
+            invitado.setInvitacion(this, superarMaximo);
         } else {
             throw new IllegalArgumentException("El invitado no puede ser nulo.");
         }
@@ -106,7 +106,7 @@ public class InvitacionImpl implements Invitacion {
         if (this.invitados.contains(invitado)) {
             this.invitados.remove(invitado);
             if (invitado != null) {
-                invitado.setInvitacion(null);
+                invitado.setInvitacion(null, false);
             }
         }
     }

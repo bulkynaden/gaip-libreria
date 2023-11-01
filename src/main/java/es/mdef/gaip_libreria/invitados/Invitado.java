@@ -26,7 +26,7 @@ public interface Invitado extends Persona {
      *
      * @param invitacion la {@link Invitacion} a asignar al invitado.
      */
-    void setInvitacion(Invitacion invitacion);
+    void setInvitacion(Invitacion invitacion, boolean superarMaximo);
 
     /**
      * Obtiene el parentesco o relación que tiene el invitado con el anfitrión.
@@ -54,7 +54,7 @@ public interface Invitado extends Persona {
      *
      * @param localidad la {@link LocalidadConfigurada} a asignar al invitado.
      */
-    void setLocalidad(LocalidadConfigurada localidad);
+    void setLocalidad(LocalidadConfigurada localidad, boolean superarMaximo);
 
     Coche getCoche();
 

@@ -53,7 +53,7 @@ final class AsignadorAsientosScip {
             List<Invitado> todosLosInvitados = getTodosLosInvitados(acto);
             List<LocalidadConfigurada> todasLasLocalidades = getTodasLasLocalidades(acto);
             resultado.asignacionInvitadoAsiento().forEach((indiceInvitado, indiceAsiento) ->
-                    todosLosInvitados.get(indiceInvitado).setLocalidad(todasLasLocalidades.get(indiceAsiento)));
+                    todosLosInvitados.get(indiceInvitado).setLocalidad(todasLasLocalidades.get(indiceAsiento), true));
         } catch (SinSolucionException e) {
             AsignadorAsientosSimple.sentarInvitados(acto);
         }

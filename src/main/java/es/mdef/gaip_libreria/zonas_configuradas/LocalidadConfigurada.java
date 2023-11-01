@@ -45,7 +45,7 @@ public interface LocalidadConfigurada {
      *
      * @param invitado el invitado a asociar.
      */
-    void setInvitado(Invitado invitado);
+    void setInvitado(Invitado invitado, boolean superarMaximo);
 
     /**
      * Obtiene la {@link Localidad} asociada a esta localidad configurada.

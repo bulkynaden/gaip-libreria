@@ -81,7 +81,7 @@ final class AsignadorAsientosSimple {
         }
         int i = 0;
         for (Invitado invitado : invitados) {
-            invitado.setLocalidad(localidadesConsecutivas.get(i));
+            invitado.setLocalidad(localidadesConsecutivas.get(i), true);
             i++;
         }
         return true;

@@ -95,8 +95,8 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
      * @param acto      Acto al cual agregar los invitados.
      * @param invitados Conjunto de invitados a agregar.
      */
-    default <T extends Invitado> void agregarInvitados(Acto acto, Collection<T> invitados) {
-        invitados.forEach(invitado -> agregarInvitado(acto, invitado));
+    default <T extends Invitado> void agregarInvitados(Acto acto, Collection<T> invitados, boolean superarMaximo) {
+        invitados.forEach(invitado -> agregarInvitado(acto, invitado, superarMaximo));
     }
 
     /**
@@ -105,11 +105,11 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
      * @param acto     Acto al cual agregar el invitado.
      * @param invitado Invitado a agregar.
      */
-    default void agregarInvitado(Acto acto, Invitado invitado) {
+    default void agregarInvitado(Acto acto, Invitado invitado, boolean superarMaximo) {
         if (invitado.getInvitacion() == null) {
-            agregarInvitado(acto, invitado, null);
+            agregarInvitado(acto, invitado, null, superarMaximo);
         } else {
-            agregarInvitado(acto, invitado, invitado.getInvitacion().getTipoDeZona());
+            agregarInvitado(acto, invitado, invitado.getInvitacion().getTipoDeZona(), superarMaximo);
         }
     }
 
@@ -120,19 +120,19 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
      * @param invitado   Invitado a agregar.
      * @param tipoDeZona Tipo de zona al que pertenece el invitado.
      */
-    default void agregarInvitado(Acto acto, Invitado invitado, TipoDeZona tipoDeZona) {
+    default void agregarInvitado(Acto acto, Invitado invitado, TipoDeZona tipoDeZona, boolean superarMaximo) {
         if (tipoDeZona == null) {
-            getInvitacionPorTipoDeZona(acto, TipoDeZona.LISTA_DE_ESPERA).agregarInvitado(invitado);
+            getInvitacionPorTipoDeZona(acto, TipoDeZona.LISTA_DE_ESPERA).agregarInvitado(invitado, superarMaximo);
         }
 
         if (invitado instanceof InvitadoFcse invitadoFcse && invitadoFcse.getAsisteDeUniforme()) {
             if (invitado.getInvitacion() != null && invitado.getInvitacion().getTipoDeZona() != TipoDeZona.LISTA_DE_ESPERA) {
-                getInvitacionPorTipoDeZona(acto, TipoDeZona.ACOTADO).agregarInvitado(invitado);
+                getInvitacionPorTipoDeZona(acto, TipoDeZona.ACOTADO).agregarInvitado(invitado, superarMaximo);
             } else {
-                getInvitacionPorTipoDeZona(acto, TipoDeZona.LISTA_DE_ESPERA).agregarInvitado(invitado);
+                getInvitacionPorTipoDeZona(acto, TipoDeZona.LISTA_DE_ESPERA).agregarInvitado(invitado, superarMaximo);
             }
         } else {
-            getInvitacionPorTipoDeZona(acto, tipoDeZona).agregarInvitado(invitado);
+            getInvitacionPorTipoDeZona(acto, tipoDeZona).agregarInvitado(invitado, superarMaximo);
         }
     }
 

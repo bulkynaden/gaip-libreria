@@ -30,7 +30,7 @@ public interface Invitacion {
      *
      * @param invitados el conjunto de {@link Invitado}s a asignar.
      */
-    void setInvitados(Set<Invitado> invitados);
+    void setInvitados(Set<Invitado> invitados, boolean superarMaximo);
 
     /**
      * Devuelve el número máximo de invitados que pueden ser asociados a esta invitación.
@@ -65,7 +65,7 @@ public interface Invitacion {
      *
      * @param invitado el {@link Invitado} a agregar.
      */
-    void agregarInvitado(Invitado invitado);
+    void agregarInvitado(Invitado invitado, boolean superarMaximo);
 
     /**
      * Elimina un {@link Invitado} específico del conjunto de invitados de esta invitación.
