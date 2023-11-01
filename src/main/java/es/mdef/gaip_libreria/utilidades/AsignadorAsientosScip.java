@@ -6,7 +6,6 @@ import es.mdef.gaip_libreria.excepciones.SinSolucionException;
 import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
-import es.mdef.gaip_libreria.zonas_configuradas.PrioridadPorUnidad;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonasConfiguradasHelper;
 
@@ -169,7 +168,10 @@ public final class AsignadorAsientosScip {
         return zona.getPrioridades().stream()
                 .filter(prioridad -> prioridad.getUnidad().equals(unidad))
                 .findFirst()
-                .map(PrioridadPorUnidad::getPrioridad)
+                .map(prioridad -> {
+                    int valor = prioridad.getPrioridad();
+                    return valor == 0 ? Integer.MAX_VALUE : valor;
+                })
                 .orElse(Integer.MAX_VALUE);
     }
 }
