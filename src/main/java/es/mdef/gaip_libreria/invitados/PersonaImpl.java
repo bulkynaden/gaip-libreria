@@ -1,6 +1,7 @@
 package es.mdef.gaip_libreria.invitados;
 
 import es.mdef.gaip_libreria.constantes.Sexo;
+import es.mdef.gaip_libreria.utilidades.Formateador;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -63,5 +64,20 @@ public class PersonaImpl implements Persona {
         this.fechaNacimiento = fechaNacimiento;
         this.email = email;
         this.telefono = telefono;
+    }
+
+    @Override
+    public void setNombre(String nombre) {
+        this.nombre = Formateador.toNombre(nombre);
+    }
+
+    @Override
+    public void setPrimerApellido(String primerApellido) {
+        this.primerApellido = Formateador.toNombre(primerApellido);
+    }
+
+    @Override
+    public void setSegundoApellido(String segundoApellido) {
+        this.segundoApellido = Formateador.toNombre(segundoApellido);
     }
 }
