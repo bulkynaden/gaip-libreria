@@ -111,7 +111,8 @@ public final class AsignadorAsientos {
                         .flatMap(anfitrion -> Stream.of(anfitrion.getInvitacionPorTipoDeZona(acto, LISTA_DE_ESPERA)))
                         .collect(Collectors.toSet())
                         .stream()
-                        .mapToInt(invitacion -> invitacion.getInvitados().size()));
+                        .mapToInt(invitacion -> invitacion.getInvitados().size())
+                        .sum());
         return acto.getAnfitriones()
                 .stream()
                 .filter(anfitrion -> anfitrion.getInvitacionesPorActo()
