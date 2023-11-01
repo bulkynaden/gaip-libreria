@@ -169,14 +169,7 @@ final class AsignadorAsientosScip {
                 todosGrupos.add(grupoActual);
             }
         }
-
-        for (List<LocalidadConfigurada> todosGruposGrupo : todosGrupos) {
-            System.out.println("Grupo");
-            System.out.println("-----");
-            for (LocalidadConfigurada localidadConfigurada : todosGruposGrupo) {
-                System.out.println("Localidad de zona " + localidadConfigurada.getZonaConfigurada().getZona().getNombre());
-            }
-        }
+        
         return todosGrupos;
     }
 
