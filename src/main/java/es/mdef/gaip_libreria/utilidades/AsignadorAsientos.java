@@ -62,7 +62,7 @@ public final class AsignadorAsientos {
 
     public static void sentarInvitadosDeListaDeEsperaEnGenerica(Acto acto) {
         System.out.println(acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(GENERICA));
-        while (acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(GENERICA) > getAnfitrionesConInvitadosEnListaDeEspera(acto).size()) {
+        while (acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(GENERICA) > getAnfitrionesConInvitadosEnListaDeEspera(acto).size() && !getAnfitrionesConInvitadosEnListaDeEspera(acto).isEmpty()) {
             for (Anfitrion anfitrion : getAnfitrionesConInvitadosEnListaDeEspera(acto)) {
                 anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, LISTA_DE_ESPERA)
                         .stream()
@@ -95,7 +95,7 @@ public final class AsignadorAsientos {
 
     private static boolean validarListaDeEsperaCabeEnTribuna(Acto acto, int localidadesRestantes) {
         int count = getAnfitrionesConInvitadosEnListaDeEspera(acto).size();
-        return localidadesRestantes > count;
+        return localidadesRestantes > count && count > 0;
     }
 
     private static List<Anfitrion> getAnfitrionesConInvitadosEnListaDeEspera(Acto acto) {
@@ -103,9 +103,6 @@ public final class AsignadorAsientos {
                 .stream()
                 .filter(anfitrion -> {
                     Invitacion invitacionListaDeEspera = anfitrion.getInvitacionPorTipoDeZona(acto, LISTA_DE_ESPERA);
-                    invitacionListaDeEspera.getInvitados().forEach(invitado -> {
-                        System.out.println("invitado" + invitado.getNombre());
-                    });
                     return !invitacionListaDeEspera.getInvitados().isEmpty();
                 })
                 .collect(Collectors.toList());
