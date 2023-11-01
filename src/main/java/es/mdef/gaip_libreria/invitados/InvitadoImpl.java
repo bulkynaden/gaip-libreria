@@ -83,11 +83,12 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
     }
 
     private void cambiarTipoDeInvitacion() {
-        if (getInvitacion() != null) {
+        Invitacion invitacion = getInvitacion();
+        if (invitacion != null) {
             TipoDeZona tipoDeZona = getLocalidad().getZonaConfigurada().getZona().getTipoDeZona();
-            if (getInvitacion() != null && tipoDeZona != getInvitacion().getTipoDeZona()) {
-                getInvitacion().quitarInvitado(this);
-                Invitacion nuevaInvitacion = getInvitacion().getInvitacionesPorActo().getInvitaciones().stream().filter(e -> e.getTipoDeZona() == tipoDeZona).findFirst().orElseThrow();
+            if (tipoDeZona != invitacion.getTipoDeZona()) {
+                invitacion.quitarInvitado(this);
+                Invitacion nuevaInvitacion = invitacion.getInvitacionesPorActo().getInvitaciones().stream().filter(e -> e.getTipoDeZona() == tipoDeZona).findFirst().orElseThrow();
                 nuevaInvitacion.agregarInvitado(this);
             }
         }
