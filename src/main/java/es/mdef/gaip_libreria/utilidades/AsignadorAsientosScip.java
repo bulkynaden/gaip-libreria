@@ -10,6 +10,7 @@ import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonasConfiguradasHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,8 @@ final class AsignadorAsientosScip {
         invitadosPorAnfitrion = getInvitadosPorAnfitrion(acto);
         capacidadAsientos = getGruposDeAsientosParaDistribuir(acto);
         prioridades = getPrioridades(acto);
+
+        System.out.println(Arrays.toString(capacidadAsientos));
 
         AlgoritmoOrganizacionAsientos organizador = new AlgoritmoOrganizacionAsientos(invitadosPorAnfitrion, capacidadAsientos, prioridades);
 
