@@ -58,6 +58,12 @@ public final class AsignadorAsientos {
         }
     }
 
+    public static void sentarInvitadosDeListaDeEsperaEnGenerica(Acto acto) {
+        for (Anfitrion anfitrion : acto.getAnfitriones()) {
+            sentarEnZona(acto, anfitrion, LISTA_DE_ESPERA);
+        }
+    }
+
     /**
      * Levanta a los invitados del acto, liberando los asientos que ocupaban.
      *
@@ -99,6 +105,23 @@ public final class AsignadorAsientos {
         Set<Invitado> invitados = anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, tipoZona);
         LocalidadConfigurada localidad = obtenerLocalidadLibrePorTipoZona(acto, tipoZona);
         invitados.forEach(invitado -> invitado.setLocalidad(localidad));
+    }
+
+    private static void sentarListaDeEsperaEnGenerica(Acto acto) {
+        while (acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(GENERICA) > getAnfitrionesConInvitadosEnListaDeEspera(acto).size()) {
+            for (Anfitrion anfitrion : getAnfitrionesConInvitadosEnListaDeEspera(acto)) {
+                anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, LISTA_DE_ESPERA)
+                        .stream()
+                        .findFirst().ifPresent(invitado -> acto.getZonasConfiguradasPorTipo(GENERICA)
+                                .stream()
+                                .filter(zonaConfigurada -> zonaConfigurada.getNumeroLocalidadesParaRepartir() > 0)
+                                .findFirst()
+                                .flatMap(zona -> zona.getLocalidadesSinAsignar()
+                                        .stream().
+                                        findFirst())
+                                .ifPresent(invitado::setLocalidad));
+            }
+        }
     }
 
     /**

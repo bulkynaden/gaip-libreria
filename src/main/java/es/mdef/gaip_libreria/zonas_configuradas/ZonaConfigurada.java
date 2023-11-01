@@ -120,4 +120,11 @@ public interface ZonaConfigurada {
                 .filter(l -> l.getEstadoLocalidad() == EstadoLocalidad.NORMAL && l.getEstadoOcupacionLocalidad() == EstadoOcupacionLocalidad.LIBRE)
                 .count();
     }
+
+    default List<LocalidadConfigurada> getLocalidadesSinAsignar() {
+        return getLocalidades()
+                .stream()
+                .filter(localidadConfigurada -> localidadConfigurada.getEstadoLocalidad() == EstadoLocalidad.NORMAL && localidadConfigurada.getEstadoOcupacionLocalidad() == EstadoOcupacionLocalidad.LIBRE)
+                .toList();
+    }
 }
