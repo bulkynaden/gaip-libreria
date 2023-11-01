@@ -61,19 +61,20 @@ public final class AsignadorAsientos {
     }
 
     public static void sentarInvitadosDeListaDeEsperaEnGenerica(Acto acto) {
-        System.out.println(acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(GENERICA));
         while (acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(GENERICA) > getAnfitrionesConInvitadosEnListaDeEspera(acto).size() && !getAnfitrionesConInvitadosEnListaDeEspera(acto).isEmpty()) {
             for (Anfitrion anfitrion : getAnfitrionesConInvitadosEnListaDeEspera(acto)) {
                 anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, LISTA_DE_ESPERA)
                         .stream()
-                        .findFirst().ifPresent(invitado -> acto.getZonasConfiguradasPorTipo(GENERICA)
-                                .stream()
-                                .filter(zonaConfigurada -> zonaConfigurada.getNumeroLocalidadesParaRepartir() > 0)
-                                .findFirst()
-                                .flatMap(zona -> zona.getLocalidadesSinAsignar()
-                                        .stream().
-                                        findFirst())
-                                .ifPresent(invitado::setLocalidad));
+                        .findFirst().ifPresent(invitado -> {
+                            acto.getZonasConfiguradasPorTipo(GENERICA)
+                                    .stream()
+                                    .filter(zonaConfigurada -> zonaConfigurada.getNumeroLocalidadesParaRepartir() > 0)
+                                    .findFirst()
+                                    .flatMap(zona -> zona.getLocalidadesSinAsignar()
+                                            .stream().
+                                            findFirst())
+                                    .ifPresent(invitado::setLocalidad);
+                        });
             }
         }
     }

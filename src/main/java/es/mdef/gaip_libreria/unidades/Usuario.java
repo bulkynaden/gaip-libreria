@@ -15,7 +15,7 @@ import es.mdef.gaip_libreria.invitados.Persona;
  * </p>
  */
 public interface Usuario extends Persona {
-    
+
     /**
      * Obtiene la unidad organizativa a la que está asociado el usuario.
      * <p>
