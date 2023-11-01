@@ -59,7 +59,10 @@ public final class AsignadorAsientos {
     }
 
     public static void sentarInvitadosDeListaDeEsperaEnGenerica(Acto acto) {
+        System.out.println(acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(GENERICA));
         while (acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(GENERICA) > getAnfitrionesConInvitadosEnListaDeEspera(acto).size()) {
+            System.out.println(acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(GENERICA));
+            System.out.println("anfitriones: " + getAnfitrionesConInvitadosEnListaDeEspera(acto).size());
             for (Anfitrion anfitrion : getAnfitrionesConInvitadosEnListaDeEspera(acto)) {
                 anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, LISTA_DE_ESPERA)
                         .stream()
