@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static es.mdef.gaip_libreria.constantes.EstadoLocalidad.NORMAL;
 import static es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad.LIBRE;
@@ -61,8 +63,6 @@ public final class AsignadorAsientos {
     public static void sentarInvitadosDeListaDeEsperaEnGenerica(Acto acto) {
         System.out.println(acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(GENERICA));
         while (acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(GENERICA) > getAnfitrionesConInvitadosEnListaDeEspera(acto).size()) {
-            System.out.println(acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(GENERICA));
-            System.out.println("anfitriones: " + getAnfitrionesConInvitadosEnListaDeEspera(acto).size());
             for (Anfitrion anfitrion : getAnfitrionesConInvitadosEnListaDeEspera(acto)) {
                 anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, LISTA_DE_ESPERA)
                         .stream()
@@ -99,6 +99,19 @@ public final class AsignadorAsientos {
     }
 
     private static List<Anfitrion> getAnfitrionesConInvitadosEnListaDeEspera(Acto acto) {
+        System.out.println("Anfitriones: " + acto.getAnfitriones().size());
+        System.out.println("Anfitriones con invitaciones: " + acto.getAnfitriones()
+                .stream()
+                .flatMap(anfitrion -> Stream.of(anfitrion.getInvitacionPorTipoDeZona(acto, LISTA_DE_ESPERA)))
+                .count());
+
+        System.out.println("Anfitriones con invitados en invitacion en lista de espera" +
+                acto.getAnfitriones()
+                        .stream()
+                        .flatMap(anfitrion -> Stream.of(anfitrion.getInvitacionPorTipoDeZona(acto, LISTA_DE_ESPERA)))
+                        .collect(Collectors.toSet())
+                        .stream()
+                        .mapToInt(invitacion -> invitacion.getInvitados().size()));
         return acto.getAnfitriones()
                 .stream()
                 .filter(anfitrion -> anfitrion.getInvitacionesPorActo()
