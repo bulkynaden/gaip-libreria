@@ -98,16 +98,21 @@ final class AsignadorAsientosScip {
     }
 
     private static void calcularCapacidadesPorLocalidades(List<LocalidadConfigurada> localidadesOrdenadas, List<Integer> capacidades) {
-        List<LocalidadConfigurada> localidadesConsecutivas = new ArrayList<>();
+        int localidadesConsecutivas = 0;
 
         for (LocalidadConfigurada localidad : localidadesOrdenadas) {
             if (esAsientoNormalYLibre(localidad)) {
-                localidadesConsecutivas.add(localidad);
-            }
+                localidadesConsecutivas++;
 
-            if (debeTerminarGrupoAsientos(localidad, localidadesConsecutivas)) {
-                capacidades.add(localidadesConsecutivas.size());
-                localidadesConsecutivas.clear();
+                if (debeTerminarGrupoAsientos(localidad)) {
+                    capacidades.add(localidadesConsecutivas);
+                    localidadesConsecutivas = 0;
+                }
+            } else {
+                if (localidadesConsecutivas != 0) {
+                    capacidades.add(localidadesConsecutivas);
+                    localidadesConsecutivas = 0;
+                }
             }
         }
     }
@@ -116,8 +121,8 @@ final class AsignadorAsientosScip {
         return localidad.getEstadoLocalidad() == NORMAL && localidad.getEstadoOcupacionLocalidad() == LIBRE;
     }
 
-    private static boolean debeTerminarGrupoAsientos(LocalidadConfigurada localidad, List<LocalidadConfigurada> localidadesConsecutivas) {
-        return !localidadesConsecutivas.isEmpty() && (!esAsientoNormalYLibre(localidad) || localidad.getLocalidad().getImplicaSaltoFila() || localidad.getLocalidad().getImplicaSalto());
+    private static boolean debeTerminarGrupoAsientos(LocalidadConfigurada localidad) {
+        return localidad.getLocalidad().getImplicaSaltoFila() || localidad.getLocalidad().getImplicaSalto();
     }
 
     private static int[][] getPrioridades(Acto acto) {
@@ -151,10 +156,16 @@ final class AsignadorAsientosScip {
             for (LocalidadConfigurada localidad : localidadesOrdenadas) {
                 if (esAsientoNormalYLibre(localidad)) {
                     grupoActual.add(localidad);
-                }
-                if (debeTerminarGrupoAsientos(localidad, grupoActual) && !grupoActual.isEmpty()) {
-                    todosGrupos.add(new ArrayList<>(grupoActual));
-                    grupoActual.clear();
+
+                    if (debeTerminarGrupoAsientos(localidad)) {
+                        todosGrupos.add(new ArrayList<>(grupoActual));
+                        grupoActual.clear();
+                    }
+                } else {
+                    if (!grupoActual.isEmpty()) {
+                        todosGrupos.add(new ArrayList<>(grupoActual));
+                        grupoActual.clear();
+                    }
                 }
             }
             if (!grupoActual.isEmpty()) {
