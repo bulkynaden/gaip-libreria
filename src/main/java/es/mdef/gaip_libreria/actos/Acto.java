@@ -212,6 +212,7 @@ public interface Acto {
      */
     default int getNumeroLocalidadesTotales() {
         return getZonas().stream()
+                .filter(zonaConfigurada -> zonaConfigurada.getZona().getTipoDeZona() != TipoDeZona.PARKING)
                 .mapToInt(ZonaConfigurada::getNumeroLocalidadesTotales)
                 .sum();
     }

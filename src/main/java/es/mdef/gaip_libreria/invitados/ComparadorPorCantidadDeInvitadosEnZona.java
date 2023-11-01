@@ -7,16 +7,25 @@ import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import java.util.Comparator;
 
 public class ComparadorPorCantidadDeInvitadosEnZona implements Comparator<Anfitrion> {
-    private final TipoDeZona tipo;
+    private final TipoDeZona zona;
     private final Acto acto;
 
-    public ComparadorPorCantidadDeInvitadosEnZona(TipoDeZona tipo, Acto acto) {
-        this.tipo = tipo;
+    public ComparadorPorCantidadDeInvitadosEnZona(TipoDeZona zona, Acto acto) {
+        this.zona = zona;
         this.acto = acto;
     }
 
     @Override
     public int compare(Anfitrion a1, Anfitrion a2) {
-        return a1.compararPorCantidadDeInvitadosDeUnTipoDeZona(acto, tipo, a1, a2);
+        int comparacionPorInvitados = Integer.compare(
+                a1.getInvitadosSinAsignarDeUnActoPorZona(acto, zona).size(),
+                a2.getInvitadosSinAsignarDeUnActoPorZona(acto, zona).size()
+        );
+
+        if (comparacionPorInvitados == 0) {
+            return a1.getDni().compareTo(a2.getDni());
+        }
+
+        return comparacionPorInvitados;
     }
 }
