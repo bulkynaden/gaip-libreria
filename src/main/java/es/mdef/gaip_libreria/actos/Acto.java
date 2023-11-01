@@ -275,6 +275,13 @@ public interface Acto {
                 .collect(Collectors.toSet());
     }
 
+    default Set<Invitado> getInvitadosSinAsignarPorTipoDeZona(TipoDeZona tipoDeZona) {
+        return getInvitacionesPorActo().stream()
+                .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream().filter(e -> e.getTipoDeZona() == tipoDeZona))
+                .flatMap(invitacion -> invitacion.getInvitados().stream().filter(invitado -> invitado.getLocalidad() == null))
+                .collect(Collectors.toSet());
+    }
+
     default List<LocalidadConfigurada> getLocalidadesPorEstado(EstadoLocalidad estado) {
         return getZonas().stream().flatMap(e -> e.getLocalidades().stream()).filter(e -> e.getEstadoLocalidad() == estado).collect(Collectors.toList());
     }

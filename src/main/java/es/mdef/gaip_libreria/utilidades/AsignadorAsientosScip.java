@@ -20,7 +20,7 @@ import static es.mdef.gaip_libreria.constantes.TipoDeZona.TRIBUNA;
 /**
  * Clase utilitaria para gestionar la asignación de asientos a los invitados utilizando el AlgoritmoScip.
  */
-public final class AsignadorAsientosScip {
+final class AsignadorAsientosScip {
 
     /**
      * Constructor privado para evitar la instanciación.
@@ -52,12 +52,10 @@ public final class AsignadorAsientosScip {
 
             List<Invitado> todosLosInvitados = getTodosLosInvitados(acto);
             List<LocalidadConfigurada> todasLasLocalidades = getTodasLasLocalidades(acto);
-            resultado.asignacionInvitadoAsiento().forEach((indiceInvitado, indiceAsiento) -> {
-                todosLosInvitados.get(indiceInvitado).setLocalidad(todasLasLocalidades.get(indiceAsiento));
-            });
+            resultado.asignacionInvitadoAsiento().forEach((indiceInvitado, indiceAsiento) ->
+                    todosLosInvitados.get(indiceInvitado).setLocalidad(todasLasLocalidades.get(indiceAsiento)));
         } catch (SinSolucionException e) {
-            System.err.println(e.getMessage());
-            AsignadorAsientos.sentarInvitados(acto);
+            AsignadorAsientosSimple.sentarInvitados(acto);
         }
     }
 

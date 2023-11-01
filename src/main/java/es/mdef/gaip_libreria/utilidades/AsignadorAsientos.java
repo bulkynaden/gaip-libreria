@@ -6,42 +6,55 @@ import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
-import es.mdef.gaip_libreria.zonas_configuradas.PrioridadPorUnidad;
-import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import static es.mdef.gaip_libreria.constantes.EstadoLocalidad.NORMAL;
 import static es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad.LIBRE;
-import static es.mdef.gaip_libreria.constantes.TipoDeZona.GENERICA;
-import static es.mdef.gaip_libreria.constantes.TipoDeZona.TRIBUNA;
+import static es.mdef.gaip_libreria.constantes.TipoDeZona.*;
 
 /**
- * Clase utilitaria para gestionar la asignación de asientos a los invitados.
+ * Clase utilidad para asignar asientos a invitados en diferentes zonas.
  */
 public final class AsignadorAsientos {
 
-    /**
-     * Constructor privado para evitar la instanciación.
-     */
     private AsignadorAsientos() {
     }
 
     /**
-     * Método principal para sentar a los invitados en el acto proporcionado.
+     * Asigna los asientos a los invitados de un acto específico.
      *
-     * @param acto Acto en el que se van a sentar los invitados.
+     * @param acto El acto para el cual se asignarán los asientos.
      */
     public static void sentarInvitados(Acto acto) {
         List<Anfitrion> anfitrionesOrdenados = new ArrayList<>(acto.getAnfitriones());
         anfitrionesOrdenados.sort(new ComparadorPorCantidadDeInvitadosEnZona(TRIBUNA, acto));
 
+        int localidadesRestantes = acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(TRIBUNA);
+        if (validarGenericaCabeEnTribuna(acto, localidadesRestantes)) {
+            for (Invitado invitado : acto.getInvitados()) {
+                if (invitado.getInvitacion().getTipoDeZona() == GENERICA) {
+                    invitado.getAnfitrion().getInvitacionPorTipoDeZona(acto, TipoDeZona.TRIBUNA).agregarInvitado(invitado);
+                }
+            }
+        } else {
+            while (validarListaDeEsperaCabeEnTribuna(acto, localidadesRestantes)) {
+                for (Anfitrion anfitrion : getAnfitrionesConInvitadosEnListaDeEspera(acto)) {
+                    Invitado invitado = anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, LISTA_DE_ESPERA).stream().findFirst().orElse(null);
+                    anfitrion.getInvitacionPorTipoDeZona(acto, TRIBUNA).agregarInvitado(invitado);
+                    localidadesRestantes--;
+                }
+            }
+        }
+
+        AsignadorAsientosScip.sentarInvitados(acto);
+
         for (Anfitrion anfitrion : anfitrionesOrdenados) {
-            sentarEnTribuna(acto, anfitrion);
-            sentarEnGenerica(acto, anfitrion);
+            sentarEnZona(acto, anfitrion, GENERICA);
+            sentarEnZona(acto, anfitrion, ACOTADO);
         }
     }
 
@@ -56,84 +69,63 @@ public final class AsignadorAsientos {
                 .forEach(e -> e.setLocalidad(null));
     }
 
-    private static void sentarEnTribuna(Acto acto, Anfitrion anfitrion) {
-        int numeroInvitados = (int) anfitrion.getNumeroInvitadosDeUnActoPorZona(acto, TRIBUNA);
-        Set<Invitado> invitados = obtenerInvitados(acto, anfitrion, TRIBUNA);
-        if (numeroInvitados > 0) {
-            List<ZonaConfigurada> zonasOrdenadas = ordenarZonasPorPrioridad(anfitrion.getUnidadDeFormacion(), acto.getZonasConfiguradasPorTipo(TRIBUNA));
-            for (ZonaConfigurada zona : zonasOrdenadas) {
-                if (sentarInvitadosEnZona(invitados, zona, numeroInvitados)) {
-                    break;
-                }
-            }
-        }
+    private static boolean validarGenericaCabeEnTribuna(Acto acto, int localidadesRestantes) {
+        return localidadesRestantes >= acto.getInvitadosSinAsignarPorTipoDeZona(GENERICA).size();
     }
 
-    private static boolean sentarInvitadosEnZona(Set<Invitado> invitados, ZonaConfigurada zona, int numeroInvitados) {
-        for (LocalidadConfigurada localidad : zona.getLocalidades()) {
-            List<LocalidadConfigurada> asientosConsecutivos = obtenerLocalidadesConsecutivas(localidad, numeroInvitados);
-            if (asientosConsecutivos.size() == invitados.size() && sentar(invitados, asientosConsecutivos)) {
-                return true;
-            }
-        }
-        return false;
+    private static boolean validarListaDeEsperaCabeEnTribuna(Acto acto, int localidadesRestantes) {
+        int count = getAnfitrionesConInvitadosEnListaDeEspera(acto).size();
+        return localidadesRestantes > count;
     }
 
-    private static void sentarEnGenerica(Acto acto, Anfitrion anfitrion) {
-        Set<Invitado> invitados = obtenerInvitados(acto, anfitrion, GENERICA);
-        invitados.forEach(invitado -> invitado.setLocalidad(obtenerLocalidadLibreDeZonaGenerica(acto)));
+    private static List<Anfitrion> getAnfitrionesConInvitadosEnListaDeEspera(Acto acto) {
+        return acto.getAnfitriones()
+                .stream()
+                .filter(anfitrion -> anfitrion.getInvitacionesPorActo()
+                        .stream()
+                        .anyMatch(invitacionesPorActo -> invitacionesPorActo.getInvitaciones()
+                                .stream().anyMatch(invitacion -> invitacion.getTipoDeZona() == LISTA_DE_ESPERA && !invitacion.getInvitados().isEmpty())))
+                .toList();
     }
 
-    private static Set<Invitado> obtenerInvitados(Acto acto, Anfitrion anfitrion, TipoDeZona tipoDeZona) {
-        return anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, tipoDeZona);
+    /**
+     * Asigna asientos en una zona específica para un anfitrión y acto dados.
+     *
+     * @param acto      El acto para el cual se asignarán los asientos.
+     * @param anfitrion El anfitrión para el cual se asignarán los asientos.
+     * @param tipoZona  El tipo de zona donde se asignarán los asientos.
+     */
+    private static void sentarEnZona(Acto acto, Anfitrion anfitrion, TipoDeZona tipoZona) {
+        Set<Invitado> invitados = anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, tipoZona);
+        LocalidadConfigurada localidad = obtenerLocalidadLibrePorTipoZona(acto, tipoZona);
+        invitados.forEach(invitado -> invitado.setLocalidad(localidad));
     }
 
-    private static List<ZonaConfigurada> ordenarZonasPorPrioridad(String unidad, List<ZonaConfigurada> zonas) {
-        zonas.sort(Comparator.comparingInt(z -> z.getPrioridades().stream()
-                .filter(p -> p.getUnidad().equals(unidad))
-                .mapToInt(PrioridadPorUnidad::getPrioridad)
-                .findFirst()
-                .orElse(Integer.MAX_VALUE)));
-        return zonas;
-    }
-
-    private static boolean sentar(Set<Invitado> invitados, List<LocalidadConfigurada> localidadesConsecutivas) {
-        if (invitados.size() != localidadesConsecutivas.size()) {
-            return false;
-        }
-        int i = 0;
-        for (Invitado invitado : invitados) {
-            invitado.setLocalidad(localidadesConsecutivas.get(i));
-            i++;
-        }
-        return true;
-    }
-
-    private static LocalidadConfigurada obtenerLocalidadLibreDeZonaGenerica(Acto acto) {
-        return acto.getZonasConfiguradasPorTipo(GENERICA).stream()
-                .flatMap(zona -> zona.getLocalidades().stream())
-                .filter(localidad -> LIBRE.equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad()))
-                .findFirst()
-                .orElse(null);
-    }
-
-    private static List<LocalidadConfigurada> obtenerLocalidadesConsecutivas(LocalidadConfigurada localidad, int numeroInvitados) {
-        List<LocalidadConfigurada> localidadesConsecutivas = new ArrayList<>();
-        while (localidad != null && localidadesConsecutivas.size() < numeroInvitados) {
-            if (localidad.getEstadoLocalidad() == NORMAL && localidad.getEstadoOcupacionLocalidad() == LIBRE) {
-                localidadesConsecutivas.add(localidad);
-                if (localidad.getLocalidad().getImplicaSaltoFila() || localidad.getLocalidad().getImplicaSalto() && localidadesConsecutivas.size() < numeroInvitados) {
-                    localidadesConsecutivas.clear();
-                }
-            } else {
-                localidadesConsecutivas.clear();
-            }
-            localidad = localidad.getSiguienteLocalidad();
-        }
-        return localidadesConsecutivas;
-    }
-
+    /**
+     * Verifica si la localidad es liberable.
+     *
+     * @param localidadConfigurada La localidad a verificar.
+     * @return Verdadero si la localidad es liberable, falso en caso contrario.
+     */
     private static boolean localidadEsLibrerable(LocalidadConfigurada localidadConfigurada) {
         return localidadConfigurada != null && localidadConfigurada.getEstadoLocalidad() == NORMAL;
+    }
+
+    /**
+     * Obtiene la primera localidad libre para un tipo de zona en un acto específico.
+     *
+     * @param acto     El acto en el que buscar la localidad.
+     * @param tipoZona El tipo de zona donde buscar la localidad.
+     * @return Una localidad libre o null si no se encuentra ninguna.
+     */
+    private static LocalidadConfigurada obtenerLocalidadLibrePorTipoZona(Acto acto, TipoDeZona tipoZona) {
+        Predicate<LocalidadConfigurada> esLocalidadLibre = localidad ->
+                LIBRE.equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad());
+
+        return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
+                .flatMap(zona -> zona.getLocalidades().stream())
+                .filter(esLocalidadLibre)
+                .findFirst()
+                .orElse(null);
     }
 }
