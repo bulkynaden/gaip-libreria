@@ -263,7 +263,7 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
                 .filter(e -> e.getTipoDeZona() == TipoDeZona.PARKING)
                 .map(Invitacion::getCoches)
                 .flatMap(Set::stream)
-                .filter(invitado -> invitado.getLocalidad() == null)
+                .filter(coche -> coche.getLocalidad() == null)
                 .collect(Collectors.toSet());
     }
 }

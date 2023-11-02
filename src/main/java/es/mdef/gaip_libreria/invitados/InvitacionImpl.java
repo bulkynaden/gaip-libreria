@@ -109,7 +109,7 @@ public class InvitacionImpl implements Invitacion {
     public void agregarInvitado(Invitado invitado, boolean superarMaximo) {
         if (invitado != null && !this.invitados.contains(invitado)) {
             if (getTipoDeZona() == TipoDeZona.TRIBUNA && this.invitados.size() >= numeroMaximoInvitados && !superarMaximo) {
-                throw new IllegalArgumentException("Se ha alcanzado el número máximo de invitados.");
+                throw new CantidadInvitadosExcedeLimiteException();
             }
             this.invitados.add(invitado);
             invitado.setInvitacion(this, superarMaximo);
@@ -120,7 +120,6 @@ public class InvitacionImpl implements Invitacion {
      * Quita un invitado de la invitación, rompiendo la relación bidireccional.
      *
      * @param invitado Invitado a quitar.
-     * @throws IllegalArgumentException Si el invitado es nulo o si no está en la lista.
      */
     @Override
     public void quitarInvitado(Invitado invitado) {
