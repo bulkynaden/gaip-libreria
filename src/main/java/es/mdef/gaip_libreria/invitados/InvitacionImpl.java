@@ -1,6 +1,7 @@
 package es.mdef.gaip_libreria.invitados;
 
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
+import es.mdef.gaip_libreria.excepciones.CantidadInvitadosExcedeLimiteException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -72,7 +73,7 @@ public class InvitacionImpl implements Invitacion {
             nuevosInvitados.forEach(invitado -> this.agregarInvitado(invitado, superarMaximo));
 
         } else {
-            throw new IllegalArgumentException("La cantidad de invitados excede el límite actual.");
+            throw new CantidadInvitadosExcedeLimiteException();
         }
     }
 
