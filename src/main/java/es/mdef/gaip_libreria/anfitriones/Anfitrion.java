@@ -90,142 +90,132 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
 
 
     /**
-     * Agrega un conjunto de asignables al acto especificado.
+     * Agrega un conjunto de invitados al acto especificado.
      *
-     * @param acto       Acto al cual agregar los asignables.
-     * @param asignables Conjunto de asignables a agregar.
+     * @param acto      Acto al cual agregar los invitados.
+     * @param invitados Conjunto de invitados a agregar.
      */
-    default <T extends Asignable> void agregarAsignables(Acto acto, Collection<T> asignables, boolean superarMaximo) {
-        asignables.forEach(asignable -> agregarAsignable(acto, asignable, superarMaximo));
+    default <T extends Invitado> void agregarInvitados(Acto acto, Collection<T> invitados, boolean superarMaximo) {
+        invitados.forEach(invitado -> agregarInvitado(acto, invitado, superarMaximo));
     }
 
     /**
-     * Agrega un asignable al acto especificado.
+     * Agrega un invitado al acto especificado.
      *
-     * @param acto      Acto al cual agregar el asignable.
-     * @param asignable Asignable a agregar.
+     * @param acto     Acto al cual agregar el invitado.
+     * @param invitado Invitado a agregar.
      */
-    default void agregarAsignable(Acto acto, Asignable asignable, boolean superarMaximo) {
-        if (asignable.getInvitacion() == null) {
-            agregarAsignable(acto, asignable, null, superarMaximo);
+    default void agregarInvitado(Acto acto, Invitado invitado, boolean superarMaximo) {
+        if (invitado.getInvitacion() == null) {
+            agregarInvitado(acto, invitado, null, superarMaximo);
         } else {
-            agregarAsignable(acto, asignable, asignable.getInvitacion().getTipoDeZona(), superarMaximo);
+            agregarInvitado(acto, invitado, invitado.getInvitacion().getTipoDeZona(), superarMaximo);
         }
     }
 
     /**
-     * Agrega un asignable al acto especificado.
+     * Agrega un invitado al acto especificado.
      *
-     * @param acto       Acto al cual agregar el asignable.
-     * @param asignable  Asignable a agregar.
-     * @param tipoDeZona Tipo de zona al que pertenece el asignable.
+     * @param acto       Acto al cual agregar el invitado.
+     * @param invitado   Invitado a agregar.
+     * @param tipoDeZona Tipo de zona al que pertenece el invitado.
      */
-    default void agregarAsignable(Acto acto, Asignable asignable, TipoDeZona tipoDeZona, boolean superarMaximo) {
+    default void agregarInvitado(Acto acto, Invitado invitado, TipoDeZona tipoDeZona, boolean superarMaximo) {
         if (tipoDeZona == null) {
-            getInvitacionPorTipoDeZona(acto, TipoDeZona.LISTA_DE_ESPERA).agregarAsignable(asignable, superarMaximo);
+            getInvitacionPorTipoDeZona(acto, TipoDeZona.LISTA_DE_ESPERA).agregarInvitado(invitado, superarMaximo);
         }
 
-        if (asignable instanceof InvitadoFcse invitadoFcse && invitadoFcse.getAsisteDeUniforme()) {
-            if (asignable.getInvitacion() != null && asignable.getInvitacion().getTipoDeZona() != TipoDeZona.LISTA_DE_ESPERA) {
-                getInvitacionPorTipoDeZona(acto, TipoDeZona.ACOTADO).agregarAsignable(asignable, superarMaximo);
+        if (invitado instanceof InvitadoFcse invitadoFcse && invitadoFcse.getAsisteDeUniforme()) {
+            if (invitado.getInvitacion() != null && invitado.getInvitacion().getTipoDeZona() != TipoDeZona.LISTA_DE_ESPERA) {
+                getInvitacionPorTipoDeZona(acto, TipoDeZona.ACOTADO).agregarInvitado(invitado, superarMaximo);
             } else {
-                getInvitacionPorTipoDeZona(acto, TipoDeZona.LISTA_DE_ESPERA).agregarAsignable(asignable, superarMaximo);
+                getInvitacionPorTipoDeZona(acto, TipoDeZona.LISTA_DE_ESPERA).agregarInvitado(invitado, superarMaximo);
             }
         } else {
-            getInvitacionPorTipoDeZona(acto, tipoDeZona).agregarAsignable(asignable, superarMaximo);
-        }
-
-        if (asignable instanceof Invitado invitado) {
-            if (invitado.getCoche() != null) {
-                agregarCoche(acto, invitado.getCoche());
-            }
+            getInvitacionPorTipoDeZona(acto, tipoDeZona).agregarInvitado(invitado, superarMaximo);
         }
     }
 
-    default void agregarCoche(Acto acto, Coche coche) {
-        getInvitacionPorTipoDeZona(acto, TipoDeZona.PARKING).agregarAsignable(coche, false);
-    }
-
-    default void quitarAsignable(Acto acto, Asignable asignable) {
-        getInvitacionPorTipoDeZona(acto, asignable.getInvitacion().getTipoDeZona()).quitarAsignable(asignable);
+    default void quitarInvitado(Acto acto, Invitado invitado) {
+        getInvitacionPorTipoDeZona(acto, invitado.getInvitacion().getTipoDeZona()).quitarInvitado(invitado);
     }
 
     /**
-     * Devuelve el número de asignables de un acto en una zona específica.
+     * Devuelve el número de invitados de un acto en una zona específica.
      *
      * @param acto       Acto específico.
      * @param tipoDeZona Tipo de zona específico.
-     * @return Número de asignables de un acto en una zona específica.
+     * @return Número de invitados de un acto en una zona específica.
      */
-    default long getNumeroAsignablesDeUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
-        return getAsignablesAUnActoPorZona(acto, tipoDeZona).size();
+    default long getNumeroInvitadosDeUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
+        return getInvitadosAUnActoPorZona(acto, tipoDeZona).size();
     }
 
     /**
-     * Devuelve el número de asignables sin asignar de un acto en una zona específica.
+     * Devuelve el número de invitados sin asignar de un acto en una zona específica.
      *
      * @param acto       Acto específico.
      * @param tipoDeZona Tipo de zona específico.
-     * @return Número de asignables sin asignar de un acto en una zona específica.
+     * @return Número de invitados sin asignar de un acto en una zona específica.
      */
-    default long getNumeroAsignablesSinAsignarDeUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
-        return getAsignablesSinAsignarDeUnActoPorZona(acto, tipoDeZona).size();
+    default long getNumeroInvitadosSinAsignarDeUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
+        return getInvitadosSinAsignarDeUnActoPorZona(acto, tipoDeZona).size();
     }
 
     /**
-     * Devuelve los asignables de un acto sin asignar.
+     * Devuelve los invitados de un acto sin asignar.
      *
      * @param acto Acto específico.
-     * @return Conjunto de asignables sin asignar de un acto.
+     * @return Conjunto de invitados sin asignar de un acto.
      */
-    default Set<Asignable> getAsignablesSinAsignarDeUnActo(Acto acto) {
+    default Set<Invitado> getInvitadosSinAsignarDeUnActo(Acto acto) {
         return getInvitacionesDeActo(acto).stream()
-                .map(Invitacion::getAsignables)
+                .map(Invitacion::getInvitados)
                 .flatMap(Set::stream)
-                .filter(asignable -> asignable.getLocalidad() == null)
+                .filter(invitado -> invitado.getLocalidad() == null)
                 .collect(Collectors.toSet());
     }
 
     /**
-     * Devuelve los asignables de un acto sin asignar en una zona específica.
+     * Devuelve los invitados de un acto sin asignar en una zona específica.
      *
      * @param acto       Acto específico.
      * @param tipoDeZona Tipo de zona específica.
-     * @return Conjunto de asignables sin asignar de un acto en una zona específica.
+     * @return Conjunto de invitados sin asignar de un acto en una zona específica.
      */
-    default Set<Asignable> getAsignablesSinAsignarDeUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
+    default Set<Invitado> getInvitadosSinAsignarDeUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
         return getInvitacionesDeActo(acto).stream()
                 .filter(e -> e.getTipoDeZona() == tipoDeZona)
-                .map(Invitacion::getAsignables)
+                .map(Invitacion::getInvitados)
                 .flatMap(Set::stream)
-                .filter(asignable -> asignable.getLocalidad() == null)
+                .filter(invitado -> invitado.getLocalidad() == null)
                 .collect(Collectors.toSet());
     }
 
     /**
-     * Devuelve los asignables de un acto.
+     * Devuelve los invitados de un acto.
      *
      * @param acto Acto específico.
-     * @return Conjunto de asignables de un acto.
+     * @return Conjunto de invitados de un acto.
      */
-    default Set<Asignable> getAsignablesAUnActo(Acto acto) {
+    default Set<Invitado> getInvitadosAUnActo(Acto acto) {
         return getInvitacionesDeActo(acto).stream()
-                .map(Invitacion::getAsignables)
+                .map(Invitacion::getInvitados)
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
     }
 
     /**
-     * Devuelve los asignables de un acto en una zona específica.
+     * Devuelve los invitados de un acto en una zona específica.
      *
      * @param acto       Acto específico.
      * @param tipoDeZona Tipo de zona específica.
-     * @return Conjunto de asignables de un acto en una zona específica.
+     * @return Conjunto de invitados de un acto en una zona específica.
      */
-    default Set<Asignable> getAsignablesAUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
+    default Set<Invitado> getInvitadosAUnActoPorZona(Acto acto, TipoDeZona tipoDeZona) {
         return getInvitacionesDeActo(acto).stream()
                 .filter(e -> e.getTipoDeZona() == tipoDeZona)
-                .map(Invitacion::getAsignables)
+                .map(Invitacion::getInvitados)
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
     }
@@ -258,13 +248,13 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
     }
 
     /**
-     * Compara dos anfitriones por la cantidad de asignables de un tipo de zona en un acto específico.
+     * Compara dos anfitriones por la cantidad de invitados de un tipo de zona en un acto específico.
      *
      * @param acto       Acto específico.
      * @param tipo       Tipo de zona específico.
      * @param anfitrion1 Primer anfitrión a comparar.
      * @param anfitrion2 Segundo anfitrión a comparar.
-     * @return Valor negativo, cero o positivo si el primer anfitrión tiene menos, igual o más asignables que el segundo anfitrión, respectivamente.
+     * @return Valor negativo, cero o positivo si el primer anfitrión tiene menos, igual o más invitados que el segundo anfitrión, respectivamente.
      */
-    int compararPorCantidadDeAsignablesDeUnTipoDeZona(Acto acto, TipoDeZona tipo, Anfitrion anfitrion1, Anfitrion anfitrion2);
+    int compararPorCantidadDeInvitadosDeUnTipoDeZona(Acto acto, TipoDeZona tipo, Anfitrion anfitrion1, Anfitrion anfitrion2);
 }

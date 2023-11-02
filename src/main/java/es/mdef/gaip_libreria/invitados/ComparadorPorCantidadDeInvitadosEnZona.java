@@ -18,8 +18,8 @@ public class ComparadorPorCantidadDeInvitadosEnZona implements Comparator<Anfitr
     @Override
     public int compare(Anfitrion a1, Anfitrion a2) {
         int comparacionPorInvitados = Integer.compare(
-                a1.getAsignablesSinAsignarDeUnActoPorZona(acto, zona).size(),
-                a2.getAsignablesSinAsignarDeUnActoPorZona(acto, zona).size()
+                a1.getInvitadosSinAsignarDeUnActoPorZona(acto, zona).size(),
+                a2.getInvitadosSinAsignarDeUnActoPorZona(acto, zona).size()
         );
 
         if (comparacionPorInvitados == 0) {

@@ -2,7 +2,6 @@ package es.mdef.gaip_libreria.utilidades;
 
 import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.anfitriones.Anfitrion;
-import es.mdef.gaip_libreria.invitados.Asignable;
 import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static es.mdef.gaip_libreria.constantes.EstadoLocalidad.NORMAL;
 import static es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad.LIBRE;
@@ -45,14 +43,14 @@ final class AsignadorAsientosSimple {
     }
 
     private static void sentarEnTribuna(Acto acto, Anfitrion anfitrion) {
-        int numeroInvitados = (int) anfitrion.getNumeroAsignablesDeUnActoPorZona(acto, TRIBUNA);
-        Set<Asignable> asignables = anfitrion.getAsignablesSinAsignarDeUnActoPorZona(acto, TRIBUNA);
-
-        Set<Invitado> invitados = asignables.stream().map(asignable -> (Invitado) asignable).collect(Collectors.toSet());
-        List<ZonaConfigurada> zonasOrdenadas = ordenarZonasPorPrioridad(anfitrion.getUnidadDeFormacion(), acto.getZonasConfiguradasPorTipo(TRIBUNA));
-        for (ZonaConfigurada zona : zonasOrdenadas) {
-            if (sentarInvitadosEnZona(invitados, zona, numeroInvitados)) {
-                break;
+        int numeroInvitados = (int) anfitrion.getNumeroInvitadosDeUnActoPorZona(acto, TRIBUNA);
+        Set<Invitado> invitados = anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, TRIBUNA);
+        if (numeroInvitados > 0) {
+            List<ZonaConfigurada> zonasOrdenadas = ordenarZonasPorPrioridad(anfitrion.getUnidadDeFormacion(), acto.getZonasConfiguradasPorTipo(TRIBUNA));
+            for (ZonaConfigurada zona : zonasOrdenadas) {
+                if (sentarInvitadosEnZona(invitados, zona, numeroInvitados)) {
+                    break;
+                }
             }
         }
     }
