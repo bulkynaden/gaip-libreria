@@ -35,11 +35,13 @@ public final class AsignadorAsientos {
         List<Anfitrion> anfitrionesOrdenados = new ArrayList<>(acto.getAnfitriones());
         anfitrionesOrdenados.sort(new ComparadorPorCantidadDeInvitadosEnZona(TRIBUNA, acto));
 
-        int localidadesRestantes = acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(TRIBUNA);
+        int localidadesRestantes = acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(TRIBUNA) - acto.getInvitadosSinAsignarPorTipoDeZona(TRIBUNA).size();
+
         if (validarGenericaCabeEnTribuna(acto, localidadesRestantes)) {
             for (Invitado invitado : acto.getInvitados()) {
                 if (invitado.getInvitacion().getTipoDeZona() == GENERICA) {
                     invitado.getAnfitrion().getInvitacionPorTipoDeZona(acto, TipoDeZona.TRIBUNA).agregarInvitado(invitado, true);
+                    localidadesRestantes--;
                 }
             }
         }
@@ -126,8 +128,8 @@ public final class AsignadorAsientos {
      */
     private static void sentarEnZona(Acto acto, Anfitrion anfitrion, TipoDeZona tipoZona) {
         Set<Invitado> invitados = anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, tipoZona);
-        LocalidadConfigurada localidad = obtenerLocalidadLibrePorTipoZona(acto, tipoZona);
-        invitados.forEach(invitado -> invitado.setLocalidad(localidad, true));
+        invitados.forEach(invitado -> invitado
+                .setLocalidad(obtenerLocalidadLibrePorTipoZona(acto, tipoZona), true));
     }
 
     /**

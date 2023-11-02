@@ -224,7 +224,9 @@ public interface Acto {
      * @return Número total de localidades en ese estado.
      */
     default int getNumeroLocalidadesPorEstado(EstadoDeUnaLocalidad estado) {
-        return getZonas().stream()
+        return getZonas()
+                .stream()
+                .filter(zonaConfigurada -> zonaConfigurada.getZona().getTipoDeZona() != TipoDeZona.PARKING)
                 .mapToInt(e -> e.getNumeroLocalidadesPorEstado(estado))
                 .sum();
     }
@@ -235,11 +237,19 @@ public interface Acto {
     }
 
     default int getNumeroLocalidadesParaRepartir() {
-        return getZonas().stream().mapToInt(ZonaConfigurada::getNumeroLocalidadesParaRepartir).sum();
+        return getZonas()
+                .stream()
+                .filter(zonaConfigurada -> zonaConfigurada.getZona().getTipoDeZona() != TipoDeZona.PARKING)
+                .mapToInt(ZonaConfigurada::getNumeroLocalidadesParaRepartir)
+                .sum();
     }
 
     default int getNumeroLocalidadesParaRepartirPorTipoDeZona(TipoDeZona tipo) {
-        return getZonas().stream().filter(e -> e.getZona().getTipoDeZona() == tipo).mapToInt(ZonaConfigurada::getNumeroLocalidadesParaRepartir).sum();
+        return getZonas()
+                .stream()
+                .filter(e -> e.getZona().getTipoDeZona() == tipo)
+                .mapToInt(ZonaConfigurada::getNumeroLocalidadesParaRepartir).
+                sum();
     }
 
     /**
