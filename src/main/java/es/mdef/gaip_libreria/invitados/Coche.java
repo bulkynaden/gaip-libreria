@@ -2,7 +2,7 @@ package es.mdef.gaip_libreria.invitados;
 
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 
-public interface Coche {
+public interface Coche extends Asignable {
     Invitado getInvitado();
 
     void setInvitado(Invitado invitado);

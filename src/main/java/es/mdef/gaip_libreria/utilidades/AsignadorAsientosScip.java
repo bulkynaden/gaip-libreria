@@ -3,8 +3,8 @@ package es.mdef.gaip_libreria.utilidades;
 import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.anfitriones.Anfitrion;
 import es.mdef.gaip_libreria.excepciones.SinSolucionException;
+import es.mdef.gaip_libreria.invitados.Asignable;
 import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
-import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonasConfiguradasHelper;
@@ -50,7 +50,7 @@ final class AsignadorAsientosScip {
         try {
             AlgoritmoOrganizacionAsientos.ResultadoOrganizacion resultado = organizador.organizar();
 
-            List<Invitado> todosLosInvitados = getTodosLosInvitados(acto);
+            List<Asignable> todosLosInvitados = getTodosLosInvitados(acto);
             List<LocalidadConfigurada> todasLasLocalidades = getTodasLasLocalidades(acto);
             resultado.asignacionInvitadoAsiento().forEach((indiceInvitado, indiceAsiento) ->
                     todosLosInvitados.get(indiceInvitado).setLocalidad(todasLasLocalidades.get(indiceAsiento), true));
@@ -65,17 +65,17 @@ final class AsignadorAsientosScip {
                 .collect(Collectors.toList());
     }
 
-    private static List<Invitado> getTodosLosInvitados(Acto acto) {
+    private static List<Asignable> getTodosLosInvitados(Acto acto) {
         List<Anfitrion> anfitrionesOrdenados = getAnfitrionesOrdendos(acto);
 
         return anfitrionesOrdenados.stream()
-                .flatMap(anfitrion -> anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, TRIBUNA).stream())
+                .flatMap(anfitrion -> anfitrion.getAsignablesSinAsignarDeUnActoPorZona(acto, TRIBUNA).stream())
                 .collect(Collectors.toList());
     }
 
     private static int[] getInvitadosPorAnfitrion(Acto acto) {
         return getAnfitrionesOrdendos(acto).stream()
-                .mapToInt(anfitrion -> anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, TRIBUNA).size())
+                .mapToInt(anfitrion -> anfitrion.getAsignablesSinAsignarDeUnActoPorZona(acto, TRIBUNA).size())
                 .toArray();
     }
 

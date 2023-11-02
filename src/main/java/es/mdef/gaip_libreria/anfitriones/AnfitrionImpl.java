@@ -139,9 +139,9 @@ public class AnfitrionImpl extends PersonaImpl implements Anfitrion {
     }
 
     @Override
-    public int compararPorCantidadDeInvitadosDeUnTipoDeZona(Acto acto, TipoDeZona tipo, Anfitrion anfitrion1, Anfitrion anfitrion2) {
-        long thisCount = this.getNumeroInvitadosDeUnActoPorZona(acto, tipo);
-        long otherCount = anfitrion2.getNumeroInvitadosDeUnActoPorZona(acto, tipo);
+    public int compararPorCantidadDeAsignablesDeUnTipoDeZona(Acto acto, TipoDeZona tipo, Anfitrion anfitrion1, Anfitrion anfitrion2) {
+        long thisCount = this.getNumeroAsignablesDeUnActoPorZona(acto, tipo);
+        long otherCount = anfitrion2.getNumeroAsignablesDeUnActoPorZona(acto, tipo);
         return Long.compare(otherCount, thisCount);
     }
 

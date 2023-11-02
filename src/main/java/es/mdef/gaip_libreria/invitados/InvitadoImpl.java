@@ -53,11 +53,11 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
     public void setInvitacion(Invitacion invitacion, boolean superarMaximo) {
         if (this.invitacion != invitacion) {
             if (this.invitacion != null) {
-                this.invitacion.quitarInvitado(this);
+                this.invitacion.quitarAsignable(this);
             }
             this.invitacion = invitacion;
             if (this.invitacion != null) {
-                this.invitacion.agregarInvitado(this, superarMaximo);
+                this.invitacion.quitarAsignable(this);
             }
         }
     }
@@ -74,11 +74,11 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
             this.localidad = localidad;
 
             if (oldLocalidad != null) {
-                oldLocalidad.setInvitado(null, superarMaximo);
+                oldLocalidad.setAsignable(null, superarMaximo);
             }
 
-            if (this.localidad != null && this.localidad.getInvitado() != this) {
-                this.localidad.setInvitado(this, superarMaximo);
+            if (this.localidad != null && this.localidad.getAsignable() != this) {
+                this.localidad.setAsignable(this, superarMaximo);
                 cambiarTipoDeInvitacion(superarMaximo);
             }
         }
@@ -86,14 +86,13 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
 
     private void cambiarTipoDeInvitacion(boolean superarMaximo) {
         Invitacion invitacion = getInvitacion();
-        System.out.println(invitacion.getTipoDeZona());
         if (invitacion != null) {
             if (getLocalidad() != null) {
                 TipoDeZona tipoDeZona = getLocalidad().getZonaConfigurada().getZona().getTipoDeZona();
                 if (tipoDeZona != invitacion.getTipoDeZona()) {
-                    invitacion.quitarInvitado(this);
+                    invitacion.quitarAsignable(this);
                     Invitacion nuevaInvitacion = invitacion.getInvitacionesPorActo().getInvitaciones().stream().filter(e -> e.getTipoDeZona() == tipoDeZona).findFirst().orElseThrow();
-                    nuevaInvitacion.agregarInvitado(this, superarMaximo);
+                    nuevaInvitacion.agregarAsignable(this, superarMaximo);
                 }
             }
         }

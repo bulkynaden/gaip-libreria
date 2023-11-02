@@ -14,12 +14,12 @@ import java.util.Set;
  * y un conjunto de invitados asociados a ella. La invitación también está relacionada con un conjunto de invitaciones por acto.
  */
 @Getter
-@EqualsAndHashCode(of = {"tipoDeZona", "numeroMaximoInvitados"})
+@EqualsAndHashCode(of = {"tipoDeZona", "numeroMaximoAsignables"})
 public class InvitacionImpl implements Invitacion {
     private final TipoDeZona tipoDeZona;
-    private final Set<Invitado> invitados = new HashSet<>();
+    private final Set<Asignable> asignables = new HashSet<>();
+    private int numeroMaximoAsignables;
     private InvitacionesPorActo invitacionesPorActo;
-    private int numeroMaximoInvitados;
 
     /**
      * Constructor principal de la clase InvitacionImpl.
@@ -30,7 +30,7 @@ public class InvitacionImpl implements Invitacion {
      */
     public InvitacionImpl(TipoDeZona tipoDeZona, int numeroMaximoInvitados, InvitacionesPorActo invitacionesPorActo) {
         this.tipoDeZona = tipoDeZona;
-        this.numeroMaximoInvitados = numeroMaximoInvitados;
+        this.numeroMaximoAsignables = numeroMaximoInvitados;
         setInvitacionesPorActo(invitacionesPorActo);
     }
 
@@ -55,22 +55,22 @@ public class InvitacionImpl implements Invitacion {
     }
 
     /**
-     * Establece los invitados para esta invitación, manteniendo la coherencia bidireccional.
+     * Establece los asignables para esta invitación, manteniendo la coherencia bidireccional.
      *
-     * @param nuevosInvitados Conjunto de nuevos invitados.
-     * @throws IllegalArgumentException Si la cantidad de invitados excede el límite actual.
+     * @param nuevosAsignables Conjunto de nuevos asignables.
+     * @throws IllegalArgumentException Si la cantidad de asignables excede el límite actual.
      */
     @Override
-    public void setInvitados(Set<Invitado> nuevosInvitados, boolean superarMaximo) {
-        if (nuevosInvitados != null && nuevosInvitados.size() <= numeroMaximoInvitados) {
-            for (Invitado invitadoActual : this.invitados) {
-                invitadoActual.setInvitacion(null, superarMaximo);
+    public void setAsignables(Set<Asignable> nuevosAsignables, boolean superarMaximo) {
+        if (nuevosAsignables != null && nuevosAsignables.size() <= numeroMaximoAsignables) {
+            for (Asignable asignable : this.asignables) {
+                asignable.setInvitacion(null, superarMaximo);
             }
 
-            for (Invitado nuevoInvitado : nuevosInvitados) {
-                nuevoInvitado.setInvitacion(this, superarMaximo);
+            for (Asignable nuevoAsignable : nuevosAsignables) {
+                nuevoAsignable.setInvitacion(this, superarMaximo);
             }
-            nuevosInvitados.forEach(invitado -> this.agregarInvitado(invitado, superarMaximo));
+            nuevosAsignables.forEach(invitado -> this.agregarAsignable(invitado, superarMaximo));
 
         } else {
             throw new CantidadInvitadosExcedeLimiteException();
@@ -78,34 +78,34 @@ public class InvitacionImpl implements Invitacion {
     }
 
     /**
-     * Agrega un invitado a la invitación, manteniendo la coherencia bidireccional.
+     * Agrega un asignable a la invitación, manteniendo la coherencia bidireccional.
      *
-     * @param invitado Invitado a agregar.
+     * @param asignable Asignable a agregar.
      * @throws IllegalArgumentException Si el invitado es nulo o si se ha alcanzado el número máximo de invitados.
      */
     @Override
-    public void agregarInvitado(Invitado invitado, boolean superarMaximo) {
-        if (invitado != null && !this.invitados.contains(invitado)) {
-            if (getTipoDeZona() == TipoDeZona.TRIBUNA && this.invitados.size() >= numeroMaximoInvitados && !superarMaximo) {
+    public void agregarAsignable(Asignable asignable, boolean superarMaximo) {
+        if (asignable != null && !this.asignables.contains(asignable)) {
+            if (getTipoDeZona() == TipoDeZona.TRIBUNA && this.asignables.size() >= numeroMaximoAsignables && !superarMaximo) {
                 throw new IllegalArgumentException("Se ha alcanzado el número máximo de invitados.");
             }
-            this.invitados.add(invitado);
-            invitado.setInvitacion(this, superarMaximo);
+            this.asignables.add(asignable);
+            asignable.setInvitacion(this, superarMaximo);
         }
     }
 
     /**
-     * Quita un invitado de la invitación, rompiendo la relación bidireccional.
+     * Quita un asignable de la invitación, rompiendo la relación bidireccional.
      *
-     * @param invitado Invitado a quitar.
+     * @param asignable Asignable a quitar.
      * @throws IllegalArgumentException Si el invitado es nulo o si no está en la lista.
      */
     @Override
-    public void quitarInvitado(Invitado invitado) {
-        if (this.invitados.contains(invitado)) {
-            this.invitados.remove(invitado);
-            if (invitado != null) {
-                invitado.setInvitacion(null, false);
+    public void quitarAsignable(Asignable asignable) {
+        if (this.asignables.contains(asignable)) {
+            this.asignables.remove(asignable);
+            if (asignable != null) {
+                asignable.setInvitacion(null, false);
             }
         }
     }
@@ -116,27 +116,27 @@ public class InvitacionImpl implements Invitacion {
      * @param cantidad Cantidad a aumentar.
      * @throws IllegalArgumentException Si la cantidad es negativa.
      */
-    public void agregarNumeroMaximoInvitado(int cantidad) {
+    public void agregarNumeroMaximoAsignables(int cantidad) {
         if (cantidad < 0) {
             throw new IllegalArgumentException("La cantidad no puede ser negativa.");
         }
-        numeroMaximoInvitados += cantidad;
+        numeroMaximoAsignables += cantidad;
     }
 
     /**
-     * Reduce el número máximo de invitados.
+     * Reduce el número máximo de asignables.
      *
      * @param cantidad Cantidad a reducir.
      * @throws IllegalArgumentException Si la cantidad es negativa o si la reducción excedería el límite actual.
      */
-    public void quitarNumeroMaximoInvitado(int cantidad) {
+    public void quitarNumeroMaximoAsignables(int cantidad) {
         if (cantidad < 0) {
             throw new IllegalArgumentException("La cantidad no puede ser negativa.");
         }
-        if (getInvitados() != null && getInvitados().size() <= (getNumeroMaximoInvitados() - cantidad)) {
-            this.numeroMaximoInvitados -= cantidad;
+        if (getAsignables() != null && getAsignables().size() <= (getNumeroMaximoAsignables() - cantidad)) {
+            this.numeroMaximoAsignables -= cantidad;
         } else {
-            throw new IllegalArgumentException("No se puede reducir el número máximo de invitados ya que excedería el límite actual.");
+            throw new IllegalArgumentException("No se puede reducir el número máximo de asignables ya que excedería el límite actual.");
         }
     }
 }

@@ -4,8 +4,8 @@ import es.mdef.gaip_libreria.anfitriones.Anfitrion;
 import es.mdef.gaip_libreria.constantes.EstadoActo;
 import es.mdef.gaip_libreria.constantes.EstadoCreacion;
 import es.mdef.gaip_libreria.constantes.TipoDeActo;
+import es.mdef.gaip_libreria.invitados.Asignable;
 import es.mdef.gaip_libreria.invitados.InvitacionesPorActo;
-import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.unidades.Instalacion;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 import lombok.AllArgsConstructor;
@@ -161,13 +161,13 @@ public class ActoImpl implements Acto {
             anfitrion.quitarActo(this);
         }
 
-        List<Invitado> invitadosParaModificar = getInvitacionesPorActo().stream()
+        List<Asignable> asignablesParaModificar = getInvitacionesPorActo().stream()
                 .filter(invitacionesPorActo -> invitacionesPorActo.getAnfitrion() == anfitrion)
                 .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream())
-                .flatMap(invitacion -> invitacion.getInvitados().stream())
+                .flatMap(invitacion -> invitacion.getAsignables().stream())
                 .toList();
 
-        invitadosParaModificar.forEach(invitado -> invitado.setInvitacion(null, false));
+        asignablesParaModificar.forEach(asignable -> asignable.setInvitacion(null, false));
 
         getInvitacionesPorActo().removeIf(invitacionesPorActo -> invitacionesPorActo.getAnfitrion() == anfitrion);
     }

@@ -11,33 +11,33 @@ import java.util.Set;
  *
  * <p>
  * Una invitación es un mecanismo mediante el cual un {@link Anfitrion} puede extender una solicitud
- * a uno o más {@link Invitado}s para asistir a un evento o acto específico. Cada invitación tiene
- * asociado un tipo de zona, un número máximo de invitados permitidos, y un conjunto de invitados
+ * a uno o más {@link Asignable}s para asistir a un evento o acto específico. Cada invitación tiene
+ * asociado un tipo de zona, un número máximo de asignables permitidos, y un conjunto de asignables
  * que han sido invitados a través de esa invitación específica.
  * </p>
  */
 public interface Invitacion {
 
     /**
-     * Devuelve el conjunto de {@link Invitado}s que han sido asociados a esta invitación.
+     * Devuelve el conjunto de {@link Asignable}s que han sido asociados a esta invitación.
      *
-     * @return un conjunto inmutable de {@link Invitado}s.
+     * @return un conjunto inmutable de {@link Asignable}s.
      */
-    Set<Invitado> getInvitados();
+    Set<Asignable> getAsignables();
 
     /**
      * Asigna un conjunto específico de invitados a esta invitación.
      *
-     * @param invitados el conjunto de {@link Invitado}s a asignar.
+     * @param asignables el conjunto de {@link Asignable}s a asignar.
      */
-    void setInvitados(Set<Invitado> invitados, boolean superarMaximo);
+    void setAsignables(Set<Asignable> asignables, boolean superarMaximo);
 
     /**
-     * Devuelve el número máximo de invitados que pueden ser asociados a esta invitación.
+     * Devuelve el número máximo de asignables que pueden ser asociados a esta invitación.
      *
-     * @return el número máximo de invitados permitidos.
+     * @return el número máximo de asignables permitidos.
      */
-    int getNumeroMaximoInvitados();
+    int getNumeroMaximoAsignables();
 
     /**
      * Devuelve el tipo de zona preferencial o específica asociada a esta invitación.
@@ -61,30 +61,30 @@ public interface Invitacion {
     void setInvitacionesPorActo(InvitacionesPorActo invitacionesPorActo);
 
     /**
-     * Agrega un {@link Invitado} específico al conjunto de invitados de esta invitación.
+     * Agrega un {@link Asignable} específico al conjunto de asignables de esta invitación.
      *
-     * @param invitado el {@link Invitado} a agregar.
+     * @param asignable el {@link Asignable} a agregar.
      */
-    void agregarInvitado(Invitado invitado, boolean superarMaximo);
+    void agregarAsignable(Asignable asignable, boolean superarMaximo);
 
     /**
-     * Elimina un {@link Invitado} específico del conjunto de invitados de esta invitación.
+     * Elimina un {@link Asignable} específico del conjunto de asignables de esta invitación.
      *
-     * @param invitado el {@link Invitado} a eliminar.
+     * @param asignable el {@link Asignable} a eliminar.
      */
-    void quitarInvitado(Invitado invitado);
+    void quitarAsignable(Asignable asignable);
 
     /**
-     * Incrementa el número máximo de invitados que pueden ser asociados a esta invitación.
+     * Incrementa el número máximo de asignables que pueden ser asociados a esta invitación.
      *
-     * @param cantidad el número de invitados a agregar al límite actual.
+     * @param cantidad el número de asignables a agregar al límite actual.
      */
-    void agregarNumeroMaximoInvitado(int cantidad);
+    void agregarNumeroMaximoAsignables(int cantidad);
 
     /**
-     * Decrementa el número máximo de invitados que pueden ser asociados a esta invitación.
+     * Decrementa el número máximo de asignables que pueden ser asociados a esta invitación.
      *
-     * @param cantidad el número de invitados a restar del límite actual.
+     * @param cantidad el número de asignables a restar del límite actual.
      */
-    void quitarNumeroMaximoInvitado(int cantidad);
+    void quitarNumeroMaximoAsignables(int cantidad);
 }

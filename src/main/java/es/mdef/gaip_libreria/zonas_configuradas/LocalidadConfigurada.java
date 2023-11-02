@@ -3,6 +3,7 @@ package es.mdef.gaip_libreria.zonas_configuradas;
 import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.constantes.EstadoLocalidad;
 import es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad;
+import es.mdef.gaip_libreria.invitados.Asignable;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.localidades.Localidad;
 
@@ -34,18 +35,19 @@ public interface LocalidadConfigurada {
     void setZonaConfigurada(ZonaConfigurada zonaConfigurada);
 
     /**
-     * Obtiene el {@link Invitado} asociado a esta localidad configurada.
+     * Obtiene el {@link Asignable} asociado a esta localidad configurada.
      *
-     * @return el invitado asociado.
+     * @return el asignable asociado.
      */
-    Invitado getInvitado();
+    Asignable getAsignable();
 
     /**
-     * Establece el {@link Invitado} asociado a esta localidad configurada.
+     * Establece el {@link Asignable} asociado a esta localidad configurada.
      *
-     * @param invitado el invitado a asociar.
+     * @param asignable     el invitado a asociar.
+     * @param superarMaximo si es true, el invitado no puede superar el máximo.
      */
-    void setInvitado(Invitado invitado, boolean superarMaximo);
+    void setAsignable(Asignable asignable, boolean superarMaximo);
 
     /**
      * Obtiene la {@link Localidad} asociada a esta localidad configurada.
@@ -88,7 +90,7 @@ public interface LocalidadConfigurada {
      * @return el estado de ocupación la localidad.
      */
     default EstadoOcupacionLocalidad getEstadoOcupacionLocalidad() {
-        return getInvitado() == null ? EstadoOcupacionLocalidad.LIBRE : EstadoOcupacionLocalidad.OCUPADA;
+        return getAsignable() == null ? EstadoOcupacionLocalidad.LIBRE : EstadoOcupacionLocalidad.OCUPADA;
     }
 
     default Acto getActo() {

@@ -1,7 +1,7 @@
 package es.mdef.gaip_libreria.zonas_configuradas;
 
 import es.mdef.gaip_libreria.constantes.EstadoLocalidad;
-import es.mdef.gaip_libreria.invitados.Invitado;
+import es.mdef.gaip_libreria.invitados.Asignable;
 import es.mdef.gaip_libreria.localidades.Localidad;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = {"estadoLocalidad"})
 public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
     private static final EstadoLocalidad ESTADO_LOCALIDAD_POR_DEFECTO = EstadoLocalidad.BLOQUEADA;
-    private Invitado invitado;
+    private Asignable asignable;
     private Localidad localidad;
     private EstadoLocalidad estadoLocalidad;
     private ZonaConfigurada zonaConfigurada;
@@ -55,21 +55,22 @@ public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
     }
 
     /**
-     * Establece el invitado para la localidad configurada y mantiene la coherencia bidireccional.
+     * Establece el asignable para la localidad configurada y mantiene la coherencia bidireccional.
      *
-     * @param invitado El invitado asociado a la localidad configurada. No puede ser nulo.
+     * @param asignable     El asignable asociado a la localidad configurada. No puede ser nulo.
+     * @param superarMaximo Si es true, se puede superar el máximo de asigables.
      */
-    public void setInvitado(Invitado invitado, boolean superarMaximo) {
-        if (this.invitado != invitado) {
-            Invitado oldInvitado = this.invitado;
-            this.invitado = invitado;
+    public void setAsignable(Asignable asignable, boolean superarMaximo) {
+        if (this.asignable != asignable) {
+            Asignable oldAsignable = this.asignable;
+            this.asignable = asignable;
 
-            if (oldInvitado != null) {
-                oldInvitado.setLocalidad(null, superarMaximo);
+            if (oldAsignable != null) {
+                oldAsignable.setLocalidad(null, superarMaximo);
             }
 
-            if (this.invitado != null && this.invitado.getLocalidad() != this) {
-                this.invitado.setLocalidad(this, false);
+            if (this.asignable != null && this.asignable.getLocalidad() != this) {
+                this.asignable.setLocalidad(this, false);
             }
         }
     }
