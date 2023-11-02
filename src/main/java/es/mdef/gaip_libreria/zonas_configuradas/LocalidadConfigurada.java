@@ -105,7 +105,7 @@ public interface LocalidadConfigurada {
      * @return el estado de ocupación la localidad.
      */
     default EstadoOcupacionLocalidad getEstadoOcupacionLocalidad() {
-        return getInvitado() == null ? EstadoOcupacionLocalidad.LIBRE : EstadoOcupacionLocalidad.OCUPADA;
+        return getInvitado() == null && getCoche() == null ? EstadoOcupacionLocalidad.LIBRE : EstadoOcupacionLocalidad.OCUPADA;
     }
 
     default Acto getActo() {
