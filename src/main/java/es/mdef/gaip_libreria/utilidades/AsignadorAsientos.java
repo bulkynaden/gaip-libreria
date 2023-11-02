@@ -46,8 +46,16 @@ public final class AsignadorAsientos {
 
         while (validarListaDeEsperaCabeEnTribuna(acto, localidadesRestantes)) {
             for (Anfitrion anfitrion : getAnfitrionesConInvitadosEnListaDeEspera(acto)) {
-                Invitado invitado = anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, LISTA_DE_ESPERA).stream().findFirst().orElse(null);
-                anfitrion.getInvitacionPorTipoDeZona(acto, TRIBUNA).agregarInvitado(invitado, true);
+                Invitado invitado = anfitrion
+                        .getInvitadosSinAsignarDeUnActoPorZona(acto, LISTA_DE_ESPERA)
+                        .stream()
+                        .findFirst()
+                        .orElse(null);
+
+                anfitrion
+                        .getInvitacionPorTipoDeZona(acto, TRIBUNA)
+                        .agregarInvitado(invitado, true);
+
                 localidadesRestantes--;
             }
         }
