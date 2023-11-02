@@ -23,8 +23,8 @@ public class InvitadoFcseImpl extends InvitadoImpl implements InvitadoFcse {
     @Getter
     private CuerpoFcse cuerpo;
 
-    protected InvitadoFcseImpl(CuerpoFcse cuerpo, String empleo, String nombre, String primerApellido, String segundoApellido, String dni, Sexo sexo, LocalDate fechaNacimiento, String email, String telefono, String parentesco, Coche coche, SituacionMilitar situacionMilitar, boolean asisteDeUniforme, boolean requiereVestuario, boolean entregaNombramiento) {
-        super(nombre, primerApellido, segundoApellido, dni, sexo, fechaNacimiento, email, telefono, parentesco, coche);
+    protected InvitadoFcseImpl(CuerpoFcse cuerpo, String empleo, String nombre, String primerApellido, String segundoApellido, String dni, Sexo sexo, LocalDate fechaNacimiento, String email, String telefono, String parentesco, SituacionMilitar situacionMilitar, boolean asisteDeUniforme, boolean requiereVestuario, boolean entregaNombramiento) {
+        super(nombre, primerApellido, segundoApellido, dni, sexo, fechaNacimiento, email, telefono, parentesco);
         this.cuerpo = cuerpo;
         this.situacion = situacionMilitar;
         this.asisteDeUniforme = asisteDeUniforme;

@@ -35,9 +35,8 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
      * @param email           Email del invitado.
      * @param telefono        Teléfono del invitado.
      * @param parentesco      Parentesco del invitado con el anfitrión.
-     * @param coche           Coche asociado al invitado.
      */
-    public InvitadoImpl(String nombre, String primerApellido, String segundoApellido, String dni, Sexo sexo, LocalDate fechaNacimiento, String email, String telefono, String parentesco, Coche coche) {
+    public InvitadoImpl(String nombre, String primerApellido, String segundoApellido, String dni, Sexo sexo, LocalDate fechaNacimiento, String email, String telefono, String parentesco) {
         super(nombre, primerApellido, segundoApellido, dni, sexo, fechaNacimiento, email, telefono);
         this.parentesco = parentesco;
         setCoche(coche);
