@@ -86,7 +86,6 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
 
     private void cambiarTipoDeInvitacion(boolean superarMaximo) {
         Invitacion invitacion = getInvitacion();
-        System.out.println(invitacion.getTipoDeZona());
         if (invitacion != null) {
             if (getLocalidad() != null) {
                 TipoDeZona tipoDeZona = getLocalidad().getZonaConfigurada().getZona().getTipoDeZona();
@@ -96,16 +95,6 @@ public class InvitadoImpl extends PersonaImpl implements Invitado {
                     nuevaInvitacion.agregarInvitado(this, superarMaximo);
                 }
             }
-        }
-    }
-
-    public void setCoche(Coche coche) {
-        if (this.coche != coche) {
-            if (this.coche != null && this.coche.getInvitado() != null) {
-                this.coche.getInvitado().setCoche(null);
-            }
-            this.coche = coche;
-            this.coche.setInvitado(this);
         }
     }
 }

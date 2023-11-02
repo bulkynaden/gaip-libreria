@@ -87,4 +87,18 @@ public interface Invitacion {
      * @param cantidad el número de invitados a restar del límite actual.
      */
     void quitarNumeroMaximoInvitado(int cantidad);
+
+    /**
+     * Agrega un {@link Coche} específico al conjunto de coche de esta invitación.
+     *
+     * @param coche el {@link Coche} a agregar.
+     */
+    void agregarCoche(Coche coche, boolean superarMaximo);
+
+    /**
+     * Elimina un {@link Coche} específico del conjunto de coches de esta invitación.
+     *
+     * @param coche el {@link Coche} a eliminar.
+     */
+    void quitarCoche(Coche coche);
 }

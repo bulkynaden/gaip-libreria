@@ -3,6 +3,7 @@ package es.mdef.gaip_libreria.zonas_configuradas;
 import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.constantes.EstadoLocalidad;
 import es.mdef.gaip_libreria.constantes.EstadoOcupacionLocalidad;
+import es.mdef.gaip_libreria.invitados.Coche;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.localidades.Localidad;
 
@@ -43,9 +44,25 @@ public interface LocalidadConfigurada {
     /**
      * Establece el {@link Invitado} asociado a esta localidad configurada.
      *
-     * @param invitado el invitado a asociar.
+     * @param invitado      el invitado a asociar.
+     * @param superarMaximo si es true, se podrá superar el máximo de invitados.
      */
     void setInvitado(Invitado invitado, boolean superarMaximo);
+
+    /**
+     * Obtiene el {@link Coche} asociado a esta localidad configurada.
+     *
+     * @return el coche asociado.
+     */
+    Coche getCoche();
+
+    /**
+     * Establece el {@link Coche} asociado a esta localidad configurada.
+     *
+     * @param coche         el coche a asociar.
+     * @param superarMaximo si es true, se podrá superar el máximo de invitados.
+     */
+    void setCoche(Coche coche, boolean superarMaximo);
 
     /**
      * Obtiene la {@link Localidad} asociada a esta localidad configurada.

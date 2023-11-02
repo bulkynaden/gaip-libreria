@@ -25,5 +25,19 @@ public interface Coche {
 
     LocalidadConfigurada getLocalidad();
 
-    void setLocalidad(LocalidadConfigurada localidad);
+    void setLocalidad(LocalidadConfigurada localidad, boolean superarMaximo);
+
+    /**
+     * Obtiene la invitación que ha sido asociada a este coche.
+     *
+     * @return la {@link Invitacion} asociada a este coche.
+     */
+    Invitacion getInvitacion();
+
+    /**
+     * Asigna una invitación específica a este coche.
+     *
+     * @param invitacion la {@link Invitacion} a asignar al coche.
+     */
+    void setInvitacion(Invitacion invitacion, boolean superarMaximo);
 }

@@ -18,6 +18,7 @@ import java.util.Set;
 public class InvitacionImpl implements Invitacion {
     private final TipoDeZona tipoDeZona;
     private final Set<Invitado> invitados = new HashSet<>();
+    private final Set<Coche> coches = new HashSet<>();
     private InvitacionesPorActo invitacionesPorActo;
     private int numeroMaximoInvitados;
 
@@ -137,6 +138,37 @@ public class InvitacionImpl implements Invitacion {
             this.numeroMaximoInvitados -= cantidad;
         } else {
             throw new IllegalArgumentException("No se puede reducir el número máximo de invitados ya que excedería el límite actual.");
+        }
+    }
+
+    /**
+     * Agrega un coche a la invitación, manteniendo la coherencia bidireccional.
+     *
+     * @param coche Coche a agregar.
+     */
+    @Override
+    public void agregarCoche(Coche coche, boolean superarMaximo) {
+        if (coche != null && !this.coches.contains(coche)) {
+            if (getTipoDeZona() == TipoDeZona.PARKING && this.coches.size() >= numeroMaximoInvitados && !superarMaximo) {
+                throw new CantidadInvitadosExcedeLimiteException();
+            }
+            this.coches.add(coche);
+            coche.setInvitacion(this, superarMaximo);
+        }
+    }
+
+    /**
+     * Quita un coche de la invitación, rompiendo la relación bidireccional.
+     *
+     * @param coche Coche a quitar.
+     */
+    @Override
+    public void quitarCoche(Coche coche) {
+        if (this.coches.contains(coche)) {
+            this.coches.remove(coche);
+            if (coche != null) {
+                coche.setInvitacion(null, false);
+            }
         }
     }
 }

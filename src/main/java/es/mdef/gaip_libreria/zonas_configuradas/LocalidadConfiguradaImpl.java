@@ -1,6 +1,7 @@
 package es.mdef.gaip_libreria.zonas_configuradas;
 
 import es.mdef.gaip_libreria.constantes.EstadoLocalidad;
+import es.mdef.gaip_libreria.invitados.Coche;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.localidades.Localidad;
 import lombok.Data;
@@ -15,6 +16,7 @@ import lombok.EqualsAndHashCode;
 public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
     private static final EstadoLocalidad ESTADO_LOCALIDAD_POR_DEFECTO = EstadoLocalidad.BLOQUEADA;
     private Invitado invitado;
+    private Coche coche;
     private Localidad localidad;
     private EstadoLocalidad estadoLocalidad;
     private ZonaConfigurada zonaConfigurada;
@@ -70,6 +72,26 @@ public class LocalidadConfiguradaImpl implements LocalidadConfigurada {
 
             if (this.invitado != null && this.invitado.getLocalidad() != this) {
                 this.invitado.setLocalidad(this, false);
+            }
+        }
+    }
+
+    /**
+     * Establece el coche para la localidad configurada y mantiene la coherencia bidireccional.
+     *
+     * @param coche El coche asociado a la localidad configurada. No puede ser nulo.
+     */
+    public void setCoche(Coche coche, boolean superarMaximo) {
+        if (this.coche != coche) {
+            Coche oldCoche = this.coche;
+            this.coche = coche;
+
+            if (oldCoche != null) {
+                oldCoche.setLocalidad(null, superarMaximo);
+            }
+
+            if (this.coche != null && this.coche.getLocalidad() != this) {
+                this.coche.setLocalidad(this, false);
             }
         }
     }
