@@ -5,8 +5,6 @@ import es.mdef.gaip_libreria.anfitriones.Anfitrion;
 import es.mdef.gaip_libreria.excepciones.SinSolucionException;
 import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
 import es.mdef.gaip_libreria.invitados.Invitado;
-import es.mdef.gaip_libreria.localidades.Localidad;
-import es.mdef.gaip_libreria.localidades.LocalidadNumerada;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 import es.mdef.gaip_libreria.zonas_configuradas.ZonasConfiguradasHelper;
@@ -172,14 +170,6 @@ final class AsignadorAsientosScip {
             }
         }
 
-        for (List<LocalidadConfigurada> todosGruposGrupo : todosGrupos) {
-            System.out.println("Grupo");
-            System.out.println("-----");
-            for (LocalidadConfigurada localidadConfigurada : todosGruposGrupo) {
-                Localidad localidad = HibernateProxyHelper.getEntity(localidadConfigurada.getLocalidad());
-                System.out.println("Localidad: " + ((LocalidadNumerada) localidad).getNumero() + " zona " + localidadConfigurada.getZonaConfigurada().getZona().getNombre());
-            }
-        }
         return todosGrupos;
     }
 
