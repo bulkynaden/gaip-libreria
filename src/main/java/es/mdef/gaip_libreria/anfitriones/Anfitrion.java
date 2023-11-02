@@ -257,4 +257,13 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
      * @return Valor negativo, cero o positivo si el primer anfitrión tiene menos, igual o más invitados que el segundo anfitrión, respectivamente.
      */
     int compararPorCantidadDeInvitadosDeUnTipoDeZona(Acto acto, TipoDeZona tipo, Anfitrion anfitrion1, Anfitrion anfitrion2);
+
+    default Set<Coche> getCochesSinAsignarDeUnActo(Acto acto) {
+        return getInvitacionesDeActo(acto).stream()
+                .filter(e -> e.getTipoDeZona() == TipoDeZona.PARKING)
+                .map(Invitacion::getCoches)
+                .flatMap(Set::stream)
+                .filter(invitado -> invitado.getLocalidad() == null)
+                .collect(Collectors.toSet());
+    }
 }

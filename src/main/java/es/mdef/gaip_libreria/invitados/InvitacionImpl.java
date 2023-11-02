@@ -59,7 +59,6 @@ public class InvitacionImpl implements Invitacion {
      * Establece los invitados para esta invitación, manteniendo la coherencia bidireccional.
      *
      * @param nuevosInvitados Conjunto de nuevos invitados.
-     * @throws IllegalArgumentException Si la cantidad de invitados excede el límite actual.
      */
     @Override
     public void setInvitados(Set<Invitado> nuevosInvitados, boolean superarMaximo) {
@@ -72,6 +71,28 @@ public class InvitacionImpl implements Invitacion {
                 nuevoInvitado.setInvitacion(this, superarMaximo);
             }
             nuevosInvitados.forEach(invitado -> this.agregarInvitado(invitado, superarMaximo));
+
+        } else {
+            throw new CantidadInvitadosExcedeLimiteException();
+        }
+    }
+
+    /**
+     * Establece los coches para esta invitación, manteniendo la coherencia bidireccional.
+     *
+     * @param nuevosCoches Conjunto de nuevos invitados.
+     */
+    @Override
+    public void setCoches(Set<Coche> nuevosCoches, boolean superarMaximo) {
+        if (nuevosCoches != null && nuevosCoches.size() <= numeroMaximoInvitados) {
+            for (Coche coche : this.coches) {
+                coche.setInvitacion(null, superarMaximo);
+            }
+
+            for (Coche coche : nuevosCoches) {
+                coche.setInvitacion(this, superarMaximo);
+            }
+            coches.forEach(coche -> this.agregarCoche(coche, superarMaximo));
 
         } else {
             throw new CantidadInvitadosExcedeLimiteException();

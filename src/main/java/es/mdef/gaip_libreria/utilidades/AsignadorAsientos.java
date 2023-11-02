@@ -3,6 +3,7 @@ package es.mdef.gaip_libreria.utilidades;
 import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.anfitriones.Anfitrion;
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
+import es.mdef.gaip_libreria.invitados.Coche;
 import es.mdef.gaip_libreria.invitados.ComparadorPorCantidadDeInvitadosEnZona;
 import es.mdef.gaip_libreria.invitados.Invitacion;
 import es.mdef.gaip_libreria.invitados.Invitado;
@@ -67,6 +68,7 @@ public final class AsignadorAsientos {
         for (Anfitrion anfitrion : anfitrionesOrdenados) {
             sentarEnZona(acto, anfitrion, GENERICA);
             sentarEnZona(acto, anfitrion, ACOTADO);
+            aparcarCoches(acto, anfitrion);
         }
     }
 
@@ -130,6 +132,18 @@ public final class AsignadorAsientos {
         Set<Invitado> invitados = anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, tipoZona);
         invitados.forEach(invitado -> invitado
                 .setLocalidad(obtenerLocalidadLibrePorTipoZona(acto, tipoZona), true));
+    }
+
+    /**
+     * Asigna plazas de parking para un anfitrion y acto dados.
+     *
+     * @param acto      El acto para el cual se asignará el parking.
+     * @param anfitrion El anfitrión para el cual se asignarán las plazas de parking
+     */
+    private static void aparcarCoches(Acto acto, Anfitrion anfitrion) {
+        Set<Coche> coches = anfitrion.getCochesSinAsignarDeUnActo(acto);
+        coches.forEach(coche -> coche
+                .setLocalidad(obtenerLocalidadLibrePorTipoZona(acto, PARKING), true));
     }
 
     /**

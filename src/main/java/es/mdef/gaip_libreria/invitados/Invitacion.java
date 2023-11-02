@@ -21,7 +21,7 @@ public interface Invitacion {
     /**
      * Devuelve el conjunto de {@link Invitado}s que han sido asociados a esta invitación.
      *
-     * @return un conjunto inmutable de {@link Invitado}s.
+     * @return un conjunto de {@link Invitado}s.
      */
     Set<Invitado> getInvitados();
 
@@ -31,6 +31,20 @@ public interface Invitacion {
      * @param invitados el conjunto de {@link Invitado}s a asignar.
      */
     void setInvitados(Set<Invitado> invitados, boolean superarMaximo);
+
+    /**
+     * Devuelve el conjunto de {@link Coche}s que han sido asociados a esta invitación.
+     *
+     * @return un conjunto de {@link Coche}s.
+     */
+    Set<Coche> getCoches();
+
+    /**
+     * Asigna un conjunto específico de coches a esta invitación.
+     *
+     * @param coches el conjunto de {@link Coche}s a asignar.
+     */
+    void setCoches(Set<Coche> coches, boolean superarMaximo);
 
     /**
      * Devuelve el número máximo de invitados que pueden ser asociados a esta invitación.
