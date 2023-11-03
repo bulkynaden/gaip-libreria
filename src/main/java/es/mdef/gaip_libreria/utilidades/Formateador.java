@@ -1,5 +1,8 @@
 package es.mdef.gaip_libreria.utilidades;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Set;
 
@@ -49,6 +52,20 @@ public final class Formateador {
             }
         }
         return result.toString();
+    }
+
+    /**
+     * Formatea la fecha proporcionada.
+     *
+     * @param fecha La fecha a formatear.
+     * @return La fecha formateada.
+     */
+    public static String toFecha(ZonedDateTime fecha) {
+        ZonedDateTime zonedDateTime = fecha.withZoneSameInstant(ZoneId.of("Europe/Madrid"));
+
+        return DateTimeFormatter
+                .ofPattern("d 'de' MMMM 'de' yyyy", new Locale("es", "ES"))
+                .format(zonedDateTime);
     }
 
     /**
