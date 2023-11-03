@@ -29,11 +29,6 @@ public class CocheImpl implements Coche {
         }
     }
 
-    @Override
-    public Invitacion getInvitacion() {
-        return null;
-    }
-
     /**
      * Asocia una invitación al coche. Si el coche ya estaba asociado a otra invitación,
      * se elimina esa asociación previa. Establece la relación bidireccional entre el invitado y la invitación.
