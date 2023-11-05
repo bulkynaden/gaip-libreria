@@ -1,5 +1,5 @@
 package es.mdef.gaip_libreria.constantes;
 
 public enum EstadoActo {
-    CREACION, REGISTRO, VALIDACION, CONTROL, FINALIZADO
+    CREACION, REGISTRO, SENTANDO_INVITADOS, VALIDACION, CONTROL, FINALIZADO
 }
