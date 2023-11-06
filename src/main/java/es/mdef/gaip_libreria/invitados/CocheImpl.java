@@ -2,8 +2,10 @@ package es.mdef.gaip_libreria.invitados;
 
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(of = {"matricula"})
 public class CocheImpl implements Coche {
     private Invitado invitado;
     private String matricula;
@@ -42,7 +44,7 @@ public class CocheImpl implements Coche {
                 this.invitacion.quitarCoche(this);
             }
             this.invitacion = invitacion;
-            if (this.invitacion != null) {
+            if (this.invitacion != null && !this.invitacion.getCoches().contains(this)) {
                 this.invitacion.agregarCoche(this, superarMaximo);
             }
         }
