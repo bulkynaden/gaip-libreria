@@ -47,6 +47,20 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
     void setUnidadDeFormacion(String unidadDeFormacion);
 
     /**
+     * Obtiene el empleo del anfitrión.
+     *
+     * @return el empleo del anfitrión.
+     */
+    String getEmpleo();
+
+    /**
+     * Define el empleo del anfitrión.
+     *
+     * @param empleo el empleo del anfitrión.
+     */
+    void setEmpleo(String empleo);
+
+    /**
      * Obtiene las invitaciones por acto que el anfitrión ha extendido.
      *
      * @return Conjunto de invitaciones por acto asociadas al anfitrión.
