@@ -28,8 +28,10 @@ public class AnfitrionImpl extends PersonaImpl implements Anfitrion {
     private final Set<Acto> actos = new HashSet<>();
     private final Set<InvitacionesPorActo> invitacionesPorActo = new HashSet<>();
     private String unidadDeFormacion;
+    private String empleo;
 
-    public AnfitrionImpl(String nombre, String primerApellido, String segundoApellido, String unidadDeFormacion, String email) {
+    public AnfitrionImpl(String empleo, String nombre, String primerApellido, String segundoApellido, String unidadDeFormacion, String email) {
+        setEmpleo(empleo);
         setNombre(nombre);
         setPrimerApellido(primerApellido);
         setSegundoApellido(segundoApellido);
