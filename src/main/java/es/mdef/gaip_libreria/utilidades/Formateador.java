@@ -38,6 +38,8 @@ public final class Formateador {
             return "";
         }
 
+        texto = texto.toLowerCase();
+
         StringBuilder result = new StringBuilder();
 
         String[] words = texto.trim().split("\\s+");
