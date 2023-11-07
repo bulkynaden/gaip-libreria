@@ -3,6 +3,7 @@ package es.mdef.gaip_libreria.invitados;
 import es.mdef.gaip_libreria.constantes.Sexo;
 import es.mdef.gaip_libreria.utilidades.Formateador;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 
@@ -10,6 +11,7 @@ import java.time.LocalDate;
  * Representa a una persona en el sistema.
  */
 @Data
+@EqualsAndHashCode(of = {"nombre", "primerApellido", "segundoApellido", "dni", "sexo", "fechaNacimiento", "email", "telefono"})
 public class PersonaImpl implements Persona {
     /**
      * Nombre de la persona.
