@@ -19,7 +19,7 @@ import java.util.Set;
  * @author [Tu Nombre o el de tu Organización]
  * @version 1.0
  */
-@EqualsAndHashCode(of = {"unidadDeFormacion"}, callSuper = true)
+@EqualsAndHashCode(of = {"unidadDeFormacion", "empleo"}, callSuper = true)
 @Getter
 @Setter
 @NoArgsConstructor
