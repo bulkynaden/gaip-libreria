@@ -64,14 +64,16 @@ public final class InvitacionesManager {
                         .filter(a -> unidad.equals(a.getUnidadDeFormacion()))
                         .toList();
 
-                int totalInvitacionesUnidad = invitacionesPorUnidad.get(unidad);
-                int basePorAnfitrion = totalInvitacionesUnidad / anfitrionesUnidad.size();
-                int sobraPorAnfitrion = totalInvitacionesUnidad % anfitrionesUnidad.size();
+                if (!anfitrionesUnidad.isEmpty()) {
+                    int totalInvitacionesUnidad = invitacionesPorUnidad.get(unidad);
+                    int basePorAnfitrion = totalInvitacionesUnidad / anfitrionesUnidad.size();
+                    int sobraPorAnfitrion = totalInvitacionesUnidad % anfitrionesUnidad.size();
 
-                for (int i = 0; i < anfitrionesUnidad.size(); i++) {
-                    int invitacionesFinal = (i < sobraPorAnfitrion) ? (basePorAnfitrion + 1) : basePorAnfitrion;
-                    distribucionPorUnidad.computeIfAbsent(unidad, k -> new ArrayList<>())
-                            .add(new Reparticion(tipo, invitacionesFinal));
+                    for (int i = 0; i < anfitrionesUnidad.size(); i++) {
+                        int invitacionesFinal = (i < sobraPorAnfitrion) ? (basePorAnfitrion + 1) : basePorAnfitrion;
+                        distribucionPorUnidad.computeIfAbsent(unidad, k -> new ArrayList<>())
+                                .add(new Reparticion(tipo, invitacionesFinal));
+                    }
                 }
             }
         }
