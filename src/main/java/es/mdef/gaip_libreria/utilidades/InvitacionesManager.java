@@ -27,6 +27,10 @@ public final class InvitacionesManager {
      */
     public static Map<String, List<Reparticion>> calcularReparto(Acto acto) {
         Map<String, List<Reparticion>> distribucionPorUnidad = new HashMap<>();
+
+        if (acto.getAnfitriones().isEmpty()) {
+            return distribucionPorUnidad;
+        }
         Map<String, Integer> cantidadAnfitrionesPorUnidad = new HashMap<>();
 
         for (String unidad : acto.getUnidadesDeFormacion()) {
