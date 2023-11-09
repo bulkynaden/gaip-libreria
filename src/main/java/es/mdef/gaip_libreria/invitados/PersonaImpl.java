@@ -58,9 +58,9 @@ public class PersonaImpl implements Persona {
     }
 
     public PersonaImpl(String nombre, String primerApellido, String segundoApellido, String dni, Sexo sexo, LocalDate fechaNacimiento, String email, String telefono) {
-        this.nombre = nombre;
-        this.primerApellido = primerApellido;
-        this.segundoApellido = segundoApellido;
+        setNombre(nombre);
+        setPrimerApellido(primerApellido);
+        setSegundoApellido(segundoApellido);
         this.dni = dni;
         this.sexo = sexo;
         this.fechaNacimiento = fechaNacimiento;
