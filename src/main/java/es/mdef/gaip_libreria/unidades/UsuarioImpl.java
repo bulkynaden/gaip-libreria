@@ -27,7 +27,7 @@ public class UsuarioImpl extends PersonaImpl implements Usuario {
     public void setUnidad(Unidad unidad) {
         if (this.unidad != unidad) {
             this.unidad = unidad;
-            if (unidad != null) {
+            if (unidad != null && !unidad.getUsuarios().contains(this)) {
                 unidad.agregarUsuario(this);
             }
         }
