@@ -280,4 +280,15 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
                 .filter(coche -> coche.getLocalidad() == null)
                 .collect(Collectors.toSet());
     }
+
+    default boolean tieneInvitaciones(Acto acto) {
+        return getInvitacionesDeActo(acto)
+                .stream()
+                .map(Invitacion::getCoches)
+                .flatMap(Set::stream)
+                .anyMatch(coche -> coche.getLocalidad() != null)
+                && getInvitadosAUnActo(acto)
+                .stream()
+                .anyMatch(invitado -> invitado.getLocalidad() != null);
+    }
 }
