@@ -172,7 +172,7 @@ public final class AsignadorAsientos {
                 .flatMap(invitacion -> invitacion.getCoches().stream())
                 .collect(Collectors.toSet());
         coches.forEach(coche -> coche
-                .setLocalidad(obtenerLocalidadLibreProtocoloPorTipoZona(acto, PARKING), true));
+                .setLocalidad(obtenerLocalidadLibrePorTipoZona(acto, PARKING), true));
     }
 
     /**
