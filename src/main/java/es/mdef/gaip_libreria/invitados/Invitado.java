@@ -61,6 +61,9 @@ public interface Invitado extends Persona {
     void setCoche(Coche coche);
 
     default Anfitrion getAnfitrion() {
+        if (getInvitacion() == null) {
+            return null;
+        }
         return getInvitacion().getInvitacionesPorActo().getAnfitrion();
     }
 
