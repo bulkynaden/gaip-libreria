@@ -146,8 +146,10 @@ public final class AsignadorAsientos {
                 .filter(invitacion -> invitacion.getTipoDeZona() == tipoZona)
                 .flatMap(invitacion -> invitacion.getInvitados().stream())
                 .collect(Collectors.toSet());
-        invitados.forEach(invitado -> invitado
-                .setLocalidad(obtenerLocalidadLibreProtocoloPorTipoZona(acto, tipoZona), true));
+        invitados.forEach(invitado -> {
+            System.out.println(invitado.getNombre());
+            invitado.setLocalidad(obtenerLocalidadLibreProtocoloPorTipoZona(acto, tipoZona), true);
+        });
     }
 
     /**
