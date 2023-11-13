@@ -170,11 +170,11 @@ public final class AsignadorAsientos {
     /**
      * Asigna plazas de parking para un anfitrion y acto dados.
      *
-     * @param acto      El acto para el cual se asignará el parking.
-     * @param coche     El coche que se desea aparcar.
+     * @param acto  El acto para el cual se asignará el parking.
+     * @param coche El coche que se desea aparcar.
      */
     public static void aparcarCoche(Acto acto, Coche coche) {
-        coche.setLocalidad(obtenerLocalidadLibrePorTipoZona(acto, PARKING), true));
+        coche.setLocalidad(obtenerLocalidadLibrePorTipoZona(acto, PARKING), true);
     }
 
     private static void aparcarCochesProtocolo(Acto acto) {
