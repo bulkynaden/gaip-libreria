@@ -22,7 +22,7 @@ public class CocheImpl implements Coche {
             this.localidad = localidad;
 
             if (oldLocalidad != null) {
-                oldLocalidad.setInvitado(null, superarMaximo);
+                oldLocalidad.setCoche(null, superarMaximo);
             }
 
             if (this.localidad != null && this.localidad.getCoche() != this) {

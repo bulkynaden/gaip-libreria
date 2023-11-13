@@ -170,6 +170,7 @@ public final class AsignadorAsientos {
                 .flatMap(Set::stream)
                 .filter(invitacion -> invitacion.getTipoDeZona() == PARKING)
                 .flatMap(invitacion -> invitacion.getCoches().stream())
+                .filter(coche -> coche.getLocalidad() == null)
                 .collect(Collectors.toSet());
         coches.forEach(coche -> coche
                 .setLocalidad(obtenerLocalidadLibrePorTipoZona(acto, PARKING), true));
