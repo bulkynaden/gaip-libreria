@@ -102,7 +102,12 @@ public final class AsignadorAsientos {
     public static void levantarInvitados(Acto acto) {
         acto.getInvitados().stream()
                 .filter(e -> localidadEsLibrerable(e.getLocalidad()))
-                .forEach(e -> e.setLocalidad(null, false));
+                .forEach(e -> {
+                    e.setLocalidad(null, false);
+                    if (e.getCoche() != null) {
+                        e.getCoche().setLocalidad(null, false);
+                    }
+                });
     }
 
     private static boolean validarGenericaCabeEnTribuna(Acto acto, int localidadesRestantes) {
@@ -160,6 +165,16 @@ public final class AsignadorAsientos {
         Set<Coche> coches = anfitrion.getCochesSinAsignarDeUnActo(acto);
         coches.forEach(coche -> coche
                 .setLocalidad(obtenerLocalidadLibrePorTipoZona(acto, PARKING), true));
+    }
+
+    /**
+     * Asigna plazas de parking para un anfitrion y acto dados.
+     *
+     * @param acto      El acto para el cual se asignará el parking.
+     * @param coche     El coche que se desea aparcar.
+     */
+    public static void aparcarCoche(Acto acto, Coche coche) {
+        coche.setLocalidad(obtenerLocalidadLibrePorTipoZona(acto, PARKING), true));
     }
 
     private static void aparcarCochesProtocolo(Acto acto) {
