@@ -238,13 +238,13 @@ public final class AsignadorAsientos {
         return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
                 .sorted(Comparator.comparing((zona) -> {
                     for (String prioridad : ordenPrioridad) {
-                        if (zona.getNombre().toLowerCase().contains(prioridad)) {
+                        if (zona.nombre.toLowerCase().contains(prioridad)) {
                             return ordenPrioridad.indexOf(prioridad);
                         }
                     }
                     return ordenPrioridad.size(); 
                 })
-                        .thenComparing(zona -> zona.getNombre().substring(zona.getNombre().length() - 1))
+                        .thenComparing(zona -> zona.nombre.substring(zona.nombre.length() - 1))
                         .reversed())
                 .flatMap(zona -> zona.getLocalidades().stream())
                 .filter(esLocalidadLibre)
@@ -258,15 +258,15 @@ public final class AsignadorAsientos {
         List<String> ordenPrioridad = Arrays.asList("norte", "sur", "oeste");
 
        return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
-                .sorted(Comparator.comparing((Zona zona) -> {
+                .sorted(Comparator.comparing((zona) -> {
                     for (String prioridad : ordenPrioridad) {
-                        if (zona.getNombre().toLowerCase().contains(prioridad)) {
+                        if (zona.nombre.toLowerCase().contains(prioridad)) {
                             return ordenPrioridad.indexOf(prioridad);
                         }
                     }
                     return ordenPrioridad.size(); 
                 })
-                        .thenComparing(zona -> zona.getNombre().substring(zona.getNombre().length() - 1))
+                        .thenComparing(zona -> zona.nombre.substring(zona.nombre.length() - 1))
                         .reversed())
                 .flatMap(zona -> zona.getLocalidades().stream())
                 .filter(esLocalidadLibre)
