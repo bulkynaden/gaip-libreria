@@ -10,14 +10,31 @@ import java.util.Set;
 /**
  * Representa una zona dentro de una {@link Instalacion}.
  * <p>
- * Una Zona es un área específica dentro de una instalación que tiene un conjunto de localidades y un tipo específico.
- * Esta interfaz define los métodos para obtener y establecer el nombre, el número de localidades, las localidades individuales, el tipo de zona y la instalación asociada.
+ * Una Zona es un área específica dentro de una instalación que tiene un
+ * conjunto de localidades y un tipo específico.
+ * Esta interfaz define los métodos para obtener y establecer el nombre, el
+ * número de localidades, las localidades individuales, el tipo de zona y la
+ * instalación asociada.
  * </p>
  * <p>
  * Además, proporciona métodos para agregar y quitar localidades de la zona.
  * </p>
  */
 public interface Zona extends Figura {
+
+    /**
+     * Obtiene el si la zona es para militares.
+     *
+     * @return el valor si es prioritaria para militares.
+     */
+    boolean esParaMilitares();
+
+    /**
+     * Establece si la zona es para militares.
+     *
+     * @param paraMilitares el valor a establecer.
+     */
+    void setParaMilitares(boolean paraMilitares);
 
     /**
      * Obtiene el nombre de la zona.

@@ -27,6 +27,7 @@ public class ZonaImpl implements Zona {
     private double saltoX;
     private double saltoHuecoX;
     private double saltoY;
+    private boolean paraMilitares;
 
     public void setLocalidades(Set<Localidad> localidades) {
         if (this.localidades != localidades) {

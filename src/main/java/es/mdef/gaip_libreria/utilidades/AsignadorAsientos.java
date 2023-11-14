@@ -235,47 +235,40 @@ public final class AsignadorAsientos {
         Predicate<LocalidadConfigurada> esLocalidadLibre = localidad -> LIBRE
                 .equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad());
 
-        List<String> ordenPrioridad = Arrays.asList("sur", "norte", "oeste");
-
         return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
-                .sorted(Comparator.comparing((ZonaConfigurada zona) -> {
-                    for (String prioridad : ordenPrioridad) {
-                        if (zona.getZona().getNombre().toLowerCase().contains(prioridad)) {
-                            return ordenPrioridad.indexOf(prioridad);
-                        }
-                    }
-                    return ordenPrioridad.size();
-                })
-                        .thenComparing(
-                                zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1))
-                        .reversed())
+                .filter(zona -> zona.getZona().esParaMilitares() == TRUE)
+                .sorted(Comparator.comparing(
+                        zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1)))
                 .flatMap(zona -> zona.getLocalidades().stream())
                 .filter(esLocalidadLibre)
                 .findFirst()
-                .orElse(null);
+                .orElseGet(() -> acto.getZonasConfiguradasPorTipo(tipoZona).stream()
+                        .sorted(Comparator.comparing(
+                                zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1)))
+                        .flatMap(zona -> zona.getLocalidades().stream())
+                        .filter(esLocalidadLibre)
+                        .findFirst()
+                        .orElse(null));
     }
 
     private static LocalidadConfigurada obtenerParkingLibreParaCivil(Acto acto, TipoDeZona tipoZona) {
         Predicate<LocalidadConfigurada> esLocalidadLibre = localidad -> LIBRE
                 .equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad());
-        List<String> ordenPrioridad = Arrays.asList("norte", "sur", "oeste");
 
-        return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
-                .sorted(Comparator.comparing((ZonaConfigurada zona) -> {
-                    for (String prioridad : ordenPrioridad) {
-                        if (zona.getZona().getNombre().toLowerCase().contains(prioridad)) {
-                            return ordenPrioridad.indexOf(prioridad);
-                        }
-                    }
-                    return ordenPrioridad.size();
-                })
-                        .thenComparing(
-                                zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1))
-                        .reversed())
+       return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
+                .filter(zona -> zona.getZona().esParaMilitares() == FALSE)
+                .sorted(Comparator.comparing(
+                        zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1)))
                 .flatMap(zona -> zona.getLocalidades().stream())
                 .filter(esLocalidadLibre)
                 .findFirst()
-                .orElse(null);
+                .orElseGet(() -> acto.getZonasConfiguradasPorTipo(tipoZona).stream()
+                        .sorted(Comparator.comparing(
+                                zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1)))
+                        .flatMap(zona -> zona.getLocalidades().stream())
+                        .filter(esLocalidadLibre)
+                        .findFirst()
+                        .orElse(null));
     }
 
     private static LocalidadConfigurada obtenerLocalidadLibreProtocoloPorTipoZona(Acto acto, TipoDeZona tipoZona) {
