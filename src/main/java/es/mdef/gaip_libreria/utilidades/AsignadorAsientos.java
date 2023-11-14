@@ -4,6 +4,7 @@ import es.mdef.gaip_libreria.actos.Acto;
 import es.mdef.gaip_libreria.anfitriones.Anfitrion;
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import es.mdef.gaip_libreria.invitados.*;
+import es.mdef.gaip_libreria.zonas.Zona;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 
 import java.util.ArrayList;
@@ -236,15 +237,15 @@ public final class AsignadorAsientos {
         List<String> ordenPrioridad = Arrays.asList("sur", "norte", "oeste");
 
         return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
-                .sorted(Comparator.comparing((Zona zona) -> {
+                .sorted(Comparator.comparing((zona) -> {
                     for (String prioridad : ordenPrioridad) {
-                        if (zona.nombre.toLowerCase().contains(prioridad)) {
+                        if (zona.getZona().getNombre().toLowerCase().contains(prioridad)) {
                             return ordenPrioridad.indexOf(prioridad);
                         }
                     }
                     return ordenPrioridad.size(); 
                 })
-                        .thenComparing(zona -> zona.nombre.substring(zona.nombre.length() - 1))
+                        .thenComparing(zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1))
                         .reversed())
                 .flatMap(zona -> zona.getLocalidades().stream())
                 .filter(esLocalidadLibre)
@@ -258,15 +259,15 @@ public final class AsignadorAsientos {
         List<String> ordenPrioridad = Arrays.asList("norte", "sur", "oeste");
 
        return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
-                .sorted(Comparator.comparing((Zona zona) -> {
+                .sorted(Comparator.comparing((zona) -> {
                     for (String prioridad : ordenPrioridad) {
-                        if (zona.nombre.toLowerCase().contains(prioridad)) {
+                        if (zona.getZona().getNombre().toLowerCase().contains(prioridad)) {
                             return ordenPrioridad.indexOf(prioridad);
                         }
                     }
                     return ordenPrioridad.size(); 
                 })
-                        .thenComparing(zona -> zona.nombre.substring(zona.nombre.length() - 1))
+                        .thenComparing(zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1))
                         .reversed())
                 .flatMap(zona -> zona.getLocalidades().stream())
                 .filter(esLocalidadLibre)
