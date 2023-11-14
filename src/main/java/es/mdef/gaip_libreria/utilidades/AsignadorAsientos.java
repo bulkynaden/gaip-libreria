@@ -7,6 +7,8 @@ import es.mdef.gaip_libreria.invitados.*;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -34,12 +36,14 @@ public final class AsignadorAsientos {
         List<Anfitrion> anfitrionesOrdenados = new ArrayList<>(acto.getAnfitriones());
         anfitrionesOrdenados.sort(new ComparadorPorCantidadDeInvitadosEnZona(TRIBUNA, acto));
 
-        int localidadesRestantes = acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(TRIBUNA) - acto.getInvitadosSinAsignarPorTipoDeZona(TRIBUNA).size();
+        int localidadesRestantes = acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(TRIBUNA)
+                - acto.getInvitadosSinAsignarPorTipoDeZona(TRIBUNA).size();
 
         if (validarGenericaCabeEnTribuna(acto, localidadesRestantes)) {
             for (Invitado invitado : acto.getInvitados()) {
                 if (invitado.getInvitacion().getTipoDeZona() == GENERICA) {
-                    invitado.getAnfitrion().getInvitacionPorTipoDeZona(acto, TipoDeZona.TRIBUNA).agregarInvitado(invitado, true);
+                    invitado.getAnfitrion().getInvitacionPorTipoDeZona(acto, TipoDeZona.TRIBUNA)
+                            .agregarInvitado(invitado, true);
                     localidadesRestantes--;
                 }
             }
@@ -76,7 +80,9 @@ public final class AsignadorAsientos {
     }
 
     public static void sentarInvitadosDeListaDeEsperaEnGenerica(Acto acto) {
-        while (acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(GENERICA) > getAnfitrionesConInvitadosEnListaDeEspera(acto).size() && !getAnfitrionesConInvitadosEnListaDeEspera(acto).isEmpty()) {
+        while (acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(
+                GENERICA) > getAnfitrionesConInvitadosEnListaDeEspera(acto).size()
+                && !getAnfitrionesConInvitadosEnListaDeEspera(acto).isEmpty()) {
             for (Anfitrion anfitrion : getAnfitrionesConInvitadosEnListaDeEspera(acto)) {
                 anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, LISTA_DE_ESPERA)
                         .stream()
@@ -86,9 +92,9 @@ public final class AsignadorAsientos {
                                     .filter(zonaConfigurada -> zonaConfigurada.getNumeroLocalidadesParaRepartir() > 0)
                                     .findFirst()
                                     .flatMap(zona -> zona.getLocalidadesSinAsignar()
-                                            .stream().
-                                            findFirst())
-                                    .ifPresent(localidadConfigurada -> invitado.setLocalidad(localidadConfigurada, true));
+                                            .stream().findFirst())
+                                    .ifPresent(
+                                            localidadConfigurada -> invitado.setLocalidad(localidadConfigurada, true));
                         });
             }
         }
@@ -152,7 +158,8 @@ public final class AsignadorAsientos {
                 .flatMap(invitacion -> invitacion.getInvitados().stream())
                 .filter(invitado -> invitado.getLocalidad() == null)
                 .collect(Collectors.toSet());
-        invitados.forEach(invitado -> invitado.setLocalidad(obtenerLocalidadLibreProtocoloPorTipoZona(acto, tipoZona), true));
+        invitados.forEach(
+                invitado -> invitado.setLocalidad(obtenerLocalidadLibreProtocoloPorTipoZona(acto, tipoZona), true));
     }
 
     /**
@@ -174,7 +181,10 @@ public final class AsignadorAsientos {
      * @param coche El coche que se desea aparcar.
      */
     public static void aparcarCoche(Acto acto, Coche coche) {
-        coche.setLocalidad(obtenerLocalidadLibrePorTipoZona(acto, PARKING), true);
+        if (coche.getInvitado() instanceof InvitadoFcse) {
+            coche.setLocalidad(obtenerParkingLibreParaMilitar(acto, PARKING), true);
+        }
+        coche.setLocalidad(obtenerParkingLibreParaCivil(acto, PARKING), true);
     }
 
     private static void aparcarCochesProtocolo(Acto acto) {
@@ -187,8 +197,7 @@ public final class AsignadorAsientos {
                 .flatMap(invitacion -> invitacion.getCoches().stream())
                 .filter(coche -> coche.getLocalidad() == null)
                 .collect(Collectors.toSet());
-        coches.forEach(coche -> coche
-                .setLocalidad(obtenerLocalidadLibrePorTipoZona(acto, PARKING), true));
+        coches.forEach(coche -> aparcarCoche(acto,coche));
     }
 
     /**
@@ -202,15 +211,16 @@ public final class AsignadorAsientos {
     }
 
     /**
-     * Obtiene la primera localidad libre para un tipo de zona en un acto específico.
+     * Obtiene la primera localidad libre para un tipo de zona en un acto
+     * específico.
      *
      * @param acto     El acto en el que buscar la localidad.
      * @param tipoZona El tipo de zona donde buscar la localidad.
      * @return Una localidad libre o null si no se encuentra ninguna.
      */
     private static LocalidadConfigurada obtenerLocalidadLibrePorTipoZona(Acto acto, TipoDeZona tipoZona) {
-        Predicate<LocalidadConfigurada> esLocalidadLibre = localidad ->
-                LIBRE.equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad());
+        Predicate<LocalidadConfigurada> esLocalidadLibre = localidad -> LIBRE
+                .equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad());
 
         return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
                 .flatMap(zona -> zona.getLocalidades().stream())
@@ -219,9 +229,44 @@ public final class AsignadorAsientos {
                 .orElse(null);
     }
 
+    private static LocalidadConfigurada obtenerParkingLibreParaMilitar(Acto acto, TipoDeZona tipoZona) {
+        Predicate<LocalidadConfigurada> esLocalidadLibre = localidad -> LIBRE
+                .equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad());
+        List<String> ordenPrioridad = Arrays.asList("sur", "norte", "oeste");
+
+        return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
+                .flatMap(zona -> zona.getLocalidades().stream())
+                .filter(esLocalidadLibre)
+                .filter(localidad -> ordenPrioridad.stream()
+                        .anyMatch(prioridad -> tipoZona.getNombre().toLowerCase().contains(prioridad)))
+                .sorted(Comparator
+                        .comparing((LocalidadConfigurada localidad) -> localidad.getNombre()
+                                .substring(localidad.getNombre().length() - 1))
+                        .reversed())
+                .findFirst()
+                .orElse(null);
+    }
+    private static LocalidadConfigurada obtenerParkingLibreParaCivil(Acto acto, TipoDeZona tipoZona) {
+        Predicate<LocalidadConfigurada> esLocalidadLibre = localidad -> LIBRE
+                .equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad());
+        List<String> ordenPrioridad = Arrays.asList("norte", "sur", "oeste");
+
+        return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
+                .flatMap(zona -> zona.getLocalidades().stream())
+                .filter(esLocalidadLibre)
+                .filter(localidad -> ordenPrioridad.stream()
+                        .anyMatch(prioridad -> tipoZona.getNombre().toLowerCase().contains(prioridad)))
+                .sorted(Comparator
+                        .comparing((LocalidadConfigurada localidad) -> localidad.getNombre()
+                                .substring(localidad.getNombre().length() - 1))
+                        .reversed())
+                .findFirst()
+                .orElse(null);
+    }
+
     private static LocalidadConfigurada obtenerLocalidadLibreProtocoloPorTipoZona(Acto acto, TipoDeZona tipoZona) {
-        Predicate<LocalidadConfigurada> esLocalidadLibre = localidad ->
-                LIBRE.equals(localidad.getEstadoOcupacionLocalidad()) && RESERVADA.equals(localidad.getEstadoLocalidad());
+        Predicate<LocalidadConfigurada> esLocalidadLibre = localidad -> LIBRE
+                .equals(localidad.getEstadoOcupacionLocalidad()) && RESERVADA.equals(localidad.getEstadoLocalidad());
 
         return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
                 .flatMap(zona -> zona.getLocalidades().stream())
