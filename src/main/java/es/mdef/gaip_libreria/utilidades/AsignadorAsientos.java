@@ -5,6 +5,7 @@ import es.mdef.gaip_libreria.anfitriones.Anfitrion;
 import es.mdef.gaip_libreria.constantes.TipoDeZona;
 import es.mdef.gaip_libreria.invitados.*;
 import es.mdef.gaip_libreria.zonas.Zona;
+import es.mdef.gaip_libreria.zonas_configuradas.ZonaConfigurada;
 import es.mdef.gaip_libreria.zonas_configuradas.LocalidadConfigurada;
 
 import java.util.ArrayList;
@@ -243,9 +244,10 @@ public final class AsignadorAsientos {
                             return ordenPrioridad.indexOf(prioridad);
                         }
                     }
-                    return ordenPrioridad.size(); 
+                    return ordenPrioridad.size();
                 })
-                        .thenComparing(zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1))
+                        .thenComparing(
+                                zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1))
                         .reversed())
                 .flatMap(zona -> zona.getLocalidades().stream())
                 .filter(esLocalidadLibre)
@@ -258,16 +260,17 @@ public final class AsignadorAsientos {
                 .equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad());
         List<String> ordenPrioridad = Arrays.asList("norte", "sur", "oeste");
 
-       return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
-                .sorted(Comparator.comparing((zona) -> {
+        return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
+                .sorted(Comparator.comparing((ZonaConfigurada zona) -> {
                     for (String prioridad : ordenPrioridad) {
                         if (zona.getZona().getNombre().toLowerCase().contains(prioridad)) {
                             return ordenPrioridad.indexOf(prioridad);
                         }
                     }
-                    return ordenPrioridad.size(); 
+                    return ordenPrioridad.size();
                 })
-                        .thenComparing(zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1))
+                        .thenComparing(
+                                zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1))
                         .reversed())
                 .flatMap(zona -> zona.getLocalidades().stream())
                 .filter(esLocalidadLibre)
