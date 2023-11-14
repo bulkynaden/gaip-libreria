@@ -27,7 +27,7 @@ public interface Zona extends Figura {
      *
      * @return el valor si es prioritaria para militares.
      */
-    boolean esParaMilitares();
+    boolean getParaMilitares();
 
     /**
      * Establece si la zona es para militares.
