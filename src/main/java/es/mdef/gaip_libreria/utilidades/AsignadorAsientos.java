@@ -236,7 +236,7 @@ public final class AsignadorAsientos {
                 .equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad());
 
         return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
-                .filter(zona -> zona.getZona().esParaMilitares() == TRUE)
+                .filter(zona -> zona.getZona().esParaMilitares())
                 .sorted(Comparator.comparing(
                         zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1)))
                 .flatMap(zona -> zona.getLocalidades().stream())
@@ -255,8 +255,8 @@ public final class AsignadorAsientos {
         Predicate<LocalidadConfigurada> esLocalidadLibre = localidad -> LIBRE
                 .equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad());
 
-       return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
-                .filter(zona -> zona.getZona().esParaMilitares() == FALSE)
+        return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
+                .filter(zona -> zona.getZona().esParaMilitares() == false)
                 .sorted(Comparator.comparing(
                         zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1)))
                 .flatMap(zona -> zona.getLocalidades().stream())
