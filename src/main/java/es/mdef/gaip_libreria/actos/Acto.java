@@ -2,6 +2,7 @@ package es.mdef.gaip_libreria.actos;
 
 import es.mdef.gaip_libreria.anfitriones.Anfitrion;
 import es.mdef.gaip_libreria.constantes.*;
+import es.mdef.gaip_libreria.invitados.Coche;
 import es.mdef.gaip_libreria.invitados.InvitacionesPorActo;
 import es.mdef.gaip_libreria.invitados.Invitado;
 import es.mdef.gaip_libreria.unidades.Instalacion;
@@ -289,6 +290,13 @@ public interface Acto {
         return getInvitacionesPorActo().stream()
                 .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream().filter(e -> e.getTipoDeZona() != TipoDeZona.LISTA_DE_ESPERA))
                 .flatMap(invitacion -> invitacion.getInvitados().stream().filter(invitado -> invitado.getLocalidad() != null))
+                .collect(Collectors.toSet());
+    }
+
+    default Set<Coche> getVehiculosAsignados() {
+        return getInvitacionesPorActo().stream()
+                .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream().filter(e -> e.getTipoDeZona() == TipoDeZona.PARKING))
+                .flatMap(invitacion -> invitacion.getCoches().stream().filter(coche -> coche.getLocalidad() != null))
                 .collect(Collectors.toSet());
     }
 
