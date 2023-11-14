@@ -197,7 +197,7 @@ public final class AsignadorAsientos {
                 .flatMap(invitacion -> invitacion.getCoches().stream())
                 .filter(coche -> coche.getLocalidad() == null)
                 .collect(Collectors.toSet());
-        coches.forEach(coche -> aparcarCoche(acto,coche));
+        coches.forEach(coche -> aparcarCoche(acto, coche));
     }
 
     /**
@@ -232,34 +232,44 @@ public final class AsignadorAsientos {
     private static LocalidadConfigurada obtenerParkingLibreParaMilitar(Acto acto, TipoDeZona tipoZona) {
         Predicate<LocalidadConfigurada> esLocalidadLibre = localidad -> LIBRE
                 .equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad());
+
         List<String> ordenPrioridad = Arrays.asList("sur", "norte", "oeste");
 
         return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
+                .sorted(Comparator.comparing((Zona zona) -> {
+                    for (String prioridad : ordenPrioridad) {
+                        if (zona.getNombre().toLowerCase().contains(prioridad)) {
+                            return ordenPrioridad.indexOf(prioridad);
+                        }
+                    }
+                    return ordenPrioridad.size(); 
+                })
+                        .thenComparing(zona -> zona.getNombre().substring(zona.getNombre().length() - 1))
+                        .reversed())
                 .flatMap(zona -> zona.getLocalidades().stream())
                 .filter(esLocalidadLibre)
-                .filter(localidad -> ordenPrioridad.stream()
-                        .anyMatch(prioridad -> tipoZona.getNombre().toLowerCase().contains(prioridad)))
-                .sorted(Comparator
-                        .comparing((LocalidadConfigurada localidad) -> localidad.getNombre()
-                                .substring(localidad.getNombre().length() - 1))
-                        .reversed())
                 .findFirst()
                 .orElse(null);
     }
+
     private static LocalidadConfigurada obtenerParkingLibreParaCivil(Acto acto, TipoDeZona tipoZona) {
         Predicate<LocalidadConfigurada> esLocalidadLibre = localidad -> LIBRE
                 .equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad());
         List<String> ordenPrioridad = Arrays.asList("norte", "sur", "oeste");
 
-        return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
+       return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
+                .sorted(Comparator.comparing((Zona zona) -> {
+                    for (String prioridad : ordenPrioridad) {
+                        if (zona.getNombre().toLowerCase().contains(prioridad)) {
+                            return ordenPrioridad.indexOf(prioridad);
+                        }
+                    }
+                    return ordenPrioridad.size(); 
+                })
+                        .thenComparing(zona -> zona.getNombre().substring(zona.getNombre().length() - 1))
+                        .reversed())
                 .flatMap(zona -> zona.getLocalidades().stream())
                 .filter(esLocalidadLibre)
-                .filter(localidad -> ordenPrioridad.stream()
-                        .anyMatch(prioridad -> tipoZona.getNombre().toLowerCase().contains(prioridad)))
-                .sorted(Comparator
-                        .comparing((LocalidadConfigurada localidad) -> localidad.getNombre()
-                                .substring(localidad.getNombre().length() - 1))
-                        .reversed())
                 .findFirst()
                 .orElse(null);
     }
