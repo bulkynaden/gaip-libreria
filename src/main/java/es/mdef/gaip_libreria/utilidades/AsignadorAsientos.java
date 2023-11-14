@@ -236,7 +236,7 @@ public final class AsignadorAsientos {
         List<String> ordenPrioridad = Arrays.asList("sur", "norte", "oeste");
 
         return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
-                .sorted(Comparator.comparing((zona) -> {
+                .sorted(Comparator.comparing((Zona zona) -> {
                     for (String prioridad : ordenPrioridad) {
                         if (zona.nombre.toLowerCase().contains(prioridad)) {
                             return ordenPrioridad.indexOf(prioridad);
@@ -258,7 +258,7 @@ public final class AsignadorAsientos {
         List<String> ordenPrioridad = Arrays.asList("norte", "sur", "oeste");
 
        return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
-                .sorted(Comparator.comparing((zona) -> {
+                .sorted(Comparator.comparing((Zona zona) -> {
                     for (String prioridad : ordenPrioridad) {
                         if (zona.nombre.toLowerCase().contains(prioridad)) {
                             return ordenPrioridad.indexOf(prioridad);
