@@ -285,6 +285,22 @@ public interface Acto {
                 .collect(Collectors.toSet());
     }
 
+    default Set<Invitado> getInvitadosAsignados() {
+        return getInvitacionesPorActo().stream()
+                .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream().filter(e -> e.getTipoDeZona() != TipoDeZona.LISTA_DE_ESPERA))
+                .flatMap(invitacion -> invitacion.getInvitados().stream().filter(invitado -> invitado.getLocalidad() != null))
+                .collect(Collectors.toSet());
+    }
+
+    default Set<Invitado> getInvitadosAsignadosPorTipoDeZona(TipoDeZona tipoDeZona) {
+        return getInvitacionesPorActo()
+                .stream()
+                .filter(invitacionesPorActo -> invitacionesPorActo.getAnfitrion() != null)
+                .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream().filter(e -> e.getTipoDeZona() == tipoDeZona))
+                .flatMap(invitacion -> invitacion.getInvitados().stream().filter(invitado -> invitado.getLocalidad() != null))
+                .collect(Collectors.toSet());
+    }
+
     default Set<Invitado> getInvitadosSinAsignarPorTipoDeZona(TipoDeZona tipoDeZona) {
         return getInvitacionesPorActo()
                 .stream()
