@@ -27,14 +27,14 @@ public interface Zona extends Figura {
      *
      * @return el valor si es prioritaria para militares.
      */
-    boolean getParaMilitares();
+    int getPrioridadParkingMilitares();
 
     /**
      * Establece si la zona es para militares.
      *
-     * @param paraMilitares el valor a establecer.
+     * @param prioridadParkingMilitares el valor a establecer.
      */
-    void setParaMilitares(boolean paraMilitares);
+    void setPrioridadParkingMilitares(int prioridadParkingMilitares);
 
     /**
      * Obtiene el nombre de la zona.

@@ -236,19 +236,13 @@ public final class AsignadorAsientos {
                 .equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad());
 
         return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
-                .filter(zona -> zona.getZona().esParaMilitares())
-                .sorted(Comparator.comparing(
-                        zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1)))
+                .sorted(Comparator.comparing((ZonaConfigurada zona) -> zona.getZona().getPrioridadParkingMilitares())
+                        .thenComparing((ZonaConfigurada zona) -> zona.getZona().getNombre()
+                                .substring(zona.getZona().getNombre().length() - 1)))
                 .flatMap(zona -> zona.getLocalidades().stream())
                 .filter(esLocalidadLibre)
                 .findFirst()
-                .orElseGet(() -> acto.getZonasConfiguradasPorTipo(tipoZona).stream()
-                        .sorted(Comparator.comparing(
-                                zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1)))
-                        .flatMap(zona -> zona.getLocalidades().stream())
-                        .filter(esLocalidadLibre)
-                        .findFirst()
-                        .orElse(null));
+                .orElse(null);
     }
 
     private static LocalidadConfigurada obtenerParkingLibreParaCivil(Acto acto, TipoDeZona tipoZona) {
@@ -256,19 +250,14 @@ public final class AsignadorAsientos {
                 .equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad());
 
         return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
-                .filter(zona -> zona.getZona().esParaMilitares() == false)
-                .sorted(Comparator.comparing(
-                        zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1)))
+                .sorted(Comparator.comparing((ZonaConfigurada zona) -> zona.getZona().getPrioridadParkingMilitares())
+                        .reversed()
+                        .thenComparing((ZonaConfigurada zona) -> zona.getZona().getNombre()
+                                .substring(zona.getZona().getNombre().length() - 1)))
                 .flatMap(zona -> zona.getLocalidades().stream())
                 .filter(esLocalidadLibre)
                 .findFirst()
-                .orElseGet(() -> acto.getZonasConfiguradasPorTipo(tipoZona).stream()
-                        .sorted(Comparator.comparing(
-                                zona -> zona.getZona().getNombre().substring(zona.getZona().getNombre().length() - 1)))
-                        .flatMap(zona -> zona.getLocalidades().stream())
-                        .filter(esLocalidadLibre)
-                        .findFirst()
-                        .orElse(null));
+                .orElse(null);
     }
 
     private static LocalidadConfigurada obtenerLocalidadLibreProtocoloPorTipoZona(Acto acto, TipoDeZona tipoZona) {

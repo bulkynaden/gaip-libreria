@@ -9,43 +9,24 @@ import lombok.EqualsAndHashCode;
 import java.util.HashSet;
 import java.util.Set;
 
-
-@EqualsAndHashCode(of = {"nombre", "tipoDeZona", "numeroLocalidades"})
-@Setter
+@EqualsAndHashCode(of = { "nombre", "tipoDeZona", "numeroLocalidades" })
+@Data
 public class ZonaImpl implements Zona {
-    @Getter
     private Set<Localidad> localidades = new HashSet<>();
-    @Getter 
     private String nombre;
-    @Getter
     private int numeroLocalidades;
-    @Getter
     private TipoDeZona tipoDeZona;
-    @Getter
     private Instalacion instalacion;
-    @Getter
     private double x;
-    @Getter
     private double y;
-    @Getter
     private double altura;
-    @Getter
     private double anchura;
-    @Getter 
     private double[] xInicioFilas;
-    @Getter
     private double yInicioColumna;
-    @Getter
     private double saltoX;
-    @Getter
     private double saltoHuecoX;
-    @Getter
     private double saltoY;
-    private boolean paraMilitares;
-    @Override
-    public boolean getParaMilitares() {
-        return paraMilitares;
-    }
+    private int prioridadParkingMilitares;
 
     public void setLocalidades(Set<Localidad> localidades) {
         if (this.localidades != localidades) {
