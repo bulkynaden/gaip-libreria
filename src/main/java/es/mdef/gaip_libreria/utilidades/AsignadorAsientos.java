@@ -185,8 +185,10 @@ public final class AsignadorAsientos {
     public static void aparcarCoche(Acto acto, Coche coche) {
         if (coche.getInvitado() instanceof InvitadoFcse) {
             coche.setLocalidad(obtenerParkingLibreParaMilitar(acto, PARKING), true);
+        }else{
+            coche.setLocalidad(obtenerParkingLibreParaCivil(acto, PARKING), true); 
         }
-        coche.setLocalidad(obtenerParkingLibreParaCivil(acto, PARKING), true);
+       
     }
 
     private static void aparcarCochesProtocolo(Acto acto) {
