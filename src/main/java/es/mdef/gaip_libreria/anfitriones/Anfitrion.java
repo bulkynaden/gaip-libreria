@@ -287,7 +287,7 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
                 .map(Invitacion::getCoches)
                 .flatMap(Set::stream)
                 .anyMatch(coche -> coche.getLocalidad() != null)
-                && getInvitadosAUnActo(acto)
+                || getInvitadosAUnActo(acto)
                 .stream()
                 .anyMatch(invitado -> invitado.getLocalidad() != null);
     }
