@@ -58,19 +58,20 @@ public class InvitacionImpl implements Invitacion {
     /**
      * Establece los invitados para esta invitación, manteniendo la coherencia bidireccional.
      *
-     * @param nuevosInvitados Conjunto de nuevos invitados.
+     * @param nuevosInvitados       Conjunto de nuevos invitados.
+     * @param permitirExcederMaximo indica si se permite exceder el número máximo de coches permitidos.
      */
     @Override
-    public void setInvitados(Set<Invitado> nuevosInvitados, boolean superarMaximo) {
+    public void setInvitados(Set<Invitado> nuevosInvitados, boolean permitirExcederMaximo) {
         if (nuevosInvitados != null && nuevosInvitados.size() <= numeroMaximoInvitados) {
             for (Invitado invitadoActual : this.invitados) {
-                invitadoActual.setInvitacion(null, superarMaximo);
+                invitadoActual.setInvitacion(null, permitirExcederMaximo);
             }
 
             for (Invitado nuevoInvitado : nuevosInvitados) {
-                nuevoInvitado.setInvitacion(this, superarMaximo);
+                nuevoInvitado.setInvitacion(this, permitirExcederMaximo);
             }
-            nuevosInvitados.forEach(invitado -> this.agregarInvitado(invitado, superarMaximo));
+            nuevosInvitados.forEach(invitado -> this.agregarInvitado(invitado, permitirExcederMaximo));
 
         } else {
             throw new CantidadInvitadosExcedeLimiteException();
@@ -80,19 +81,20 @@ public class InvitacionImpl implements Invitacion {
     /**
      * Establece los coches para esta invitación, manteniendo la coherencia bidireccional.
      *
-     * @param nuevosCoches Conjunto de nuevos invitados.
+     * @param nuevosCoches          Conjunto de nuevos invitados.
+     * @param permitirExcederMaximo indica si se permite exceder el número máximo de coches permitidos.
      */
     @Override
-    public void setCoches(Set<Coche> nuevosCoches, boolean superarMaximo) {
+    public void setCoches(Set<Coche> nuevosCoches, boolean permitirExcederMaximo) {
         if (nuevosCoches != null && nuevosCoches.size() <= numeroMaximoInvitados) {
             for (Coche coche : this.coches) {
-                coche.setInvitacion(null, superarMaximo);
+                coche.setInvitacion(null, permitirExcederMaximo);
             }
 
             for (Coche coche : nuevosCoches) {
-                coche.setInvitacion(this, superarMaximo);
+                coche.setInvitacion(this, permitirExcederMaximo);
             }
-            coches.forEach(coche -> this.agregarCoche(coche, superarMaximo));
+            coches.forEach(coche -> this.agregarCoche(coche, permitirExcederMaximo));
 
         } else {
             throw new CantidadInvitadosExcedeLimiteException();
@@ -102,17 +104,18 @@ public class InvitacionImpl implements Invitacion {
     /**
      * Agrega un invitado a la invitación, manteniendo la coherencia bidireccional.
      *
-     * @param invitado Invitado a agregar.
+     * @param invitado              Invitado a agregar.
+     * @param permitirExcederMaximo indica si se permite exceder el número máximo de coches permitidos.
      * @throws IllegalArgumentException Si el invitado es nulo o si se ha alcanzado el número máximo de invitados.
      */
     @Override
-    public void agregarInvitado(Invitado invitado, boolean superarMaximo) {
+    public void agregarInvitado(Invitado invitado, boolean permitirExcederMaximo) {
         if (invitado != null && !this.invitados.contains(invitado)) {
-            if (getTipoDeZona() == TipoDeZona.TRIBUNA && this.invitados.size() >= numeroMaximoInvitados && !superarMaximo) {
+            if (getTipoDeZona() == TipoDeZona.TRIBUNA && this.invitados.size() >= numeroMaximoInvitados && !permitirExcederMaximo) {
                 throw new CantidadInvitadosExcedeLimiteException();
             }
             this.invitados.add(invitado);
-            invitado.setInvitacion(this, superarMaximo);
+            invitado.setInvitacion(this, permitirExcederMaximo);
         }
     }
 
@@ -164,16 +167,17 @@ public class InvitacionImpl implements Invitacion {
     /**
      * Agrega un coche a la invitación, manteniendo la coherencia bidireccional.
      *
-     * @param coche Coche a agregar.
+     * @param coche                 Coche a agregar.
+     * @param permitirExcederMaximo indica si se permite exceder el número máximo de coches permitidos.
      */
     @Override
-    public void agregarCoche(Coche coche, boolean superarMaximo) {
+    public void agregarCoche(Coche coche, boolean permitirExcederMaximo) {
         if (coche != null && !this.coches.contains(coche)) {
-            if (getTipoDeZona() == TipoDeZona.PARKING && this.coches.size() >= numeroMaximoInvitados && !superarMaximo) {
+            if (getTipoDeZona() == TipoDeZona.PARKING && this.coches.size() >= numeroMaximoInvitados && !permitirExcederMaximo) {
                 throw new CantidadInvitadosExcedeLimiteException();
             }
             this.coches.add(coche);
-            coche.setInvitacion(this, superarMaximo);
+            coche.setInvitacion(this, permitirExcederMaximo);
         }
     }
 

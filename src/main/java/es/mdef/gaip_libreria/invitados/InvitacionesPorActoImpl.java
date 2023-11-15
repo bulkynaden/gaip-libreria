@@ -10,6 +10,7 @@ import java.util.Set;
 /**
  * Implementación concreta de la interfaz {@link InvitacionesPorActo}.
  * Esta clase representa las invitaciones extendidas por un anfitrión para un acto específico.
+ * Utiliza Lombok para generar automáticamente los métodos getters.
  */
 @Getter
 public class InvitacionesPorActoImpl implements InvitacionesPorActo {
@@ -17,11 +18,23 @@ public class InvitacionesPorActoImpl implements InvitacionesPorActo {
     private Acto acto;
     private Anfitrion anfitrion;
 
+    /**
+     * Constructor que inicializa una nueva instancia de InvitacionesPorActoImpl con un acto y anfitrión específicos.
+     *
+     * @param acto      El acto para el cual se extenderán las invitaciones.
+     * @param anfitrion El anfitrión que extiende las invitaciones.
+     */
     public InvitacionesPorActoImpl(Acto acto, Anfitrion anfitrion) {
         this.acto = acto;
         this.anfitrion = anfitrion;
     }
 
+    /**
+     * Asigna un acto a esta colección de invitaciones, actualizando la relación bidireccional
+     * si es necesario.
+     *
+     * @param acto El acto a asociar con estas invitaciones.
+     */
     @Override
     public void setActo(Acto acto) {
         if (this.acto != acto) {
@@ -35,6 +48,12 @@ public class InvitacionesPorActoImpl implements InvitacionesPorActo {
         }
     }
 
+    /**
+     * Asigna un anfitrión a esta colección de invitaciones, actualizando la relación bidireccional
+     * si es necesario.
+     *
+     * @param anfitrion El anfitrión a asociar con estas invitaciones.
+     */
     @Override
     public void setAnfitrion(Anfitrion anfitrion) {
         if (this.anfitrion != anfitrion) {
@@ -48,6 +67,12 @@ public class InvitacionesPorActoImpl implements InvitacionesPorActo {
         }
     }
 
+    /**
+     * Establece el conjunto de invitaciones para esta colección, actualizando cada invitación
+     * para reflejar esta asociación.
+     *
+     * @param invitaciones El conjunto de invitaciones a asignar.
+     */
     @Override
     public void setInvitaciones(Set<Invitacion> invitaciones) {
         if (this.invitaciones != invitaciones) {
@@ -58,6 +83,12 @@ public class InvitacionesPorActoImpl implements InvitacionesPorActo {
         }
     }
 
+    /**
+     * Agrega una invitación al conjunto de invitaciones. Si la invitación no está ya presente, la añade
+     * y actualiza su referencia de {@link InvitacionesPorActo}.
+     *
+     * @param invitacion La invitación a agregar.
+     */
     @Override
     public void agregarInvitacion(Invitacion invitacion) {
         if (invitacion != null && !this.invitaciones.contains(invitacion)) {
@@ -66,6 +97,12 @@ public class InvitacionesPorActoImpl implements InvitacionesPorActo {
         }
     }
 
+    /**
+     * Elimina una invitación del conjunto de invitaciones. Si la invitación está presente, la elimina
+     * y actualiza su referencia de {@link InvitacionesPorActo} a null.
+     *
+     * @param invitacion La invitación a eliminar.
+     */
     @Override
     public void quitarInvitacion(Invitacion invitacion) {
         if (invitacion != null && this.invitaciones.contains(invitacion)) {

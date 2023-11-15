@@ -6,7 +6,10 @@ import es.mdef.gaip_libreria.anfitriones.Anfitrion;
 import java.util.Set;
 
 /**
- * Representa las invitaciones extendidas por un anfitrión para un acto específico.
+ * Interfaz que representa el conjunto de invitaciones extendidas por un anfitrión para un acto específico.
+ * Permite la gestión y el seguimiento de las invitaciones, asociándolas tanto con el acto correspondiente
+ * como con el anfitrión que las emite. Incluye métodos para obtener y establecer el acto, el anfitrión,
+ * y las invitaciones individuales, así como para agregar o quitar invitaciones del conjunto.
  */
 public interface InvitacionesPorActo {
 

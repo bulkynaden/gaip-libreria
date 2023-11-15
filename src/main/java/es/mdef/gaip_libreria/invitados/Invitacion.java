@@ -28,9 +28,10 @@ public interface Invitacion {
     /**
      * Asigna un conjunto específico de invitados a esta invitación.
      *
-     * @param invitados el conjunto de {@link Invitado}s a asignar.
+     * @param invitados             el conjunto de {@link Invitado}s a asignar.
+     * @param permitirExcederMaximo indica si se permite exceder el número máximo de invitados permitidos.
      */
-    void setInvitados(Set<Invitado> invitados, boolean superarMaximo);
+    void setInvitados(Set<Invitado> invitados, boolean permitirExcederMaximo);
 
     /**
      * Devuelve el conjunto de {@link Coche}s que han sido asociados a esta invitación.
@@ -42,9 +43,10 @@ public interface Invitacion {
     /**
      * Asigna un conjunto específico de coches a esta invitación.
      *
-     * @param coches el conjunto de {@link Coche}s a asignar.
+     * @param coches                el conjunto de {@link Coche}s a asignar.
+     * @param permitirExcederMaximo indica si se permite exceder el número máximo de coches permitidos.
      */
-    void setCoches(Set<Coche> coches, boolean superarMaximo);
+    void setCoches(Set<Coche> coches, boolean permitirExcederMaximo);
 
     /**
      * Devuelve el número máximo de invitados que pueden ser asociados a esta invitación.
@@ -77,9 +79,10 @@ public interface Invitacion {
     /**
      * Agrega un {@link Invitado} específico al conjunto de invitados de esta invitación.
      *
-     * @param invitado el {@link Invitado} a agregar.
+     * @param invitado              el {@link Invitado} a agregar.
+     * @param permitirExcederMaximo indica si se permite exceder el número máximo de invitados permitidos.
      */
-    void agregarInvitado(Invitado invitado, boolean superarMaximo);
+    void agregarInvitado(Invitado invitado, boolean permitirExcederMaximo);
 
     /**
      * Elimina un {@link Invitado} específico del conjunto de invitados de esta invitación.
@@ -103,11 +106,12 @@ public interface Invitacion {
     void quitarNumeroMaximoInvitado(int cantidad);
 
     /**
-     * Agrega un {@link Coche} específico al conjunto de coche de esta invitación.
+     * Agrega un {@link Coche} específico al conjunto de coches de esta invitación.
      *
-     * @param coche el {@link Coche} a agregar.
+     * @param coche                 el {@link Coche} a agregar.
+     * @param permitirExcederMaximo indica si se permite exceder el número máximo de coches permitidos.
      */
-    void agregarCoche(Coche coche, boolean superarMaximo);
+    void agregarCoche(Coche coche, boolean permitirExcederMaximo);
 
     /**
      * Elimina un {@link Coche} específico del conjunto de coches de esta invitación.
