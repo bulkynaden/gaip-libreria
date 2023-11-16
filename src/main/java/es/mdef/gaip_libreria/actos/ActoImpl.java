@@ -20,7 +20,6 @@ import java.util.*;
  * Un acto puede tener múltiples anfitriones e invitados y está asociado a una instalación específica.
  * Esta clase implementa la interfaz {@link Acto}.
  */
-
 @Data
 @EqualsAndHashCode(of = {"nombre", "descripcion", "fecha"})
 @AllArgsConstructor
@@ -76,6 +75,17 @@ public class ActoImpl implements Acto {
         setTipo(tipoDeActo);
         setInstalacion(instalacion);
         setEstadoCreacion(EstadoCreacion.CARGA_ANFITRIONES);
+    }
+
+    /**
+     * Establece el estado de creación del acto.
+     *
+     * @param estadoCreacion El nuevo {@link EstadoCreacion} a establecer para el acto.
+     */
+    public void setEstadoCreacion(EstadoCreacion estadoCreacion) {
+        if (getEstadoCreacion() == null || estadoCreacion.ordinal() > getEstadoCreacion().ordinal()) {
+            this.estadoCreacion = estadoCreacion;
+        }
     }
 
     /**
@@ -259,11 +269,5 @@ public class ActoImpl implements Acto {
 
     public <T extends Anfitrion> void agregarAnfitriones(Collection<T> anfitriones) {
         anfitriones.forEach(this::agregarAnfitrion);
-    }
-
-    public void setEstadoCreacion(EstadoCreacion estadoCreacion) {
-        if (getEstadoCreacion() == null || estadoCreacion.ordinal() > getEstadoCreacion().ordinal()) {
-            this.estadoCreacion = estadoCreacion;
-        }
     }
 }

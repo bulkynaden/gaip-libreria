@@ -21,12 +21,16 @@ public enum CuerpoFcse {
 
     /**
      * Convierte una cadena de texto al valor enum correspondiente.
-     * La comparación es insensible a mayúsculas y minúsculas.
+     * La comparación es insensible a mayúsculas y minúsculas. Devuelve null si no hay correspondencia.
      *
      * @param valor La cadena de texto que se desea convertir.
      * @return El valor de {@link CuerpoFcse} correspondiente o null si no hay correspondencia.
      */
     public static CuerpoFcse delValor(String valor) {
-        return CuerpoFcse.valueOf(valor.toUpperCase().trim());
+        try {
+            return CuerpoFcse.valueOf(valor.toUpperCase().trim());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 }

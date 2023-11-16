@@ -123,6 +123,22 @@ public interface Acto {
     void setTipo(TipoDeActo tipo);
 
     /**
+     * Obtiene el estado actual de creación del acto.
+     * Este método refleja el progreso o el estado de desarrollo en el que se encuentra el acto.
+     *
+     * @return El {@link EstadoCreacion} del acto.
+     */
+    EstadoCreacion getEstadoCreacion();
+
+    /**
+     * Establece el estado de creación del acto.
+     * Este método permite actualizar el estado de desarrollo o progreso en el que se encuentra el acto.
+     *
+     * @param estadoCreacion El nuevo {@link EstadoCreacion} a establecer para el acto.
+     */
+    void setEstadoCreacion(EstadoCreacion estadoCreacion);
+
+    /**
      * Obtiene el conjunto de zonas configuradas asociadas al acto.
      *
      * @return un conjunto de {@link ZonaConfigurada}s asociadas al acto.
@@ -248,11 +264,28 @@ public interface Acto {
                 .sum();
     }
 
+    /**
+     * Calcula y devuelve el número total de localidades según el estado y el tipo de zona especificados.
+     * Este método es útil para obtener una vista detallada de las localidades, filtradas tanto por su estado
+     * (como libre, ocupada, etc.) como por el tipo de zona (como Tribuna, Acotado, etc.).
+     *
+     * @param tipo   El {@link TipoDeZona} por el cual filtrar las localidades.
+     * @param estado El {@link EstadoDeUnaLocalidad} de las localidades a contar.
+     * @return El número total de localidades que cumplen con los criterios especificados.
+     */
     default int getNumeroLocalidadesPorEstadoYTipoDeZona(TipoDeZona tipo, EstadoDeUnaLocalidad estado) {
         return getZonas().stream().filter(e -> e.getZona().getTipoDeZona() == tipo).mapToInt(e -> e.getNumeroLocalidadesPorEstado(estado))
                 .sum();
     }
 
+    /**
+     * Calcula y devuelve el número total de localidades disponibles para repartir entre todas las zonas,
+     * excluyendo las zonas de estacionamiento.
+     * Este método es importante para la planificación y distribución de espacios en el acto, permitiendo
+     * una gestión efectiva de las localidades disponibles.
+     *
+     * @return El número total de localidades disponibles para repartir, excluyendo zonas de estacionamiento.
+     */
     default int getNumeroLocalidadesParaRepartir() {
         return getZonas()
                 .stream()
@@ -261,6 +294,14 @@ public interface Acto {
                 .sum();
     }
 
+    /**
+     * Calcula y devuelve el número total de localidades disponibles para repartir en un tipo específico de zona.
+     * Este método es útil para la gestión detallada de las localidades en zonas específicas, como VIP o general,
+     * facilitando su organización y asignación.
+     *
+     * @param tipo El {@link TipoDeZona} por el cual filtrar las localidades disponibles.
+     * @return El número total de localidades disponibles para repartir en la zona especificada.
+     */
     default int getNumeroLocalidadesParaRepartirPorTipoDeZona(TipoDeZona tipo) {
         return getZonas()
                 .stream()
@@ -402,16 +443,20 @@ public interface Acto {
         return getZonas().stream().flatMap(e -> e.getLocalidades().stream()).collect(Collectors.toList());
     }
 
+    /**
+     * Obtiene una lista de todas las zonas configuradas de un tipo específico.
+     * Este método facilita la gestión y el acceso a zonas específicas, como Tribuna, Acotado, etc.
+     *
+     * @param tipoDeZona El {@link TipoDeZona} por el cual filtrar las zonas.
+     * @return Una lista de {@link ZonaConfigurada} del tipo especificado. Nunca {@code null}.
+     */
     default List<ZonaConfigurada> getZonasConfiguradasPorTipo(TipoDeZona tipoDeZona) {
         return getZonas().stream().filter(e -> e.getZona().getTipoDeZona() == tipoDeZona).collect(Collectors.toList());
     }
 
-    EstadoCreacion getEstadoCreacion();
-
-    void setEstadoCreacion(EstadoCreacion estadoCreacion);
-
     /**
-     * Elimina todos los anfitriones de un acto
+     * Elimina todos los anfitriones asociados al acto.
+     * Este método es útil para reiniciar o limpiar la lista de anfitriones asociados al acto.
      */
     default void quitarAnfitriones() {
         List<Anfitrion> anfitrionesParaBorrar = new ArrayList<>(getAnfitriones());
