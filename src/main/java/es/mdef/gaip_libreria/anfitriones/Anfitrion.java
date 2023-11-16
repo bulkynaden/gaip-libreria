@@ -9,10 +9,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Define las características y comportamientos específicos de un anfitrión.
+ * Interfaz que define las características y comportamientos específicos de un anfitrión.
  * <p>
- * Un anfitrión es una entidad que tiene la capacidad de invitar a personas a diversos actos.
- * Está vinculado a una unidad de formación y gestiona un conjunto de invitaciones que ha extendido para cada acto.
+ * Un anfitrión es una entidad capaz de invitar a personas a diversos actos, y está vinculado
+ * a una unidad de formación. Gestiona un conjunto de invitaciones extendidas para cada acto.
  * Esta interfaz extiende a {@link Persona}, heredando sus propiedades y comportamientos.
  * </p>
  */
@@ -102,15 +102,16 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
      */
     void quitarActo(Acto acto);
 
-
     /**
-     * Agrega un conjunto de invitados al acto especificado.
+     * Agrega un conjunto de invitados al acto especificado, con la opción de superar el máximo permitido.
      *
-     * @param acto      Acto al cual agregar los invitados.
-     * @param invitados Conjunto de invitados a agregar.
+     * @param acto                  Acto al cual agregar los invitados.
+     * @param invitados             Conjunto de invitados a agregar.
+     * @param permitirExcederMaximo Indica si se permite superar el número máximo de invitados.
+     * @param <T>                   Tipo genérico que extiende de {@link Invitado}.
      */
-    default <T extends Invitado> void agregarInvitados(Acto acto, Collection<T> invitados, boolean superarMaximo) {
-        invitados.forEach(invitado -> agregarInvitado(acto, invitado, superarMaximo));
+    default <T extends Invitado> void agregarInvitados(Acto acto, Collection<T> invitados, boolean permitirExcederMaximo) {
+        invitados.forEach(invitado -> agregarInvitado(acto, invitado, permitirExcederMaximo));
     }
 
     /**
@@ -150,6 +151,13 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
         }
     }
 
+    /**
+     * Quita un invitado de un acto específico.
+     * La invitación se retira de la zona específica a la que estaba asignado el invitado.
+     *
+     * @param acto     El acto del cual quitar el invitado.
+     * @param invitado El invitado a quitar.
+     */
     default void quitarInvitado(Acto acto, Invitado invitado) {
         getInvitacionPorTipoDeZona(acto, invitado.getInvitacion().getTipoDeZona()).quitarInvitado(invitado);
     }
@@ -264,14 +272,21 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
     /**
      * Compara dos anfitriones por la cantidad de invitados de un tipo de zona en un acto específico.
      *
-     * @param acto       Acto específico.
-     * @param tipo       Tipo de zona específico.
+     * @param acto       Acto específico para la comparación.
+     * @param tipo       Tipo de zona específico para la comparación.
      * @param anfitrion1 Primer anfitrión a comparar.
      * @param anfitrion2 Segundo anfitrión a comparar.
      * @return Valor negativo, cero o positivo si el primer anfitrión tiene menos, igual o más invitados que el segundo anfitrión, respectivamente.
      */
     int compararPorCantidadDeInvitadosDeUnTipoDeZona(Acto acto, TipoDeZona tipo, Anfitrion anfitrion1, Anfitrion anfitrion2);
 
+    /**
+     * Obtiene un conjunto de coches sin asignar para un acto específico.
+     * Considera solo aquellos coches en la zona de estacionamiento (PARKING).
+     *
+     * @param acto El acto para el cual obtener los coches sin asignar.
+     * @return Conjunto de coches sin localidad asignada en la zona de estacionamiento para el acto especificado.
+     */
     default Set<Coche> getCochesSinAsignarDeUnActo(Acto acto) {
         return getInvitacionesDeActo(acto).stream()
                 .filter(e -> e.getTipoDeZona() == TipoDeZona.PARKING)
@@ -281,6 +296,12 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Determina si el anfitrión tiene invitaciones asignadas para un acto específico.
+     *
+     * @param acto El acto a verificar.
+     * @return true si hay al menos una invitación con localidad asignada para el acto, false en caso contrario.
+     */
     default boolean tieneInvitaciones(Acto acto) {
         return getInvitacionesDeActo(acto)
                 .stream()

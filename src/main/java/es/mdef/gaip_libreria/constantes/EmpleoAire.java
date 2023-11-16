@@ -3,6 +3,9 @@ package es.mdef.gaip_libreria.constantes;
 import es.mdef.gaip_libreria.invitados.Empleo;
 import lombok.Getter;
 
+/**
+ * Enumeración que representa los diferentes empleos en el Ejército del Aire.
+ */
 @Getter
 public enum EmpleoAire implements Empleo {
     SOLDADO("Soldado"),
@@ -28,6 +31,11 @@ public enum EmpleoAire implements Empleo {
 
     private final String nombre;
 
+    /**
+     * Constructor para asignar un nombre legible a cada empleo.
+     *
+     * @param nombre Nombre legible del empleo.
+     */
     EmpleoAire(String nombre) {
         this.nombre = nombre;
     }
