@@ -152,43 +152,57 @@ public interface Acto {
 
     /**
      * Agrega un anfitrión específico al conjunto de anfitriones del acto.
+     * Este método permite incluir un nuevo anfitrión, ampliando así las posibilidades
+     * de invitación y gestión del acto.
      *
-     * @param anfitrion el {@link Anfitrion} a agregar al acto.
+     * @param anfitrion el {@link Anfitrion} a agregar al acto. No debe ser {@code null}.
      */
     void agregarAnfitrion(Anfitrion anfitrion);
 
     /**
      * Elimina o quita un anfitrión específico del conjunto de anfitriones del acto.
+     * Al quitar un anfitrión, se reducen las asociaciones y responsabilidades ligadas
+     * a este en el contexto del acto.
      *
-     * @param anfitrion el {@link Anfitrion} a quitar del acto.
+     * @param anfitrion el {@link Anfitrion} a quitar del acto. No debe ser {@code null}.
      */
     void quitarAnfitrion(Anfitrion anfitrion);
 
     /**
      * Obtiene las invitaciones por acto que el anfitrión ha extendido.
+     * Este método proporciona un conjunto de todas las invitaciones asociadas
+     * a un acto, permitiendo una gestión y seguimiento efectivo de los invitados.
      *
-     * @return Conjunto de invitaciones por acto asociadas al anfitrión.
+     * @return Conjunto de {@link InvitacionesPorActo}, nunca {@code null}.
      */
     Set<InvitacionesPorActo> getInvitacionesPorActo();
 
     /**
      * Establece las invitaciones por acto que el anfitrión ha extendido.
+     * Este método permite actualizar el conjunto de invitaciones asociadas
+     * al acto, brindando control sobre quién está invitado y cómo se gestionan
+     * estas invitaciones.
      *
-     * @param invitacionesPorActo Conjunto de invitaciones por acto.
+     * @param invitacionesPorActo Conjunto de {@link InvitacionesPorActo} a establecer. No debe ser {@code null}.
      */
     void setInvitacionesPorActo(Set<InvitacionesPorActo> invitacionesPorActo);
 
     /**
-     * Agrega una invitación por acto
+     * Agrega una invitación por acto.
+     * Este método añade una nueva invitación al conjunto de invitaciones del acto,
+     * permitiendo la inclusión de más invitados o la modificación de los detalles
+     * de una invitación existente.
      *
-     * @param invitacionPorActo la invitación por acto a agregar.
+     * @param invitacionPorActo la invitación por acto a agregar. No debe ser {@code null}.
      */
     void agregarInvitacionesPorActo(InvitacionesPorActo invitacionPorActo);
 
     /**
-     * Quita una invitación por acto
+     * Quita una invitación por acto.
+     * Este método elimina una invitación específica del conjunto de invitaciones del acto,
+     * lo que puede afectar a los invitados asociados a dicha invitación.
      *
-     * @param invitacionPorActo la invitación por acto a quitard.
+     * @param invitacionPorActo la invitación por acto a quitar. No debe ser {@code null}.
      */
     void quitarInvitacionesPorActo(InvitacionesPorActo invitacionPorActo);
 
@@ -220,9 +234,11 @@ public interface Acto {
 
     /**
      * Calcula y devuelve el número total de localidades entre todas las zonas configuradas del acto según el estado.
+     * Este método facilita la gestión y planificación de espacios según su estado,
+     * como disponibles, ocupadas, reservadas, etc.
      *
      * @param estado filtro por estado de la localidad.
-     * @return Número total de localidades en ese estado.
+     * @return Número total de localidades en ese estado. Cero si no hay localidades que coincidan.
      */
     default int getNumeroLocalidadesPorEstado(EstadoDeUnaLocalidad estado) {
         return getZonas()
@@ -255,8 +271,10 @@ public interface Acto {
 
     /**
      * Obtiene un array de las unidades de formación únicas asociadas al acto basado en sus anfitriones.
+     * Este método proporciona una vista de las diferentes unidades de formación representadas
+     * por los anfitriones del acto, útil para la planificación y el análisis estadístico.
      *
-     * @return un array de {@link String}s con las unidades de formación únicas asociadas al acto.
+     * @return un array de {@link String}s con las unidades de formación únicas asociadas al acto. Nunca {@code null}, pero puede estar vacío.
      */
     default String[] getUnidadesDeFormacion() {
         return getAnfitriones().stream()
@@ -265,6 +283,12 @@ public interface Acto {
                 .toArray(String[]::new);
     }
 
+    /**
+     * Obtiene todos los invitados de todas las invitaciones asociadas al acto.
+     * Este método compila un conjunto de todos los invitados, independientemente de su zona asignada o estado.
+     *
+     * @return Un conjunto de {@link Invitado} que incluye a todos los invitados al acto. Nunca {@code null}.
+     */
     default Set<Invitado> getInvitados() {
         return getInvitacionesPorActo().stream()
                 .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream())
@@ -272,6 +296,13 @@ public interface Acto {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Obtiene todos los invitados asignados a un tipo específico de zona.
+     * Este método es útil para la gestión de invitados en zonas diferenciadas del acto, como Acotado, Tribuna, etc.
+     *
+     * @param tipoDeZona El {@link TipoDeZona} por el cual filtrar los invitados.
+     * @return Un conjunto de {@link Invitado} asignados a la zona especificada. Nunca {@code null}.
+     */
     default Set<Invitado> getInvitadosPorTipoDeZona(TipoDeZona tipoDeZona) {
         return getInvitacionesPorActo().stream()
                 .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream().filter(invitacion -> invitacion.getTipoDeZona() == tipoDeZona))
@@ -279,6 +310,12 @@ public interface Acto {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Obtiene todos los invitados que aún no han sido asignados a una localidad.
+     * Este método es útil para identificar invitados que requieren asignación de localidades.
+     *
+     * @return Un conjunto de {@link Invitado} sin una localidad asignada. Nunca {@code null}.
+     */
     default Set<Invitado> getInvitadosSinAsignar() {
         return getInvitacionesPorActo().stream()
                 .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream().filter(e -> e.getTipoDeZona() != TipoDeZona.LISTA_DE_ESPERA))
@@ -286,6 +323,12 @@ public interface Acto {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Obtiene todos los invitados que han sido asignados a una localidad.
+     * Este método permite identificar a los invitados que ya tienen una localidad asignado en el acto.
+     *
+     * @return Un conjunto de {@link Invitado} con una localidad asignada. Nunca {@code null}.
+     */
     default Set<Invitado> getInvitadosAsignados() {
         return getInvitacionesPorActo().stream()
                 .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream().filter(e -> e.getTipoDeZona() != TipoDeZona.LISTA_DE_ESPERA))
@@ -293,6 +336,12 @@ public interface Acto {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Obtiene todos los vehículos asignados a zonas de estacionamiento.
+     * Este método es importante para la gestión y control de los espacios de estacionamiento en el acto.
+     *
+     * @return Un conjunto de {@link Coche} asignados a zonas de estacionamiento. Nunca {@code null}.
+     */
     default Set<Coche> getVehiculosAsignados() {
         return getInvitacionesPorActo().stream()
                 .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream().filter(e -> e.getTipoDeZona() == TipoDeZona.PARKING))
@@ -300,6 +349,13 @@ public interface Acto {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Obtiene todos los invitados asignados a un tipo específico de zona.
+     * Este método es útil para el manejo detallado de invitados en zonas específicas, facilitando su organización y control.
+     *
+     * @param tipoDeZona El {@link TipoDeZona} por el cual filtrar los invitados asignados.
+     * @return Un conjunto de {@link Invitado} asignados a la zona especificada. Nunca {@code null}.
+     */
     default Set<Invitado> getInvitadosAsignadosPorTipoDeZona(TipoDeZona tipoDeZona) {
         return getInvitacionesPorActo()
                 .stream()
@@ -309,6 +365,13 @@ public interface Acto {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Obtiene todos los invitados no asignados a un tipo específico de zona.
+     * Este método permite identificar invitados pendientes de asignación en zonas específicas del acto.
+     *
+     * @param tipoDeZona El {@link TipoDeZona} por el cual filtrar los invitados sin asignar.
+     * @return Un conjunto de {@link Invitado} sin asignar en la zona especificada. Nunca {@code null}.
+     */
     default Set<Invitado> getInvitadosSinAsignarPorTipoDeZona(TipoDeZona tipoDeZona) {
         return getInvitacionesPorActo()
                 .stream()
@@ -318,10 +381,23 @@ public interface Acto {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Obtiene todas las localidades configuradas en una zona específica según su estado.
+     * Este método es crucial para el seguimiento y gestión de las localidades según su disponibilidad o uso.
+     *
+     * @param estado El estado de las localidades a filtrar.
+     * @return Una lista de {@link LocalidadConfigurada} en el estado especificado. Nunca {@code null}.
+     */
     default List<LocalidadConfigurada> getLocalidadesPorEstado(EstadoLocalidad estado) {
         return getZonas().stream().flatMap(e -> e.getLocalidades().stream()).filter(e -> e.getEstadoLocalidad() == estado).collect(Collectors.toList());
     }
 
+    /**
+     * Obtiene una lista de todas las localidades configuradas en el acto.
+     * Este método proporciona una visión general de todas las localidades, independientemente de su estado o zona.
+     *
+     * @return Una lista de todas las {@link LocalidadConfigurada} en el acto. Nunca {@code null}.
+     */
     default List<LocalidadConfigurada> getLocalidades() {
         return getZonas().stream().flatMap(e -> e.getLocalidades().stream()).collect(Collectors.toList());
     }
@@ -334,6 +410,9 @@ public interface Acto {
 
     void setEstadoCreacion(EstadoCreacion estadoCreacion);
 
+    /**
+     * Elimina todos los anfitriones de un acto
+     */
     default void quitarAnfitriones() {
         List<Anfitrion> anfitrionesParaBorrar = new ArrayList<>(getAnfitriones());
         anfitrionesParaBorrar.forEach(this::quitarAnfitrion);

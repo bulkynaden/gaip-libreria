@@ -260,8 +260,13 @@ public final class AsignadorAsientos {
     }
 
     private static LocalidadConfigurada obtenerLocalidadLibreProtocoloPorTipoZona(Acto acto, TipoDeZona tipoZona) {
-        Predicate<LocalidadConfigurada> esLocalidadLibre = localidad -> LIBRE
-                .equals(localidad.getEstadoOcupacionLocalidad()) && RESERVADA.equals(localidad.getEstadoLocalidad());
+        Predicate<LocalidadConfigurada> esLocalidadLibre = localidad -> tipoZona == ACOTADO
+                ?
+                LIBRE
+                        .equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad())
+                :
+                LIBRE
+                        .equals(localidad.getEstadoOcupacionLocalidad()) && RESERVADA.equals(localidad.getEstadoLocalidad());
 
         return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
                 .flatMap(zona -> zona.getLocalidades().stream())
