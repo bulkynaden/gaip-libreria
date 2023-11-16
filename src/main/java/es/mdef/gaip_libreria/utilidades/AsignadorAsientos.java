@@ -170,8 +170,13 @@ public final class AsignadorAsientos {
      */
     private static void aparcarCoches(Acto acto, Anfitrion anfitrion) {
         Set<Coche> coches = anfitrion.getCochesSinAsignarDeUnActo(acto);
-        coches.forEach(coche -> coche
-                .setLocalidad(obtenerLocalidadLibrePorTipoZona(acto, PARKING), true));
+        coches.forEach(coche -> {
+            if (coche.getInvitado() instanceof InvitadoFcse) {
+                coche.setLocalidad(obtenerParkingLibreParaMilitar(acto), true);
+            } else {
+                coche.setLocalidad(obtenerParkingLibreParaCivil(acto), true);
+            }
+        });
     }
 
     /**
@@ -261,12 +266,12 @@ public final class AsignadorAsientos {
 
     private static LocalidadConfigurada obtenerLocalidadLibreProtocoloPorTipoZona(Acto acto, TipoDeZona tipoZona) {
         Predicate<LocalidadConfigurada> esLocalidadLibre = localidad -> tipoZona == ACOTADO
-                ?
-                LIBRE
-                        .equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad())
-                :
-                LIBRE
-                        .equals(localidad.getEstadoOcupacionLocalidad()) && RESERVADA.equals(localidad.getEstadoLocalidad());
+                ? LIBRE
+                        .equals(localidad.getEstadoOcupacionLocalidad())
+                        && NORMAL.equals(localidad.getEstadoLocalidad())
+                : LIBRE
+                        .equals(localidad.getEstadoOcupacionLocalidad())
+                        && RESERVADA.equals(localidad.getEstadoLocalidad());
 
         return acto.getZonasConfiguradasPorTipo(tipoZona).stream()
                 .flatMap(zona -> zona.getLocalidades().stream())
