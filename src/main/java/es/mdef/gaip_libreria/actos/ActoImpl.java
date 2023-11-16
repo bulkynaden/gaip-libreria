@@ -75,7 +75,7 @@ public class ActoImpl implements Acto {
         this.fechaLimiteRegistro = fechaLimiteRegistro;
         setTipo(tipoDeActo);
         setInstalacion(instalacion);
-        setEstadoCreacion(EstadoCreacion.CARGA_ANFITRIONES);
+        setEstadoCreacion(EstadoCreacion.DATOS_GENERALES);
     }
 
     /**
