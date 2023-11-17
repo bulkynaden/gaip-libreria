@@ -4,4 +4,9 @@ public interface ZonaConfiguradaActoSocial extends ZonaConfigurada {
     int getLocalidadesReservadas();
 
     int getLocalidadesNormales();
+
+    @Override
+    default int getNumeroLocalidadesParaRepartir() {
+        return getLocalidadesNormales();
+    }
 }
