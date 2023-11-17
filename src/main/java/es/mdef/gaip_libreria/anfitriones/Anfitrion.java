@@ -266,7 +266,7 @@ public interface Anfitrion extends Persona, Comparable<Anfitrion> {
     default Invitacion getInvitacionPorTipoDeZona(Acto acto, TipoDeZona tipoDeZona) {
         return getInvitacionesDeActo(acto).stream()
                 .filter(e -> e.getTipoDeZona() == tipoDeZona)
-                .findFirst().orElseThrow();
+                .findFirst().orElse(null);
     }
 
     /**
