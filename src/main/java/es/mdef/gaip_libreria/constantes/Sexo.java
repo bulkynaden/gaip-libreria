@@ -20,8 +20,6 @@ public enum Sexo {
 
     /**
      * Valor que representa el sexo.
-     * -- GETTER --
-     * Método que devuelve el valor del sexo.
      */
     private final String valor;
 

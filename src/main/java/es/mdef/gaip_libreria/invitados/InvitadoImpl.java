@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode(of = {"parentesco"}, callSuper = true)
 @Data
 @NoArgsConstructor
-public class InvitadoImpl extends PersonaImpl implements Invitado {
+public abstract class InvitadoImpl extends PersonaImpl implements Invitado {
     private String parentesco;
     private Invitacion invitacion;
     private LocalidadConfigurada localidad;

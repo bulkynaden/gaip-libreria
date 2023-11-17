@@ -243,7 +243,8 @@ public interface Acto {
      */
     default int getNumeroLocalidadesTotales() {
         return getZonas().stream()
-                .filter(zonaConfigurada -> zonaConfigurada.getZona().getTipoDeZona() != TipoDeZona.PARKING)
+                .filter(zonaConfigurada -> zonaConfigurada.getZona().getTipoDeZona() != TipoDeZona.PARKING
+                        && zonaConfigurada.getZona().getTipoDeZona() != TipoDeZona.ACTO_SOCIAL)
                 .mapToInt(ZonaConfigurada::getNumeroLocalidadesTotales)
                 .sum();
     }
@@ -259,7 +260,8 @@ public interface Acto {
     default int getNumeroLocalidadesPorEstado(EstadoDeUnaLocalidad estado) {
         return getZonas()
                 .stream()
-                .filter(zonaConfigurada -> zonaConfigurada.getZona().getTipoDeZona() != TipoDeZona.PARKING)
+                .filter(zonaConfigurada -> zonaConfigurada.getZona().getTipoDeZona() != TipoDeZona.PARKING
+                        && zonaConfigurada.getZona().getTipoDeZona() != TipoDeZona.ACTO_SOCIAL)
                 .mapToInt(e -> e.getNumeroLocalidadesPorEstado(estado))
                 .sum();
     }
@@ -289,7 +291,8 @@ public interface Acto {
     default int getNumeroLocalidadesParaRepartir() {
         return getZonas()
                 .stream()
-                .filter(zonaConfigurada -> zonaConfigurada.getZona().getTipoDeZona() != TipoDeZona.PARKING)
+                .filter(zonaConfigurada -> zonaConfigurada.getZona().getTipoDeZona() != TipoDeZona.PARKING
+                        && zonaConfigurada.getZona().getTipoDeZona() != TipoDeZona.ACTO_SOCIAL)
                 .mapToInt(ZonaConfigurada::getNumeroLocalidadesParaRepartir)
                 .sum();
     }
@@ -332,7 +335,9 @@ public interface Acto {
      */
     default Set<Invitado> getInvitados() {
         return getInvitacionesPorActo().stream()
-                .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream())
+                .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones()
+                        .stream()
+                        .filter(e -> e.getTipoDeZona() != TipoDeZona.ACTO_SOCIAL))
                 .flatMap(invitacion -> invitacion.getInvitados().stream())
                 .collect(Collectors.toSet());
     }
@@ -346,7 +351,9 @@ public interface Acto {
      */
     default Set<Invitado> getInvitadosPorTipoDeZona(TipoDeZona tipoDeZona) {
         return getInvitacionesPorActo().stream()
-                .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream().filter(invitacion -> invitacion.getTipoDeZona() == tipoDeZona))
+                .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones()
+                        .stream()
+                        .filter(invitacion -> invitacion.getTipoDeZona() == tipoDeZona))
                 .flatMap(invitacion -> invitacion.getInvitados().stream())
                 .collect(Collectors.toSet());
     }
@@ -359,8 +366,14 @@ public interface Acto {
      */
     default Set<Invitado> getInvitadosSinAsignar() {
         return getInvitacionesPorActo().stream()
-                .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream().filter(e -> e.getTipoDeZona() != TipoDeZona.LISTA_DE_ESPERA))
-                .flatMap(invitacion -> invitacion.getInvitados().stream().filter(invitado -> invitado.getLocalidad() == null))
+                .flatMap(invitacionesPorActo -> invitacionesPorActo
+                        .getInvitaciones()
+                        .stream()
+                        .filter(e -> e.getTipoDeZona() != TipoDeZona.LISTA_DE_ESPERA
+                                && e.getTipoDeZona() != TipoDeZona.ACTO_SOCIAL))
+                .flatMap(invitacion -> invitacion.getInvitados()
+                        .stream()
+                        .filter(invitado -> invitado.getLocalidad() == null))
                 .collect(Collectors.toSet());
     }
 
@@ -372,8 +385,13 @@ public interface Acto {
      */
     default Set<Invitado> getInvitadosAsignados() {
         return getInvitacionesPorActo().stream()
-                .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones().stream().filter(e -> e.getTipoDeZona() != TipoDeZona.LISTA_DE_ESPERA))
-                .flatMap(invitacion -> invitacion.getInvitados().stream().filter(invitado -> invitado.getLocalidad() != null))
+                .flatMap(invitacionesPorActo -> invitacionesPorActo.getInvitaciones()
+                        .stream()
+                        .filter(e -> e.getTipoDeZona() != TipoDeZona.LISTA_DE_ESPERA
+                                && e.getTipoDeZona() != TipoDeZona.ACTO_SOCIAL))
+                .flatMap(invitacion -> invitacion.getInvitados()
+                        .stream()
+                        .filter(invitado -> invitado.getLocalidad() != null))
                 .collect(Collectors.toSet());
     }
 

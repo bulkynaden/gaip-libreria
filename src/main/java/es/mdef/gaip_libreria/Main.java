@@ -2,7 +2,11 @@ package es.mdef.gaip_libreria;
 
 public class Main {
     public static void main(String[] args) {
-
-        System.out.println("Hola mundo cruel!");
+        String cocheDetails = String.format("%-10s %s\n%-10s %s\n%-10s %s\n%-10s %s",
+                "Marca:", "Mercedes",
+                "Modelo:", "Color",
+                "Color:", "fdas",
+                "Fecha:", "fdsaf");
+        System.out.println(cocheDetails);
     }
 }

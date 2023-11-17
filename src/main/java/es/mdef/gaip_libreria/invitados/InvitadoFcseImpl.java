@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 @EqualsAndHashCode(callSuper = true)
 @Setter
-public class InvitadoFcseImpl extends InvitadoImpl implements InvitadoFcse {
+public abstract class InvitadoFcseImpl extends InvitadoImpl implements InvitadoFcse {
     @Getter
     private SituacionMilitar situacion;
     private boolean asisteDeUniforme;
