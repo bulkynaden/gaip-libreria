@@ -127,4 +127,30 @@ public interface ZonaConfigurada {
                 .filter(localidadConfigurada -> localidadConfigurada.getEstadoLocalidad() == EstadoLocalidad.NORMAL && localidadConfigurada.getEstadoOcupacionLocalidad() == EstadoOcupacionLocalidad.LIBRE)
                 .toList();
     }
+     default int getNumeroLocalidadesNormalesLibres() {
+        return (int) getLocalidades().stream()
+                .filter(l -> l.getEstadoLocalidad() == EstadoLocalidad.NORMAL
+                        && l.getEstadoOcupacionLocalidad() == EstadoOcupacionLocalidad.LIBRE)
+                .count();
+    }
+        default int getNumeroLocalidadesReservadasLibres() {
+        return (int) getLocalidades().stream()
+                .filter(l -> l.getEstadoLocalidad() == EstadoLocalidad.RESERVADA
+                        && l.getEstadoOcupacionLocalidad() == EstadoOcupacionLocalidad.LIBRE)
+                .count();
+    }
+
+    default int getNumeroLocalidadesNormalesOcupadas() {
+        return (int) getLocalidades().stream()
+                .filter(l -> l.getEstadoLocalidad() == EstadoLocalidad.NORMAL
+                        && l.getEstadoOcupacionLocalidad() == EstadoOcupacionLocalidad.OCUPADA)
+                .count();
+    }
+
+    default int getNumeroLocalidadesReservadasOcupadas() {
+        return (int) getLocalidades().stream()
+                .filter(l -> l.getEstadoLocalidad() == EstadoLocalidad.RESERVADA
+                        && l.getEstadoOcupacionLocalidad() == EstadoOcupacionLocalidad.OCUPADA)
+                .count();
+    }
 }
