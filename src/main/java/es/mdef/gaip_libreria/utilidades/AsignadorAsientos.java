@@ -181,13 +181,20 @@ public final class AsignadorAsientos {
      */
     public static void aparcarCoche(Acto acto, Coche coche) {
         ZonaConfigurada parking = coche.getInvitado().getParkingPrioritario();
+        System.out.println(parking);
         if (parking != null) {
+            System.out.println("coche no null");
             if (parking.getZona().getTipoDeZona() == PARKING) {
+                System.out.println("parking");
                 coche.setLocalidad(obtenerParkingLibreProtocoloDeZona(parking), true);
+                System.out.println(coche.getLocalidad());
             }
         } else if (coche.getInvitado() instanceof InvitadoFcse) {
+            System.out.println("invitado fcse");
+
             coche.setLocalidad(obtenerParkingLibreParaMilitar(acto), true);
         } else {
+            System.out.println("else");
             coche.setLocalidad(obtenerParkingLibreParaCivil(acto), true);
         }
     }
