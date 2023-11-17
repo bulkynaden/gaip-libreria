@@ -130,7 +130,7 @@ public final class AsignadorAsientos {
                 .stream()
                 .filter(anfitrion -> {
                     Invitacion invitacionListaDeEspera = anfitrion.getInvitacionPorTipoDeZona(acto, LISTA_DE_ESPERA);
-                    return !invitacionListaDeEspera.getInvitados().isEmpty();
+                    return invitacionListaDeEspera != null && !invitacionListaDeEspera.getInvitados().isEmpty();
                 })
                 .collect(Collectors.toList());
     }
