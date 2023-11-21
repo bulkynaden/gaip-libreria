@@ -23,7 +23,6 @@ public final class Formateador {
      * Constructor privado para evitar la instanciación de esta clase utilitaria.
      */
     private Formateador() {
-        // Clase utilitaria no instanciable
     }
 
     /**

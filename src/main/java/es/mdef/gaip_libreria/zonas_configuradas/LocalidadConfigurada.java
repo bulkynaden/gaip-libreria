@@ -92,6 +92,11 @@ public interface LocalidadConfigurada {
      */
     void setEstadoLocalidad(EstadoLocalidad estadoLocalidad);
 
+    /**
+     * Obtiene la siguiente {@link LocalidadConfigurada} de esta localidad configurada.
+     *
+     * @return la siguiente localidad configurada.
+     */
     default LocalidadConfigurada getSiguienteLocalidad() {
         if (getLocalidad() == null) {
             return null;
@@ -101,13 +106,22 @@ public interface LocalidadConfigurada {
 
     /**
      * Obtiene el {@link EstadoOcupacionLocalidad} de esta localidad configurada.
+     * Si no hay invitado ni coche asociado, el estado es {@link EstadoOcupacionLocalidad#LIBRE}.
+     * Si hay un invitado o un coche, el estado es {@link EstadoOcupacionLocalidad#OCUPADA}.
      *
-     * @return el estado de ocupación la localidad.
+     * @return el estado de ocupación de la localidad. Nunca es {@code null}.
      */
     default EstadoOcupacionLocalidad getEstadoOcupacionLocalidad() {
         return getInvitado() == null && getCoche() == null ? EstadoOcupacionLocalidad.LIBRE : EstadoOcupacionLocalidad.OCUPADA;
     }
 
+    /**
+     * Obtiene el {@link Acto} asociado a esta localidad configurada.
+     * Si la zona configurada está asociada a un acto, retorna ese acto.
+     * En caso contrario, retorna {@code null}.
+     *
+     * @return el acto asociado, o {@code null} si no hay ninguno.
+     */
     default Acto getActo() {
         return getZonaConfigurada().getActo();
     }

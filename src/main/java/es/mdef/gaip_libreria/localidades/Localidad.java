@@ -57,7 +57,17 @@ public interface Localidad extends Figura {
      */
     void setImplicaSalto(Boolean implicaSalto);
 
+    /**
+     * Indica si esta localidad implica un salto de fila, como un cambio de fila o sección.
+     *
+     * @return true si la localidad implica un salto de fila, false en caso contrario.
+     */
     Boolean getImplicaSaltoFila();
 
+    /**
+     * Establece si esta localidad implica un salto de fila.
+     *
+     * @param implicaSaltoFila true para indicar que la localidad implica un salto de fila, false en caso contrario.
+     */
     void setImplicaSaltoFila(Boolean implicaSaltoFila);
 }

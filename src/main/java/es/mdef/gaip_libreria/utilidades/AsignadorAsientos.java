@@ -79,6 +79,11 @@ public final class AsignadorAsientos {
         aparcarCochesProtocolo(acto);
     }
 
+    /**
+     * Asigna los asientos a los invitados en lista de espera de un acto específico.
+     *
+     * @param acto El acto para el cual se asignarán los asientos.
+     */
     public static void sentarInvitadosDeListaDeEsperaEnGenerica(Acto acto) {
         while (acto.getNumeroLocalidadesParaRepartirPorTipoDeZona(
                 GENERICA) > getAnfitrionesConInvitadosEnListaDeEspera(acto).size()
@@ -135,13 +140,6 @@ public final class AsignadorAsientos {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Asigna asientos en una zona específica para un anfitrión y acto dados.
-     *
-     * @param acto      El acto para el cual se asignarán los asientos.
-     * @param anfitrion El anfitrión para el cual se asignarán los asientos.
-     * @param tipoZona  El tipo de zona donde se asignarán los asientos.
-     */
     private static void sentarEnZona(Acto acto, Anfitrion anfitrion, TipoDeZona tipoZona) {
         Set<Invitado> invitados = anfitrion.getInvitadosSinAsignarDeUnActoPorZona(acto, tipoZona);
         invitados.forEach(invitado -> invitado
@@ -162,23 +160,11 @@ public final class AsignadorAsientos {
                 invitado -> invitado.setLocalidad(obtenerLocalidadLibreProtocoloPorTipoZona(acto, tipoZona), true));
     }
 
-    /**
-     * Asigna plazas de parking para un anfitrion y acto dados.
-     *
-     * @param acto      El acto para el cual se asignará el parking.
-     * @param anfitrion El anfitrión para el cual se asignarán las plazas de parking
-     */
     private static void aparcarCoches(Acto acto, Anfitrion anfitrion) {
         Set<Coche> coches = anfitrion.getCochesSinAsignarDeUnActo(acto);
         coches.forEach(coche -> aparcarCoche(acto, coche));
     }
 
-    /**
-     * Asigna plazas de parking para un anfitrion y acto dados.
-     *
-     * @param acto  El acto para el cual se asignará el parking.
-     * @param coche El coche que se desea aparcar.
-     */
     public static void aparcarCoche(Acto acto, Coche coche) {
         ZonaConfigurada parking = coche.getInvitado().getParkingPrioritario();
         if (parking != null) {
@@ -205,24 +191,10 @@ public final class AsignadorAsientos {
         coches.forEach(coche -> aparcarCoche(acto, coche));
     }
 
-    /**
-     * Verifica si la localidad es liberable.
-     *
-     * @param localidadConfigurada La localidad a verificar.
-     * @return Verdadero si la localidad es liberable, falso en caso contrario.
-     */
     private static boolean localidadEsLibrerable(LocalidadConfigurada localidadConfigurada) {
         return localidadConfigurada != null && localidadConfigurada.getEstadoLocalidad() == NORMAL;
     }
-
-    /**
-     * Obtiene la primera localidad libre para un tipo de zona en un acto
-     * específico.
-     *
-     * @param acto     El acto en el que buscar la localidad.
-     * @param tipoZona El tipo de zona donde buscar la localidad.
-     * @return Una localidad libre o null si no se encuentra ninguna.
-     */
+    
     private static LocalidadConfigurada obtenerLocalidadLibrePorTipoZona(Acto acto, TipoDeZona tipoZona) {
         Predicate<LocalidadConfigurada> esLocalidadLibre = localidad -> LIBRE
                 .equals(localidad.getEstadoOcupacionLocalidad()) && NORMAL.equals(localidad.getEstadoLocalidad());

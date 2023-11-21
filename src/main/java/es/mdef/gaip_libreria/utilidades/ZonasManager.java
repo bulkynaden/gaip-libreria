@@ -6,10 +6,26 @@ import es.mdef.gaip_libreria.zonas.ZonasHelper;
 
 import java.util.List;
 
+/**
+ * Clase de utilidad para la gestión de zonas.
+ * Proporciona métodos estáticos para operaciones específicas relacionadas con la configuración y manejo de zonas.
+ * Esta clase no está destinada a ser instanciada.
+ */
 public final class ZonasManager {
+
+    /**
+     * Constructor privado para evitar la instanciación de la clase.
+     */
     private ZonasManager() {
     }
 
+    /**
+     * Asigna coordenadas a las localidades dentro de una zona.
+     * Las localidades se ordenan por número y se les asigna una posición X e Y basada en la configuración geométrica de la zona.
+     * Esto incluye ajustes para saltos regulares y saltos por huecos en la zona.
+     *
+     * @param zona La {@link Zona} cuyas localidades necesitan asignación de coordenadas.
+     */
     public static void asignarCoordenadas(Zona zona) {
         List<Localidad> localidades = ZonasHelper.getLocalidadesOrdenadasPorNumero(zona);
         double[] inicioFilas = zona.getXInicioFilas();

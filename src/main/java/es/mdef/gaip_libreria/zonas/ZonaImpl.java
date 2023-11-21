@@ -9,7 +9,12 @@ import lombok.EqualsAndHashCode;
 import java.util.HashSet;
 import java.util.Set;
 
-@EqualsAndHashCode(of = { "nombre", "tipoDeZona", "numeroLocalidades" })
+
+/**
+ * Implementación concreta de la interfaz {@link Zona}.
+ * Esta clase representa una zona física dentro de una {@link Instalacion} con características geométricas y de prioridad.
+ */
+@EqualsAndHashCode(of = {"nombre", "tipoDeZona", "numeroLocalidades"})
 @Data
 public class ZonaImpl implements Zona {
     private Set<Localidad> localidades = new HashSet<>();
@@ -28,6 +33,11 @@ public class ZonaImpl implements Zona {
     private double saltoY;
     private int prioridadParkingMilitares;
 
+    /**
+     * Establece el conjunto de {@link Localidad} en esta zona, actualizando la asociación bidireccional entre la zona y sus localidades.
+     *
+     * @param localidades un conjunto de {@link Localidad} para asociar con esta zona.
+     */
     public void setLocalidades(Set<Localidad> localidades) {
         if (this.localidades != localidades) {
             this.localidades.forEach(localidad -> localidad.setZona(null));
@@ -38,6 +48,11 @@ public class ZonaImpl implements Zona {
         }
     }
 
+    /**
+     * Establece la {@link Instalacion} a la que pertenece esta zona, actualizando la relación bidireccional entre la instalación y sus zonas.
+     *
+     * @param instalacion la {@link Instalacion} a asociar con esta zona.
+     */
     public void setInstalacion(Instalacion instalacion) {
         if (this.instalacion != instalacion) {
             if (this.instalacion != null) {
@@ -50,6 +65,12 @@ public class ZonaImpl implements Zona {
         }
     }
 
+    /**
+     * Agrega una {@link Localidad} a esta zona, asegurando la coherencia en la relación bidireccional entre la zona y la localidad.
+     *
+     * @param localidad la {@link Localidad} a agregar.
+     * @throws IllegalArgumentException si la localidad es nula.
+     */
     @Override
     public void agregarLocalidad(Localidad localidad) {
         if (localidad == null) {
@@ -63,6 +84,12 @@ public class ZonaImpl implements Zona {
         }
     }
 
+    /**
+     * Quita una {@link Localidad} de esta zona, manteniendo la coherencia en la relación bidireccional entre la zona y la localidad.
+     *
+     * @param localidad la {@link Localidad} a quitar.
+     * @throws IllegalArgumentException si la localidad es nula.
+     */
     @Override
     public void quitarLocalidad(Localidad localidad) {
         if (localidad == null) {

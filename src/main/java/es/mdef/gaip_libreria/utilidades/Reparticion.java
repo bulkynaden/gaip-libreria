@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Representa una repartición de invitaciones según el tipo de zona.
+ * Esta clase mantiene la información sobre la cantidad de invitaciones asignadas a un tipo específico de zona.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -68,16 +68,31 @@ public class PersonaImpl implements Persona {
         this.telefono = telefono;
     }
 
+    /**
+     * Establece el nombre de la persona.
+     *
+     * @param nombre Nombre de la persona.
+     */
     @Override
     public void setNombre(String nombre) {
         this.nombre = Formateador.toNombre(nombre);
     }
 
+    /**
+     * Establece el primer apellido de la persona
+     *
+     * @param primerApellido el primer apellido a establecer.
+     */
     @Override
     public void setPrimerApellido(String primerApellido) {
         this.primerApellido = Formateador.toNombre(primerApellido);
     }
 
+    /**
+     * Establece el segundo apellido de la persona
+     *
+     * @param segundoApellido el segundo apellido a establecer.
+     */
     @Override
     public void setSegundoApellido(String segundoApellido) {
         this.segundoApellido = Formateador.toNombre(segundoApellido);

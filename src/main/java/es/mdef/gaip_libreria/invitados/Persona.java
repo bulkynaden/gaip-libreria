@@ -125,6 +125,11 @@ public interface Persona {
      */
     void setTelefono(String telefono);
 
+    /**
+     * Obtiene el nombre completo de la persona.
+     *
+     * @return el nombre completo de la persona.
+     */
     default String getNombreCompleto() {
         return getNombre() + " " + getPrimerApellido() + " " + getSegundoApellido();
     }

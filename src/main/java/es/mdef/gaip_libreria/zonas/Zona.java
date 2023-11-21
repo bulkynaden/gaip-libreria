@@ -23,16 +23,16 @@ import java.util.Set;
 public interface Zona extends Figura {
 
     /**
-     * Obtiene el si la zona es para militares.
+     * Obtiene la prioridad de la zona para el estacionamiento de militares.
      *
-     * @return el valor si es prioritaria para militares.
+     * @return el valor de la prioridad para el estacionamiento de militares.
      */
     int getPrioridadParkingMilitares();
 
     /**
-     * Establece si la zona es para militares.
+     * Establece la prioridad de la zona para el estacionamiento de militares.
      *
-     * @param prioridadParkingMilitares el valor a establecer.
+     * @param prioridadParkingMilitares el valor de la prioridad a establecer.
      */
     void setPrioridadParkingMilitares(int prioridadParkingMilitares);
 
@@ -120,23 +120,78 @@ public interface Zona extends Figura {
      */
     void quitarLocalidad(Localidad localidad);
 
+    /**
+     * Obtiene las coordenadas X iniciales para cada fila de la zona.
+     * Esto podría representar, por ejemplo, el punto de inicio en el eje X para las filas de asientos en un teatro.
+     *
+     * @return un array de valores double representando las coordenadas X iniciales de cada fila.
+     */
     double[] getXInicioFilas();
 
+    /**
+     * Establece las coordenadas X iniciales para cada fila de la zona.
+     *
+     * @param xInicioFilas un array de valores double representando las coordenadas X iniciales a establecer para cada fila.
+     */
     void setXInicioFilas(double[] xInicioFilas);
 
+    /**
+     * Obtiene la coordenada Y inicial para la columna de la zona.
+     * Esto podría indicar, por ejemplo, el punto de inicio en el eje Y para las columnas de asientos en un teatro.
+     *
+     * @return el valor double de la coordenada Y inicial para la columna.
+     */
     double getYInicioColumna();
 
+    /**
+     * Establece la coordenada Y inicial para la columna de la zona.
+     *
+     * @param yInicioColumna el valor double de la coordenada Y inicial a establecer para la columna.
+     */
     void setYInicioColumna(double yInicioColumna);
 
+    /**
+     * Obtiene el salto en el eje X entre elementos consecutivos en la zona.
+     * Esto podría utilizarse para determinar el espacio entre asientos en una fila.
+     *
+     * @return el valor double del salto en el eje X.
+     */
     double getSaltoX();
 
+    /**
+     * Establece el salto en el eje X entre elementos consecutivos en la zona.
+     *
+     * @param saltoX el valor double del salto en el eje X a establecer.
+     */
     void setSaltoX(double saltoX);
 
+    /**
+     * Obtiene el salto en el eje X para huecos específicos en la zona.
+     * Esto podría referirse a espacios más grandes entre grupos de asientos o elementos en una fila.
+     *
+     * @return el valor double del salto para huecos en el eje X.
+     */
     double getSaltoHuecoX();
 
+    /**
+     * Establece el salto en el eje X para huecos específicos en la zona.
+     *
+     * @param saltoHuecoX el valor double del salto para huecos en el eje X a establecer.
+     */
     void setSaltoHuecoX(double saltoHuecoX);
 
+    /**
+     * Obtiene el salto en el eje Y entre elementos consecutivos o filas en la zona.
+     * Esto podría ser utilizado para definir la distancia vertical entre filas de asientos.
+     *
+     * @return el valor double del salto en el eje Y.
+     */
     double getSaltoY();
 
+    /**
+     * Establece el salto en el eje Y entre elementos consecutivos o filas en la zona.
+     *
+     * @param saltoY el valor double del salto en el eje Y a establecer.
+     */
     void setSaltoY(double saltoY);
 }
